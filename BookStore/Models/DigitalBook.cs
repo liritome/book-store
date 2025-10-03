@@ -1,32 +1,17 @@
-﻿using BookStore.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Models
 {
-    public class DigitalBook : IDigitalProduct, IBook
+    [Owned]
+    public class DigitalBookDetails
     {
-        // IProduct
         public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
+        public string FileName { get; set; } = null!;
+        public string FilePath { get; set; } = null!;
         public decimal Price { get; set; }
+        public int? DiscountId { get; set; }
         public Discount? Discount { get; set; }
-        public double Rating { get; set; }
-        public ICollection<Review> Reviews { get; set; } = new List<Review>();
-        public ICollection<string> Images { get; set; } = new List<string>();
-        public bool IsVisible { get; set; }
-
-        // IDigitalProduct
-        public string FileName { get; set; } = string.Empty;
-        public string FilePath { get; set; } = string.Empty;
-
-        // IBook
-        public Author Author { get; set; } = null!;
-        public Translator? Translator { get; set; } = null!;
         public string ISBN { get; set; } = string.Empty;
-        public Publisher Publisher { get; set; } = null!;
-        public DateTime Year { get; set; }
-        public Language Language { get; set; }
-        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
-        public Series? Series { get; set; }
+        public ICollection<string> Images { get; set; } = null!;
     }
 }

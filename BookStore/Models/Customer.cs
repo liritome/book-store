@@ -1,17 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Models
 {
     [Table("Customers")]
     public class Customer : User
     {
+        [Required]
+        [MaxLength(50)]
         public string Name { get; set; } = null!;
-        public DateTime BirthDate { get; set; }
+
+        [Required]
+        [Phone]
         public string PhoneNumber { get; set; } = null!;
-        public ICollection<Order> Orders { get; set; } = null!;
+
+        public DateOnly BirthDate { get; set; }
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
         public int CartId { get; set; }
-        public Cart Cart { get; set; } = null!;
-        public ICollection<Product> Wishlist { get; set; } = null!;
+        public virtual Cart Cart { get; set; } = null!;
+        public virtual ICollection<Product> Wishlist { get; set; } = new List<Product>();
+
+        [Range(0, int.MaxValue)]
         public int Bonuses { get; set; }
     }
 }

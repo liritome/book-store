@@ -1,30 +1,15 @@
-﻿namespace BookStore.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BookStore.Models
 {
     public class Role
     {
         public int Id { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string Name { get; set; } = null!;
-        public ICollection<AdminPermission> Permissions { get; set; } = null!;
-    }
 
-    public enum AdminPermission
-    {
-        ViewOrders,
-        ManageOrders,
-        CancelOrders,
-
-        ViewProducts,
-        ManageProducts,
-        ManageCatalog,
-
-        ViewCustomers,
-        ViewAdmins,
-        ManageAdmins,
-        ViewAdminActions,
-
-        ViewDiscounts,
-        ManageDiscounts,
-
-        ManageReviews
+        public virtual ICollection<AdminPermission> Permissions { get; set; } = new List<AdminPermission>();
     }
 }

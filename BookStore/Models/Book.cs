@@ -16,6 +16,6 @@ namespace BookStore.Models
         public int? SeriesId { get; set; }
         public virtual Series? Series { get; set; }
         public DigitalBookDetails? DigitalBookDetails { get; set; }
-        public PhysicalBookDetails PhysicalBookDetails { get; set; } = null!;
+        public PhysicalBookDetails? PhysicalBookDetails { get; set; } = null!;
     }
 }

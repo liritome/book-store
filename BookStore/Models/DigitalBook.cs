@@ -6,7 +6,9 @@ namespace BookStore.Models
     [Owned]
     public class DigitalBookDetails
     {
-        public int Id { get; set; }
+        [Required]
+        [MaxLength(120)]
+        public string Slug { get; set; } = null!;
 
         [Required]
         [MaxLength(100)]

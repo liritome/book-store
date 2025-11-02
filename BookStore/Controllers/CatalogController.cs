@@ -9,7 +9,8 @@ namespace BookStore.Controllers
             return View();
         }
 
-        public IActionResult Product()
+        [Route("Catalog/{slug}")]
+        public IActionResult Details(string slug)
         {
             return View();
         }

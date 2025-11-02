@@ -1,3 +1,8 @@
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 body {
     background-color: #f6f6fa;
 }
@@ -31,7 +36,7 @@ body {
     height: 28px;
 }
 
-#search {
+.search-product {
     max-width: 350px;
     min-width: 88px;
 }
@@ -49,9 +54,7 @@ body {
 
 
 .catalog-card-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
 }
 
     .catalog-card-image img {
@@ -244,7 +247,7 @@ body {
     background-color: #9fa0a3 !important;
 }
 
-.product-bottom-left{
+.product-bottom-left {
     width: 40%
 }
 
@@ -287,4 +290,39 @@ body {
 .review-number {
     font-size: 18px;
     font-weight: 500;
+}
+
+.authors-letter-button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+}
+
+.authors-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.authors-list-item{
+    
+}
+
+    .authors-list-item:hover {
+        background-color: #d3d5d9;
+    }
+
+.authors-list-item-books{
+    font-size: 14px;
+}
+
+.author-image {
+    width: 40%;
+}
+
+    .author-image img {
+        width: 100%;
+        object-fit: contain;
+    }
+
+.author-bio{
+    width: 60%;
 }

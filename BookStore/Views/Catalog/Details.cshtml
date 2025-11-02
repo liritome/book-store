@@ -22,11 +22,11 @@
                 <h1 class="">Book title</h1>
             </div>
             <div class="product-author mt-2">
-                <a class="text-decoration-none text-reset" asp-area="" asp-controller="" asp-action="">Author name</a>
+                <a class="text-decoration-none text-reset" asp-controller="Authors" asp-action="Details" asp-route-slug="author-name">Author name</a>
             </div>
             <div class="product-series d-flex gap-2 mt-2">
                 <span>Series:</span>
-                <a class="text-decoration-none text-reset" asp-area="" asp-controller="" asp-action="">Series name</a>
+                <a class="text-decoration-none text-reset" asp-controller="Series" asp-action="Details" asp-route-slug="series-name">Series name</a>
             </div>
             <div class="product-rating d-flex gap-4 mt-2">
                 <div class="product-score position-relative">
@@ -119,7 +119,7 @@
             </div>
         </div>
     </div>
-    <div class="d-flex mt-4 w-100 rounded-4 bg-white">
+    <div class="position-relative d-flex mt-4 w-100 rounded-4 bg-white overflow-hidden">
         <div class="product-bottom-left p-3 border-end">
             <h4 class="mb-3">Product details</h4>
             <div class="list-group list-group-flush">

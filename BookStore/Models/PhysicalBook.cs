@@ -6,7 +6,10 @@ namespace BookStore.Models
     [Owned]
     public class PhysicalBookDetails
     {
-        public int Id { get; set; }
+        [Required]
+        [MaxLength(120)]
+        public string Slug { get; set; } = null!;
+
         public CoverType CoverType { get; set; }
 
         [Range(1, int.MaxValue)]

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
 
 namespace BookStore.Models
 {
@@ -15,6 +16,7 @@ namespace BookStore.Models
         public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
         public int? SeriesId { get; set; }
         public virtual Series? Series { get; set; }
+        public int? NumberInSeries { get; set; }
         public DigitalBookDetails? DigitalBookDetails { get; set; }
         public PhysicalBookDetails? PhysicalBookDetails { get; set; } = null!;
     }

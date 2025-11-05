@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "News";
+}
+
+<h2 class="mt-4">News</h2>
+<div class="grid-news mt-4">
+    @for (int i = 0; i < 11; i++)
+    {
+        <a class="news-card rounded-4 overflow-hidden" asp-controller="Home" asp-action="NewsDetails" asp-route-slug="news-title">
+            <div class="news-image">
+                <img src="~/images/news-image.jpg"/>
+            </div>
+            <div class="p-3">
+                <span class="news-date text-muted">05.11.2025</span>
+                <p class="news-text mt-2 mb-0">Suspendisse ipsum eros, posuere eu augue nec, ullamcorper interdum enim. Praesent eget dui porta, pharetra turpis non, tempor massa. </p>
+            </div>
+        </a>
+    }
+</div>

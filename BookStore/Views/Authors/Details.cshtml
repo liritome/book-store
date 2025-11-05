@@ -1,23 +1,25 @@
-﻿<div>
-    <div class="d-flex flex-fill bg-white rounded-4 p-4">
-        <div class="author-image h-100 d-flex flex-grow-1 justify-content-center align-items-center me-5">
-            <img class="rounded-4" src="~/images/author.jpg" />
-        </div>
-        <div class="author-bio">
-            <h2>Author Name</h2>
-            <p>
-                Nunc elementum efficitur sem, vitae euismod est cursus eu. Suspendisse ligula risus, euismod eu libero a, aliquet ultricies erat. Phasellus semper leo vel nulla accumsan, a laoreet felis lobortis. Etiam rutrum vel eros in aliquet. Donec nec ornare velit, sit amet semper eros. Pellentesque interdum efficitur erat, vel suscipit diam sodales in. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi non pellentesque augue, auctor tincidunt lectus.
-                <br><br>Duis elementum dictum lectus. Duis tempus, nunc at fermentum ultricies, nibh elit sagittis lacus, vel ornare magna sapien sit amet odio. Donec ultrices velit a vestibulum egestas. Morbi elit neque, lacinia vel metus a, cursus maximus neque. Quisque lacus nisi, sagittis at diam in, euismod interdum mi. Praesent a facilisis augue, in vulputate neque. Sed porttitor arcu faucibus ligula commodo facilisis eu eu purus.
-                <br><br>Duis elementum dictum lectus. Duis tempus, nunc at fermentum ultricies, nibh elit sagittis lacus, vel ornare magna sapien sit amet odio. Donec ultrices velit a vestibulum egestas. Morbi elit neque, lacinia vel metus a, cursus maximus neque. Quisque lacus nisi, sagittis at diam in, euismod interdum mi. Praesent a facilisis augue, in vulputate neque. Sed porttitor arcu faucibus ligula commodo facilisis eu eu purus.
-                <br><br>Nunc suscipit semper massa sed sodales. Aliquam erat volutpat. Curabitur ut nibh suscipit, interdum purus eu, mattis arcu. Fusce ultrices eleifend lacinia. Ut lacinia orci vitae nibh varius, vitae consequat turpis iaculis. Nullam hendrerit luctus egestas. Maecenas efficitur feugiat augue, sit amet consectetur sem aliquet nec. Sed odio eros, sodales eu venenatis vel, suscipit facilisis nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In auctor ut orci a pharetra. Donec vel ligula massa.
-            </p>
-        </div>
+﻿@{
+    ViewData["Title"] = "Author Name";
+}
+
+<div class="d-flex flex-fill bg-white rounded-4 p-4 mt-4">
+    <div class="author-image h-100 d-flex flex-grow-1 justify-content-center align-items-center me-5">
+        <img class="rounded-4" src="~/images/author.jpg" />
     </div>
-    <h2 class="my-4">Author's books</h2>
-    <div class="grid">
-        @for (int i = 0; i < 11; i++)
-        {
-            @await Html.PartialAsync("_ProductCard")
-        }
+    <div class="author-bio">
+        <h2>Author Name</h2>
+        <p>
+            Nunc elementum efficitur sem, vitae euismod est cursus eu. Suspendisse ligula risus, euismod eu libero a, aliquet ultricies erat. Phasellus semper leo vel nulla accumsan, a laoreet felis lobortis. Etiam rutrum vel eros in aliquet. Donec nec ornare velit, sit amet semper eros. Pellentesque interdum efficitur erat, vel suscipit diam sodales in. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi non pellentesque augue, auctor tincidunt lectus.
+            <br><br>Duis elementum dictum lectus. Duis tempus, nunc at fermentum ultricies, nibh elit sagittis lacus, vel ornare magna sapien sit amet odio. Donec ultrices velit a vestibulum egestas. Morbi elit neque, lacinia vel metus a, cursus maximus neque. Quisque lacus nisi, sagittis at diam in, euismod interdum mi. Praesent a facilisis augue, in vulputate neque. Sed porttitor arcu faucibus ligula commodo facilisis eu eu purus.
+            <br><br>Duis elementum dictum lectus. Duis tempus, nunc at fermentum ultricies, nibh elit sagittis lacus, vel ornare magna sapien sit amet odio. Donec ultrices velit a vestibulum egestas. Morbi elit neque, lacinia vel metus a, cursus maximus neque. Quisque lacus nisi, sagittis at diam in, euismod interdum mi. Praesent a facilisis augue, in vulputate neque. Sed porttitor arcu faucibus ligula commodo facilisis eu eu purus.
+            <br><br>Nunc suscipit semper massa sed sodales. Aliquam erat volutpat. Curabitur ut nibh suscipit, interdum purus eu, mattis arcu. Fusce ultrices eleifend lacinia. Ut lacinia orci vitae nibh varius, vitae consequat turpis iaculis. Nullam hendrerit luctus egestas. Maecenas efficitur feugiat augue, sit amet consectetur sem aliquet nec. Sed odio eros, sodales eu venenatis vel, suscipit facilisis nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In auctor ut orci a pharetra. Donec vel ligula massa.
+        </p>
     </div>
+</div>
+<h2 class="mt-4">Author's books</h2>
+<div class="grid mt-4">
+    @for (int i = 0; i < 11; i++)
+    {
+        @await Html.PartialAsync("_ProductCard")
+    }
 </div>

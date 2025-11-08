@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Wishlist";
+}
+
+<h2 class="mt-4">Wishlist</h2>
+<div class="mt-4 d-flex gap-3">
+    <div class="form-check">
+        <input checked class="form-check-input" type="radio" name="wishlistFilter" id="wishlistFilterPaper" />
+        <label class="form-check-label" for="wishlistFilterPaper">Paper books</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="wishlistFilter" id="wishlistFilterEbook" />
+        <label class="form-check-label" for="wishlistFilterEbook">E-books</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="wishlistFilter" id="wishlistFilterAllBooks" />
+        <label class="form-check-label" for="wishlistFilterAllBooks">All books</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="wishlistFilter" id="wishlistFilterMerch" />
+        <label class="form-check-label" for="wishlistFilterMerch">Merch</label>
+    </div>
+</div>
+<div class="grid mt-4">
+    @for (int i = 0; i < 11; i++)
+    {
+        @await Html.PartialAsync("_ProductCard")
+    }
+</div>

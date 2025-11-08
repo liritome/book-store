@@ -372,3 +372,60 @@ body {
 .news-details-date{
     font-size: 14px;
 }
+
+.profile{
+    z-index: 30;
+    right: 0px;
+    width: 340px;
+    border-radius: 24px 0px 0px 24px;
+}
+
+.overlay {
+    background-color: #00000025;
+    z-index: 25;
+}
+
+.profile-header {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.profile-header-2{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.profile-button {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+}
+
+.profile-icon {
+    background-color: #e4e5e8;
+    font-size: 18px;
+    width: 40px;
+    height: 40px;
+}
+
+.profile-icon-big {
+    background-color: #e4e5e8;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+}
+
+.profile-label{
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.profile-value {
+    line-height: 16px;
+}
+
+.profile-bonuses {
+    line-height: 16px;
+    font-size: 20px;
+    font-weight: 500;
+}

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BookStore.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/x-icon" href="~/logo.ico" />
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="header fixed-top bg-white">
@@ -24,7 +25,7 @@
                     Bonuses: 100
                 </div>
                 <div class="d-flex gap-2 ms-2">
-                    <button class="btn btn-light rounded-4 d-flex justify-content-center align-items-center header-btn">
+                    <button id="profileBtn" class="btn btn-light rounded-4 d-flex justify-content-center align-items-center header-btn">
                         <i class="bi bi-person"></i>
                     </button>
                     <a class="btn btn-light rounded-4 d-flex justify-content-center align-items-center header-btn" asp-area="" asp-controller="Wishlist" asp-action="Index">
@@ -53,11 +54,11 @@
     </div>
 
     @* Profile panel *@
-    <div class="overlay d-none position-fixed w-100 h-100"></div>
-    <div class="d-none profile position-fixed h-100 bg-white overflow-y-auto">
+    <div id="overlay" class="overlay d-none position-fixed w-100 h-100"></div>
+    <div id="profile" class="profile d-none  position-fixed h-100 bg-white overflow-y-auto">
         <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom">
             <span class="profile-header">Profile</span>
-            <button class="btn-close"></button>
+            <button id="profileCloseBtn" class="btn-close"></button>
         </div>
         <div class="px-4 py-3">
             <div>
@@ -147,6 +148,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/profile.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

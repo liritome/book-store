@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2 class="mt-4">My orders</h2>
+<div class="orders mt-4 bg-white rounded-4">
+    <div class="d-flex flex-column">
+        <div class="d-flex border-bottom">
+            <div class="orders-number-cell order-header py-2 ps-2">
+                <div class="px-3 border-end">Order number</div>
+            </div>
+            <div class="orders-date-cell orders-header py-2">
+                <div class="px-3 border-end">Date</div>
+            </div>
+            <div class="orders-status-cell orders-header py-2">
+                <div class="px-3 border-end">Status</div>
+            </div>
+            <div class="orders-total-cell orders-header py-2 pe-2">
+                <div class="px-3 border-end">Total</div>
+            </div>
+            <div class="orders-expand-cell orders-header"></div>
+        </div>
+        @for (int i = 0; i < 5; i++)
+        {
+            <div class="border-bottom">
+                <div class="d-flex align-items-center">
+                    <a class="orders-number-cell py-2 ps-2" asp-controller="Orders" asp-action="Details" asp-route-id="@(700000 + i)">
+                        <span class="px-3 orders-number-data">@(700000 + i)</span>
+                    </a>
+                    <div class="orders-date-cell py-2">
+                        <span class="px-3">10.11.2025</span>
+                    </div>
+                    <div class="orders-status-cell py-2">
+                        <span class="px-3 py-1 text-success bg-success-subtle rounded-5">Completed</span>
+                    </div>
+                    <div class="orders-total-cell py-2">
+                        <span class="px-3 order-total-data">400 UAH</span>
+                    </div>
+                    <div class="orders-expand-cell py-2 pe-2">
+                        <button class="expand-button btn d-flex justify-content-center align-items-center" data-bs-toggle="collapse" data-bs-target="@("#order" + i)">
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="collapse px-4 border-top" id="@("order" + i)">
+                    <div class="d-flex flex-column">
+                        @for(int j = 0; j < 3; j++)
+                        {
+                            <div class="py-2 d-flex justify-content-between align-items-center">
+                                <a class="orders-details-a d-flex align-items-center me-auto" asp-controller="Catalog" asp-action="Details" asp-route-slug="book-title">
+                                    <img class="orders-image" src="~/images/book-empty.png"/>
+                                    <div class="ps-3">
+                                        <span>Book title super long version. Book 9. Delux edition</span>
+                                    </div>
+                                </a>
+                                <div class="orders-details-price">
+                                    <span>400 UAH</span>
+                                </div>
+                                <div class="orders-details-quantity">
+                                    <span>x 1</span>
+                                </div>
+                                <div class="orders-details-total">
+                                    <span>400 UAH</span>
+                                </div>
+                            </div>                    
+                        }
+                    </div>
+                </div>           
+            </div>
+        }
+        <div class="orders-bottom"></div>
+    </div>
+</div>

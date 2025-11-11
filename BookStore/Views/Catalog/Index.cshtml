@@ -3,9 +3,107 @@
 }
 
 <h2 class="mt-4">Catalog of books</h2>
-<div class="grid mt-4">
-    @for (int i = 0; i < 11; i++)
-    {
-        @await Html.PartialAsync("_ProductCard")
-    }
+<div class="mt-4 d-flex justify-content-between">
+    <div class="catalog-filters">
+        <div class="d-flex flex-column">
+            <button class="filter-button btn btn-light rounded-4 m-1" type="button" data-bs-toggle="collapse" data-bs-target="#tagList">
+                Tag
+            </button>
+            <div class="pt-2 collapse show" id="tagList">
+                <ul class="list-unstyled">
+                    @for (int i = 1; i < 11; i++)
+                    {
+                        <li>
+                            <a class="d-flex align-items-center m-2 " asp-controller="Catalog" asp-action="Index" asp-route-tag="@("tag"+i)">
+                                <div class="filter-tag filter-unchecked flex-shrink-0 d-flex justify-content-center align-items-center border rounded-2">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                                <div class="ps-2 text-truncate">
+                                    @("Tag name " + i)
+                                </div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <button class="filter-button btn btn-light rounded-4 m-1" type="button" data-bs-toggle="collapse" data-bs-target="#publisherList">
+                Publisher
+            </button>
+            <div class="pt-2 collapse" id="publisherList">
+                <ul class="list-unstyled">
+                    @for (int i = 1; i < 5; i++)
+                    {
+                        <li>
+                            <a class="d-flex align-items-center m-2 " asp-controller="Catalog" asp-action="Index" asp-route-publisher="@("publisher"+i)">
+                                <div class="filter-tag filter-unchecked flex-shrink-0 d-flex justify-content-center align-items-center border rounded-2">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                                <div class="ps-2 text-truncate">
+                                    @("Publisher publisher name " + i)
+                                </div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <button class="filter-button btn btn-light rounded-4 m-1" type="button" data-bs-toggle="collapse" data-bs-target="#typeList">
+                Type
+            </button>
+            <div class="pt-2 collapse" id="typeList">
+                <ul class="list-unstyled">
+                    @for (int i = 1; i < 3; i++)
+                    {
+                        <li>
+                            <a class="d-flex align-items-center m-2 " asp-controller="Catalog" asp-action="Index" asp-route-type="@("type"+i)">
+                                <div class="filter-tag filter-unchecked flex-shrink-0 d-flex justify-content-center align-items-center border rounded-2">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                                <div class="ps-2 text-truncate">
+                                    @("Type " + i)
+                                </div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <button class="filter-button btn btn-light rounded-4 m-1" type="button" data-bs-toggle="collapse" data-bs-target="#languageList">
+                Language
+            </button>
+            <div class="pt-2 collapse" id="languageList">
+                <ul class="list-unstyled">
+                    @for (int i = 1; i < 3; i++)
+                    {
+                        <li>
+                            <a class="d-flex align-items-center m-2 " asp-controller="Catalog" asp-action="Index" asp-route-language="@("language"+i)">
+                                <div class="filter-tag filter-unchecked flex-shrink-0 d-flex justify-content-center align-items-center border rounded-2">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                                <div class="ps-2 text-truncate">
+                                    @("Language " + i)
+                                </div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="catalog-content ps-3">
+        <div class="dropdown d-flex justify-content-end">
+            <button class="sort-button dropdown-toggle flex-grow-1 btn btn-outline-dark rounded-4" data-bs-toggle="dropdown" aria-expanded="false">
+                Sort by
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item">Name</a></li>
+                <li><a class="dropdown-item">Price</a></li>
+                <li><a class="dropdown-item">Sale</a></li>
+            </ul>
+        </div>
+        <div class="grid mt-3">
+            @for (int i = 0; i < 11; i++)
+            {
+                @await Html.PartialAsync("_ProductCard")
+            }
+        </div>
+    </div>
 </div>

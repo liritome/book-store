@@ -4,6 +4,84 @@
 
 <h1 class="mt-4">№ 7000001</h1>
 <h5 class="text-muted">10.11.2025</h5>
-<div class="mt-4">
-
+<div class="d-flex mt-4">
+    <div class="order-left pe-4">
+        <div class="bg-white rounded-4 px-4 py-3 d-flex flex-column">
+            @for (int j = 0; j < 3; j++)
+            {
+                <div class="border-bottom">
+                    @await Html.PartialAsync("_OrderItemElement")
+                </div>
+            }
+            <div class="d-flex flex-column gap-1 pt-3">
+                <div class="d-flex justify-content-between">
+                    <span>5 items for a total of:</span>
+                    <span>1200 UAH</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Delivery cost:</span>
+                    <span>80 UAH</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Bonuses used:</span>
+                    <span>200 UAH</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>Total:</span>
+                    <span class="order-price-total">1080 UAH</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order-right">
+        <div class="d-flex p-4 bg-white rounded-4">
+            <span>Order status: </span>
+            <div class="ps-2">
+                <span class="px-3 py-1 text-success bg-success-subtle rounded-5 text-nowrap">
+                    Completed
+                </span>
+            </div>
+        </div>
+        <div class="d-flex mt-3 p-4 bg-white rounded-4">
+            <span>Payment status: </span>
+            <div class="ps-2">
+                <span class="px-3 py-1 text-success bg-success-subtle rounded-5 text-nowrap">
+                    Paid by card
+                </span>
+            </div>
+        </div>
+        <div class="d-flex mt-3 p-4 bg-white rounded-4">
+            <span>Bonuses: </span>
+            <div class="ps-2">
+                <span class="px-3 py-1 text-success bg-success-subtle rounded-5 text-nowrap">
+                    +12
+                </span>
+            </div>
+        </div>
+        <div class="mt-3 p-4 bg-white rounded-4">
+            <div class="order-delivery-header">Delivery details</div>
+            <div class="d-flex flex-column gap-1 pt-3">
+                <div class="d-flex justify-content-between">
+                    <span>Full name:</span>
+                    <span class="ps-2">Name Surname</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Phone number:</span>
+                    <span class="ps-2">+380XXXXXXXXX</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Delivery method:</span>
+                    <span class="ps-2">Nova post</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Address:</span>
+                    <span class="ps-2">City name, post branch number</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Tracking number:</span>
+                    <span class="ps-2">XXXXXXXXXXXXXX</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

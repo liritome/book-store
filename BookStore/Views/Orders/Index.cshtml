@@ -34,7 +34,7 @@
                         <span class="px-3 py-1 text-success bg-success-subtle rounded-5">Completed</span>
                     </div>
                     <div class="orders-total-cell py-2">
-                        <span class="px-3 order-total-data">400 UAH</span>
+                        <span class="px-3 order-total-data">1080 UAH</span>
                     </div>
                     <div class="orders-expand-cell py-2 pe-2">
                         <button class="expand-button btn d-flex justify-content-center align-items-center" data-bs-toggle="collapse" data-bs-target="@("#order" + i)">
@@ -46,23 +46,7 @@
                     <div class="d-flex flex-column">
                         @for(int j = 0; j < 3; j++)
                         {
-                            <div class="py-2 d-flex justify-content-between align-items-center">
-                                <a class="orders-details-a d-flex align-items-center me-auto" asp-controller="Catalog" asp-action="Details" asp-route-slug="book-title">
-                                    <img class="orders-image" src="~/images/book-empty.png"/>
-                                    <div class="ps-3">
-                                        <span>Book title super long version. Book 9. Delux edition</span>
-                                    </div>
-                                </a>
-                                <div class="orders-details-price">
-                                    <span>400 UAH</span>
-                                </div>
-                                <div class="orders-details-quantity">
-                                    <span>x 1</span>
-                                </div>
-                                <div class="orders-details-total">
-                                    <span>400 UAH</span>
-                                </div>
-                            </div>                    
+                            @await Html.PartialAsync("_OrderItemElement")
                         }
                     </div>
                 </div>           

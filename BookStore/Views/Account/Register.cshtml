@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="position-fixed top-0 start-0 d-flex justify-content-center align-items-center h-100 w-100">
+    <div class="login-panel bg-white rounded-5 p-5 d-flex flex-column align-items-center">
+        <form asp-controller="Account" asp-action="Register" method="post" class="w-100">
+            <input type="text" name="Name" class="form-control rounded-4" id="registerName" placeholder="Name *">
+            <input type="text" name="Surname" class="form-control rounded-4 mt-3" id="registerSurname" placeholder="Surname *">
+            <div class="form-floating mt-3">
+                <input type="date" class="form-control rounded-4" id="registerBirthDate" name="BirthDate">
+                <label for="registerBirthDate">Birthday *</label>
+            </div>
+            <input type="tel" name="PhoneNumber" class="form-control rounded-4 mt-3" id="registerPhoneNumber" placeholder="+380XXXXXXXXX *" pattern="\+380\d{9}">
+            <input type="email" name="Email" class="form-control rounded-4 mt-3" id="registerEmail" placeholder="Email *">
+            <input type="password" name="Password" class="form-control rounded-4 mt-3" id="registerPassword" placeholder="Password *">
+            <button type="submit" class="profile-button w-100 btn btn-success rounded-4 mt-4 px-3 py-2">
+                <span class="pe-3">Register</span>
+            </button>
+        </form>
+        <a class="profile-button w-100 btn btn-outline-success rounded-4 mt-3 px-3 py-2" asp-controller="Account" asp-action="Login">
+            <span class="pe-3">Log in</span>
+        </a>
+    </div>
+</div>

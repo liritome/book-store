@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="position-fixed top-0 start-0 d-flex justify-content-center align-items-center h-100 w-100">
+    <div class="login-panel bg-white rounded-5 p-5 d-flex flex-column align-items-center">
+        <form asp-controller="Account" asp-action="Login" method="post" class="w-100">
+            <input type="email" name="Email" class="form-control rounded-4" id="loginEmail" placeholder="Email">
+            <input type="password" name="Password" class="form-control rounded-4 mt-3" id="loginPassword" placeholder="Password">
+            <button type="submit" class="profile-button w-100 btn btn-success rounded-4 mt-4 px-3 py-2">
+                <span class="pe-3">Log in</span>
+            </button>
+        </form>
+        <a class="profile-button w-100 btn btn-outline-success rounded-4 mt-3 px-3 py-2" asp-controller="Account" asp-action="Register">
+            <span class="pe-3">Register</span>
+        </a>
+    </div>
+</div>

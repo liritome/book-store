@@ -22,6 +22,10 @@ body {
     font-size: 1.5rem;
 }
 
+.header-wide-btn {
+    height: 45px;
+}
+
 .main {
     margin-top: 102px;
     margin-bottom: 40px;
@@ -46,6 +50,16 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 18px;
 }
+
+.grid-line {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+}
+
+    .grid-line > * {
+        flex: 0 0 240px;
+    }
 
 .catalog-filters {
     width: 18%;
@@ -661,4 +675,8 @@ body {
 
 .login-panel{
     width: 400px;
+}
+
+.admin-home-col{
+    width: calc(100% / 3);
 }

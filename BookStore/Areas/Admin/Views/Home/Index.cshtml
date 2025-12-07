@@ -1,101 +1,154 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Admin Dashboard";
 }
 
-<div class="d-flex">
-    <div class="admin-home-col p-2">
-        <div>
-            <div>
-                Database
+<div class="mt-4">
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="admin-card p-3">
+                <div class="d-flex justify-content-between">
+                    <h6 class="text-muted">Total Products</h6>
+                    <i class="bi bi-collection fs-4 text-primary"></i>
+                </div>
+                <h3 class="mt-2">152</h3>
+                <small class="text-success">↑ +5 this week</small>
             </div>
-            <div>
-                <div>
-                    Authors
+        </div>
+        <div class="col-md-3">
+            <div class="admin-card p-3">
+                <div class="d-flex justify-content-between">
+                    <h6 class="text-muted">Users</h6>
+                    <i class="bi bi-people fs-4 text-info"></i>
                 </div>
-                <div>
-                    Add author
+                <h3 class="mt-2">487</h3>
+                <small class="text-success">↑ +12 this week</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="admin-card p-3">
+                <div class="d-flex justify-content-between">
+                    <h6 class="text-muted">Orders Today</h6>
+                    <i class="bi bi-bag-check fs-4 text-success"></i>
                 </div>
-                <div>
-                    Translators
+                <h3 class="mt-2">12</h3>
+                <small class="text-muted">Last updated: 5 mins ago</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="admin-card p-3">
+                <div class="d-flex justify-content-between">
+                    <h6 class="text-muted">Pending Orders</h6>
+                    <i class="bi bi-hourglass-split fs-4 text-warning"></i>
                 </div>
-                <div>
-                    Add translator
-                </div>
-                <div>
-                    Publishers
-                </div>
-                <div>
-                    Add publisher
-                </div>
-                <div>
-                    Languages
-                </div>
-                <div>
-                    Add language
-                </div>
-                <div>
-                    Tags
-                </div>
-                <div>
-                    Add tag
-                </div>
-                <div>
-                    Series
-                </div>
-                <div>
-                    Add series
-                </div>
+                <h3 class="mt-2">3</h3>
+                <small class="text-danger">Action required</small>
             </div>
         </div>
     </div>
-    <div class="admin-home-col p-2">
-        <div>
-            <div>
-                Catalog
-            </div>
-            <div>
-                Create product
-            </div>
+    <div class="mt-5">
+        <h4>Quick Actions</h4>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+            <a class="btn btn-primary d-flex align-items-center gap-2"
+               asp-area="Admin" asp-controller="Products" asp-action="Create">
+                <i class="bi bi-plus-circle"></i>
+                Add Product
+            </a>
+            <a class="btn btn-primary d-flex align-items-center gap-2"
+               asp-area="Admin" asp-controller="Discounts" asp-action="Create">
+                <i class="bi bi-percent"></i>
+                Add Discount
+            </a>
+            <a class="btn btn-primary d-flex align-items-center gap-2"
+               asp-area="Admin" asp-controller="Orders" asp-action="Create">
+                <i class="bi bi-bag-plus"></i>
+                Add Order
+            </a>
+            <a class="btn btn-primary d-flex align-items-center gap-2"
+               asp-area="Admin" asp-controller="Users" asp-action="Create">
+                <i class="bi bi-person-plus"></i>
+                Add User
+            </a>
+            <a class="btn btn-primary d-flex align-items-center gap-2"
+               asp-area="Admin" asp-controller="News" asp-action="Create">
+                <i class="bi bi-newspaper"></i>
+                Add News Post
+            </a>
         </div>
-        <div>
-            <div>
-                Discounts
-            </div>
-            <div>
-                Create discount
-            </div>
+    </div>
+    <div class="mt-5 d-flex gap-3 flex-wrap">
+        <div class="alert alert-primary">
+            <i class="bi bi-calendar-check"></i>
+            10 products are scheduled
         </div>
-        <div>
-            <div>
-                Users
-            </div>
-            <div>
-                Create user
-            </div>
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i>
+            4 products are low in stock
         </div>
-        <div>
-            <div>
-                Orders
-            </div>
-            <div>
-                Create order
-            </div>
+        <div class="alert alert-danger">
+            <i class="bi bi-x-circle"></i>
+            24 products are out of stock
         </div>
-        <div>
-            <div>
-                News
-            </div>
-            <div>
-                Create new
+    </div>
+    <div class="mt-4">
+        <h4>Recent Orders</h4>
+        <div class="admin-new-orders-header mt-3">
+            <table class="table mb-0">
+                <colgroup>
+                    <col style="width: 10%;">
+                    <col style="width: 25%;">
+                    <col style="width: 10%;">
+                    <col style="width: 15%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Datetime</th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="admin-new-orders-body">
+                <table class="table">
+                    <colgroup>
+                        <col style="width: 10%;">
+                        <col style="width: 25%;">
+                        <col style="width: 10%;">
+                        <col style="width: 15%;">
+                        <col style="width: 20%;">
+                        <col style="width: 20%;">
+                    </colgroup>
+                    <tbody>
+                        @for (int i = 0; i < 20; i++)
+                        {
+                            <tr>
+                                <td>@(150 + i)</td>
+                                <td>user@(i) (User Name)</td>
+                                <td>@(i * 2 + 1)</td>
+                                <td>$@(20 + i * 3)</td>
+                                <td><span class="bg-primary-subtle text-muted px-2 rounded-5">New</span></td>
+                                <td>@(DateTime.Today.AddHours(i)) </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <div class="admin-home-col p-2">
-        <div>
-            Manage new orders
-        </div>
-        <div>
-            Manage new reviews
-        </div>
+    <div class="mt-5">
+        <h4>Recent Activity</h4>
+        <ul class="admin-activiy list-group mt-3">
+            @for (int i = 0; i < 10; i++)
+            {
+                <li class="list-group-item d-flex align-items-center gap-2 mb-1">
+                    <i class="bi bi-dot fs-3 text-primary"></i>
+                    Order #@(150 + i) marked as completed
+                </li>
+            }
+        </ul>
     </div>
 </div>

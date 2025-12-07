@@ -15,53 +15,115 @@
     <header class="header fixed-top bg-white">
         <div class="header-inner container-fluid">
             <div class="d-flex gap-2 align-items-center py-2 border-bottom">
-                <a class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand"
+                asp-area="Admin" asp-controller="Home" asp-action="Index">
                     <img src="~/images/logo.png" alt="BookStore Logo" class="logo" />
                 </a>
                 <div class="flex-fill ms-3">
-                    <input type="search" class="search-product form-control rounded-5" placeholder="Search product by name or ID" />
+                    <input type="search" class="search-product form-control rounded-5" placeholder="Search product by Name or ID" />
                 </div>
                 <div class="d-flex gap-2 ms-2">
                     <button id="profileBtn" class="header-wide-btn btn btn-light rounded-4 d-flex justify-content-center align-items-center">
                         <span>Logged in as : Admin Name</span>
                     </button>
-                    <a class="header-wide-btn btn btn-light rounded-4 d-flex justify-content-center align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <a class="header-wide-btn btn btn-light rounded-4 d-flex justify-content-center align-items-center"
+                    asp-area="" asp-controller="Home" asp-action="Index">
                         <span>View site</span>
                     </a>
                 </div>
             </div>
             <div class="d-flex gap-4 py-2">
-                <a class="nav-link d-flex align-items-center gap-1" asp-area="Admin" asp-controller="Catalog" asp-action="Index">
-                    <i class="bi bi-collection"></i>
-                    <span>Catalog</span>
-                </a>
-                <a class="nav-link d-flex align-items-center gap-1" asp-area="Admin" asp-controller="Database" asp-action="Index">
-                    <i class="bi bi-hdd-stack"></i>
-                    <span>Database</span>
-                </a>
-                <a class="nav-link d-flex align-items-center gap-1" asp-area="Admin" asp-controller="Discounts" asp-action="Index">
-                    <i class="bi bi-percent"></i>
-                    <span>Discounts</span>
-                </a>
-                <a class="nav-link d-flex align-items-center gap-1" asp-area="Admin" asp-controller="Orders" asp-action="Index">
-                    <i class="bi bi-bag-check"></i>
-                    <span>Orders</span>
-                </a>
-                <a class="nav-link d-flex align-items-center gap-1" asp-area="Admin" asp-controller="Users" asp-action="Index">
-                    <i class="bi bi-people"></i>
-                    <span>Users</span>
-                </a>
-                <a class="nav-link d-flex align-items-center gap-1" asp-area="Admin" asp-controller="News" asp-action="Index">
-                    <i class="bi bi-newspaper"></i>
-                    <span>News</span>
-                </a>
-                <a class="nav-link d-flex align-items-center gap-1" asp-area="Admin" asp-controller="Actions" asp-action="Index">
-                    <i class="bi bi-clock-history"></i>
-                    <span>Changelog</span>
-                </a>
+                <div class="admin-nav-item">
+                    <a class="nav-link d-flex align-items-center gap-1"
+                    asp-area="Admin" asp-controller="Products" asp-action="Index">
+                        <i class="bi bi-collection"></i>
+                        <span>Products</span>
+                    </a>
+                </div>
+                <div class="admin-nav-item">
+                    <div class="nav-link d-flex align-items-center gap-1">
+                        <i class="bi bi-hdd-stack"></i>
+                        <span>Database</span>
+                    </div>
+                    <div class="admin-nav-submenu">
+                        <a class="d-flex align-items-center gap-1"
+                        asp-area="Admin" asp-controller="Authors" asp-action="Index">
+                            <i class="bi bi-person-lines-fill"></i>
+                            <span>Authors</span>
+                        </a>
+                        <a class="d-flex align-items-center gap-1"
+                        asp-area="Admin" asp-controller="Translators" asp-action="Index">
+                            <i class="bi bi-translate"></i>
+                            <span>Translators</span>
+                        </a>
+                        <a class="d-flex align-items-center gap-1"
+                        asp-area="Admin" asp-controller="Series" asp-action="Index">
+                            <i class="bi bi-stack"></i>
+                            <span>Series</span>
+                        </a>
+                        <a class="d-flex align-items-center gap-1"
+                        asp-area="Admin" asp-controller="Publishers" asp-action="Index">
+                            <i class="bi bi-building"></i>
+                            <span>Publishers</span>
+                        </a>
+                        <a class="d-flex align-items-center gap-1"
+                        asp-area="Admin" asp-controller="Languages" asp-action="Index">
+                            <i class="bi bi-flag"></i>
+                            <span>Languages</span>
+                        </a>
+                        <a class="d-flex align-items-center gap-1"
+                        asp-area="Admin" asp-controller="Tags" asp-action="Index">
+                            <i class="bi bi-tag"></i>
+                            <span>Tags</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="admin-nav-item">
+                    <a class="nav-link d-flex align-items-center gap-1"
+                    asp-area="Admin" asp-controller="Discounts" asp-action="Index">
+                        <i class="bi bi-percent"></i>
+                        <span>Discounts</span>
+                    </a>
+                </div>
+                <div class="admin-nav-item">
+                    <a class="nav-link d-flex align-items-center gap-1"
+                    asp-area="Admin" asp-controller="Orders" asp-action="Index">
+                        <i class="bi bi-bag-check"></i>
+                        <span>Orders</span>
+                    </a>
+                </div>
+                <div class="admin-nav-item">
+                    <a class="nav-link d-flex align-items-center gap-1"
+                    asp-area="Admin" asp-controller="Users" asp-action="Index">
+                        <i class="bi bi-people"></i>
+                        <span>Users</span>
+                    </a>
+                </div>
+                <div class="admin-nav-item">
+                    <a class="nav-link d-flex align-items-center gap-1"
+                    asp-area="Admin" asp-controller="Reviews" asp-action="Index">
+                        <i class="bi bi-chat-left-text"></i>
+                        <span>Reviews</span>
+                    </a>
+                </div>
+                <div class="admin-nav-item">
+                    <a class="nav-link d-flex align-items-center gap-1"
+                    asp-area="Admin" asp-controller="News" asp-action="Index">
+                        <i class="bi bi-newspaper"></i>
+                        <span>News</span>
+                    </a>
+                </div>
+                <div class="admin-nav-item">
+                    <a class="nav-link d-flex align-items-center gap-1"
+                       asp-area="Admin" asp-controller="Actions" asp-action="Index">
+                        <i class="bi bi-clock-history"></i>
+                        <span>Changelog</span>
+                    </a>
+                </div>
             </div>
         </div>
     </header>
+
     <div class="container-fluid flex-fill main">
         <main role="main" class="mt-4">
             @RenderBody()
@@ -71,11 +133,7 @@
     <!-- Overlay -->
     <div id="overlay" class="overlay d-none position-fixed w-100 h-100"></div>
 
-    <footer class="mt-auto border-top text-muted py-3 bg-white">
-        <div class="container-fluid footer-inner">
-            &copy; 2025 - bookspace
-        </div>
-    </footer>
+    <footer></footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

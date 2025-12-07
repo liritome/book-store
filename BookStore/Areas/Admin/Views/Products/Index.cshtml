@@ -1,0 +1,33 @@
+﻿<div class="d-flex gap-2">
+    <button class="btn btn-primary px-4">
+        <span>Books</span>
+    </button>
+    <button class="btn btn-primary px-4">
+        <span>Merch</span>
+    </button>
+</div>
+<div class="mt-4">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Image</th>
+                <th>Visibility</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < 30; i++)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>(image)</td>
+                    <td>visible</td>
+                    <td>Product Name</td>
+                    <td>200 UAH</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

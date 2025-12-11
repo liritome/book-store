@@ -746,3 +746,48 @@ body {
     max-height: 304px;
     overflow-y: auto;
 }
+
+.no-pointer {
+    cursor: default !important;
+}
+
+.admin-table th {
+    white-space: nowrap;
+}
+
+.admin-table-status {
+    position: relative;
+}
+
+    .admin-table-status div {
+        position: absolute;
+        top: 2px;
+        bottom: 2px;
+        left: 0;
+        width: 10px;
+        border-radius: 8px;
+    }
+
+.admin-filter-input-s {
+    width: 80px;
+}
+
+.admin-filter-input-m {
+    width: 100px;
+}
+
+.admin-filter-input-l {
+    width: 300px;
+}
+
+.admin-image {
+    width: 32px;
+}
+
+.admin-table-btn{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

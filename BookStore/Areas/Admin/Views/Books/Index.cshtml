@@ -2,230 +2,396 @@
     ViewData["Title"] = "Admin Books";
 }
 
-<div class="d-flex gap-2">
-    <button class="btn btn-primary d-flex align-items-center gap-2">
-        <i class="bi bi-plus-circle"></i>
-        <span>Add Book</span>
-    </button>
-</div>
-<div class="mt-3">
-    <form class="d-flex flex-column gap-3" asp-action="Index" method="get">
-        <div class="d-flex gap-3 align-items-end">
-            <div>
-                <label class="form-label">Search</label>
-                <input name="q" type="text" class="admin-filter-input-l form-control" placeholder="Name, ID or ISBN">
-            </div>
-            <div>
-                <label class="form-label">Status</label>
-                <select name="status" class="form-select">
-                    <option value="">All</option>
-                    <option value="visible">Visible</option>
-                    <option value="scheduled">Scheduled</option>
-                    <option value="hidden">Hidden</option>
-                </select>
-            </div>
-            <div>
-                <label class="form-label">Type</label>
-                <select name="type" class="form-select">
-                    <option value="">All</option>
-                    <option value="paper">Paper</option>
-                    <option value="ebook">E-book</option>
-                </select>
-            </div>
-            <div>
-                <label class="form-label">Stock</label>
-                <div class="d-flex gap-1">
-                    <input name="stockFrom" type="number" min="0" class="admin-filter-input-m form-control" placeholder="">
-                    <input name="stockTo" type="number" min="0" class="admin-filter-input-m form-control" placeholder="">
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Search</button>
+<div class="mt-3 d-flex">
+    <div class="admin-table-left">
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary d-flex align-items-center gap-2">
+                <i class="bi bi-plus-circle"></i>
+                <span>Add Book</span>
+            </button>
         </div>
-        <div class="d-flex gap-3 align-items-end">
+        <div class="mt-2 d-flex justify-content-start">
             <div>
-                <label class="form-label">Price</label>
-                <div class="d-flex gap-1">
-                    <input name="priceFrom" type="number" min="0" class="admin-filter-input-s form-control" placeholder="">
-                    <input name="priceTo" type="number" min="0" class="admin-filter-input-s form-control" placeholder="">
+                <div class="mb-2">
+                    Showing 1-20 of 800 books
                 </div>
-            </div>
-            <div>
-                <label class="form-label">Discount</label>
-                <select name="discount" class="form-select">
-                    <option value="">All</option>
-                    <option value="yes">With discount</option>
-                    <option value="no">No discount</option>
-                </select>
-            </div>
-            <div>
-                <label class="form-label">Final price</label>
-                <div class="d-flex gap-1">
-                    <input name="finalFrom" type="number" min="0" class="admin-filter-input-s form-control" placeholder="">
-                    <input name="finalTo" type="number" min="0" class="admin-filter-input-s form-control" placeholder="">
-                </div>
-            </div>
-        </div>
-    </form>
-    <table class="table admin-table align-middle mt-3">
-        <thead>
-            <tr>
-                <th></th>
-                <th>
-                    <a asp-action="Index"
-                       asp-route-sort="id"
-                       asp-route-q="@Context.Request.Query["q"]"
-                       asp-route-status="@Context.Request.Query["status"]"
-                       asp-route-type="@Context.Request.Query["type"]"
-                       asp-route-discount="@Context.Request.Query["discount"]">
-                        ID
-                    </a>
-                </th>
-                <th>Image</th>
-                <th>
-                    <a asp-action="Index"
-                       asp-route-sort="name"
-                       asp-route-q="@Context.Request.Query["q"]"
-                       asp-route-status="@Context.Request.Query["status"]"
-                       asp-route-type="@Context.Request.Query["type"]"
-                       asp-route-discount="@Context.Request.Query["discount"]">
-                        Name
-                    </a>
-                </th>
-                <th>
-                    <a asp-action="Index"
-                       asp-route-sort="type"
-                       asp-route-q="@Context.Request.Query["q"]"
-                       asp-route-status="@Context.Request.Query["status"]"
-                       asp-route-type="@Context.Request.Query["type"]"
-                       asp-route-discount="@Context.Request.Query["discount"]">
-                        Type
-                    </a>
-                </th>
-                <th>
-                    <a asp-action="Index"
-                       asp-route-sort="isbn"
-                       asp-route-q="@Context.Request.Query["q"]"
-                       asp-route-status="@Context.Request.Query["status"]"
-                       asp-route-type="@Context.Request.Query["type"]"
-                       asp-route-discount="@Context.Request.Query["discount"]">
-                        ISBN
-                    </a>
-                </th>
-                <th>
-                    <a asp-action="Index"
-                       asp-route-sort="price"
-                       asp-route-q="@Context.Request.Query["q"]"
-                       asp-route-status="@Context.Request.Query["status"]"
-                       asp-route-type="@Context.Request.Query["type"]"
-                       asp-route-discount="@Context.Request.Query["discount"]">
-                        Price
-                    </a>
-                </th>
-                <th>
-                    <a asp-action="Index"
-                       asp-route-sort="discount"
-                       asp-route-q="@Context.Request.Query["q"]"
-                       asp-route-status="@Context.Request.Query["status"]"
-                       asp-route-type="@Context.Request.Query["type"]"
-                       asp-route-discount="@Context.Request.Query["discount"]">
-                        Discount
-                    </a>
-                </th>
-                <th>
-                    <a asp-action="Index"
-                       asp-route-sort="final"
-                       asp-route-q="@Context.Request.Query["q"]"
-                       asp-route-status="@Context.Request.Query["status"]"
-                       asp-route-type="@Context.Request.Query["type"]"
-                       asp-route-discount="@Context.Request.Query["discount"]">
-                        Final
-                    </a>
-                </th>
-                <th>
-                    <a asp-action="Index"
-                       asp-route-sort="stock"
-                       asp-route-q="@Context.Request.Query["q"]"
-                       asp-route-status="@Context.Request.Query["status"]"
-                       asp-route-type="@Context.Request.Query["type"]"
-                       asp-route-discount="@Context.Request.Query["discount"]">
-                        Stock
-                    </a>
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < 30; i++)
-            {
-                <tr>
-                    <td class="admin-table-status">
-                        @if (i % 3 == 0)
-                        {
-                            <div class="bg-primary-subtle"></div>
-                        }
-                        else if (i % 3 == 1)
-                        {
-                            <div class="bg-success-subtle"></div>
-                        }
-                        else
-                        {
-                            <div class="bg-secondary-subtle"></div>
-                        }
-                    </td>
-                    <td>
-                        <a class="text-primary" asp-area="Admin" asp-controller="Books" asp-action="Details">
-                            @(10000 + i)
-                        </a>
-                    </td>
-                    <td>
-                        <img src="~/images/book-empty-small.png" class="admin-image" />
-                    </td>
-                    <td>Product Name</td>
-                    <td>
-                        @if (i % 2 == 0)
-                        {
-                            <span>paper</span>
-                        }
-                        else
-                        {
-                            <span>e-book</span>
-                        }
-                    </td>
-                    <td>978-617-15-1745-5</td>
-                    <td>400</td>
-                    <td>
-                        @if (i % 2 == 0)
-                        {
-                            <span>no</span>
-                        }
-                        else
-                        {
-                            <span>yes</span>
-                        }
-                    </td>
-                    <td>360</td>
-                    <td>20000</td>
-                    <td>
-                        <div class="d-flex gap-1">
-                            <a class="admin-table-btn btn btn-primary" asp-area="Admin" asp-controller="Books" asp-action="Edit">
-                                <i class="bi bi-pencil"></i>
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" asp-route-page="2">
+                                <i class="bi bi-chevron-left"></i>
                             </a>
-                            <form
-                                  asp-action="ToggleVisibility" asp-route-id="@i" method="post">
-                                <button type="submit" class="admin-table-btn btn @(i % 2 == 0 ? "btn-secondary" : "btn-success")">
-                                    <i class="bi @(i % 2 == 0 ? "bi-eye-slash" : "bi-eye")"></i>
-                                </button>
-                            </form>
-                            <form
-                                  asp-action="Delete" asp-route-id="@i" method="post">
-                                <button type="submit" class="admin-table-btn btn btn-danger">
-                                    <i class="bi bi-trash3"></i>
-                                </button>
-                            </form>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" asp-route-page="1">1</a>
+                        </li>
+                        @for (int i = 2; i < 5; i++)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-route-page="@i">@i</a>
+                            </li>
+                        }
+                        <li class="page-item">
+                            <a class="page-link" asp-route-page="40">40</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" asp-route-page="4">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="bg-white rounded-4 overflow-auto">
+            <table class="table admin-table align-middle mt-3">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sort="id"
+                               asp-route-q="@Context.Request.Query["q"]"
+                               asp-route-status="@Context.Request.Query["status"]"
+                               asp-route-type="@Context.Request.Query["type"]"
+                               asp-route-discount="@Context.Request.Query["discount"]">
+                                ID
+                            </a>
+                        </th>
+                        <th>Image</th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sort="name"
+                               asp-route-q="@Context.Request.Query["q"]"
+                               asp-route-status="@Context.Request.Query["status"]"
+                               asp-route-type="@Context.Request.Query["type"]"
+                               asp-route-discount="@Context.Request.Query["discount"]">
+                                Name
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sort="author"
+                               asp-route-q="@Context.Request.Query["q"]"
+                               asp-route-status="@Context.Request.Query["status"]"
+                               asp-route-type="@Context.Request.Query["type"]"
+                               asp-route-discount="@Context.Request.Query["discount"]">
+                                Author
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sort="type"
+                               asp-route-q="@Context.Request.Query["q"]"
+                               asp-route-status="@Context.Request.Query["status"]"
+                               asp-route-type="@Context.Request.Query["type"]"
+                               asp-route-discount="@Context.Request.Query["discount"]">
+                                Type
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sort="isbn"
+                               asp-route-q="@Context.Request.Query["q"]"
+                               asp-route-status="@Context.Request.Query["status"]"
+                               asp-route-type="@Context.Request.Query["type"]"
+                               asp-route-discount="@Context.Request.Query["discount"]">
+                                ISBN
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sort="price"
+                               asp-route-q="@Context.Request.Query["q"]"
+                               asp-route-status="@Context.Request.Query["status"]"
+                               asp-route-type="@Context.Request.Query["type"]"
+                               asp-route-discount="@Context.Request.Query["discount"]">
+                                Price
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sort="discount"
+                               asp-route-q="@Context.Request.Query["q"]"
+                               asp-route-status="@Context.Request.Query["status"]"
+                               asp-route-type="@Context.Request.Query["type"]"
+                               asp-route-discount="@Context.Request.Query["discount"]">
+                                Discount
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sort="final"
+                               asp-route-q="@Context.Request.Query["q"]"
+                               asp-route-status="@Context.Request.Query["status"]"
+                               asp-route-type="@Context.Request.Query["type"]"
+                               asp-route-discount="@Context.Request.Query["discount"]">
+                                Final
+                            </a>
+                        </th>
+                        <th>
+                            <a asp-action="Index"
+                               asp-route-sort="stock"
+                               asp-route-q="@Context.Request.Query["q"]"
+                               asp-route-status="@Context.Request.Query["status"]"
+                               asp-route-type="@Context.Request.Query["type"]"
+                               asp-route-discount="@Context.Request.Query["discount"]">
+                                Stock
+                            </a>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < 20; i++)
+                    {
+                        <tr>
+                            <td class="admin-table-status">
+                                @if (i % 3 == 0)
+                                {
+                                    <div class="bg-primary-subtle"></div>
+                                }
+                                else if (i % 3 == 1)
+                                {
+                                    <div class="bg-success-subtle"></div>
+                                }
+                                else
+                                {
+                                    <div class="bg-secondary-subtle"></div>
+                                }
+                            </td>
+                            <td>
+                                <a class="text-primary" asp-area="Admin" asp-controller="Books" asp-action="Details">
+                                    @(10000 + i)
+                                </a>
+                            </td>
+                            <td>
+                                <img src="~/images/book-empty-small.png" class="admin-image" />
+                            </td>
+                            <td>Product Name</td>
+                            <td>N. Surname</td>
+                            <td>
+                                @if (i % 2 == 0)
+                                {
+                                    <span>paper</span>
+                                }
+                                else
+                                {
+                                    <span>e-book</span>
+                                }
+                            </td>
+                            <td>978-617-15-1745-5</td>
+                            <td>400</td>
+                            <td>
+                                @if (i % 2 == 0)
+                                {
+                                    <span>no</span>
+                                }
+                                else
+                                {
+                                    <span>yes</span>
+                                }
+                            </td>
+                            <td>360</td>
+                            <td>20000</td>
+                            <td>
+                                <div class="d-flex flex-xl-row flex-column gap-1">
+                                    <a class="admin-table-btn btn btn-primary" asp-area="Admin" asp-controller="Books" asp-action="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form asp-action="ToggleVisibility" asp-route-id="@i" method="post">
+                                        <button type="submit" class="admin-table-btn btn @(i % 2 == 0 ? "btn-secondary" : "btn-success")">
+                                            <i class="bi @(i % 2 == 0 ? "bi-eye-slash" : "bi-eye")"></i>
+                                        </button>
+                                    </form>
+                                    <form asp-action="Delete" asp-route-id="@i" method="post">
+                                        <button type="submit" class="admin-table-btn btn btn-danger">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-3 d-flex justify-content-start">
+            <div>
+                <div class="mb-2">
+                        Showing 1-20 of 800 books
+                </div>
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" asp-route-page="2">
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" asp-route-page="1">1</a>
+                        </li>
+                        @for(int i = 2; i < 5; i++)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-route-page="@i">@i</a>
+                            </li>
+                        }
+                        <li class="page-item">
+                            <a class="page-link" asp-route-page="40">40</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" asp-route-page="4">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="admin-table-right ms-4 position-relative">
+        <div class="admin-table-filter bg-white rounded-4 sticky-top">
+            <form asp-action="Index" method="get">
+                <div class="admin-table-filter-scrollable d-flex flex-column overflow-y-auto">
+                    <div>
+                        <label class="form-label">Book</label>
+                        <input name="q" type="text" class="form-control" placeholder="Name, ID or ISBN">
+                    </div>
+                    <div>
+                        <label class="form-label">Author</label>
+                        <input name="author" type="text" class="form-control" placeholder="Name">
+                    </div>
+                    <div>
+                        <label class="form-label">Translator</label>
+                        <input name="translator" type="text" class="form-control" placeholder="Name">
+                    </div>
+                    <div>
+                        <label class="form-label">Publisher</label>
+                        <input name="publisher" type="text" class="form-control" placeholder="Name">
+                    </div>
+                    <div>
+                        <label class="form-label">Year</label>
+                        <div class="d-flex align-items-center">
+                            <input name="yearFrom" type="number" min="0" class="form-control" placeholder="From">
+                            <span class="px-1">–</span>
+                            <input name="yearTo" type="number" min="0" class="form-control" placeholder="To">
                         </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </div>
+                    <div>
+                        <label class="form-label">Pages</label>
+                        <div class="d-flex align-items-center">
+                            <input name="pagesFrom" type="number" min="1" class="form-control" placeholder="From">
+                            <span class="px-1">–</span>
+                            <input name="pagesTo" type="number" min="1" class="form-control" placeholder="To">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Stock</label>
+                        <div class="d-flex align-items-center">
+                            <input name="stockFrom" type="number" min="0" class="form-control" placeholder="From">
+                            <span class="px-1">–</span>
+                            <input name="stockTo" type="number" min="0" class="form-control" placeholder="To">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label d-block">Language</label>
+                        <div class="d-flex flex-wrap row-gap-1">
+                            <label class="form-check-label w-50" for="langUa">
+                                <input class="form-check-input" type="checkbox" name="language" value="ua" id="langUa">
+                                <span>Ukrainian</span>
+                            </label>
+                            <label class="form-check-label w-50" for="langEn">
+                                <input class="form-check-input" type="checkbox" name="language" value="en" id="langEn">
+                                <span>English</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label d-block">Status</label>
+                        <div class="d-flex flex-wrap row-gap-1">
+                            <label class="form-check-label w-50">
+                                <input class="form-check-input" type="checkbox" name="status" value="visible">
+                                <span>Visible</span>
+                            </label>
+                            <label class="form-check-label w-50">
+                                <input class="form-check-input" type="checkbox" name="status" value="scheduled">
+                                <span>Scheduled</span>
+                            </label>
+                            <label class="form-check-label w-50">
+                                <input class="form-check-input" type="checkbox" name="status" value="hidden">
+                                <span>Hidden</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label d-block">Type</label>
+                        <div class="d-flex flex-wrap row-gap-1">
+                            <label class="form-check-label w-50">
+                                <input class="form-check-input" type="checkbox" name="type" value="paper">
+                                <span>Paper</span>
+                            </label>
+                            <label class="form-check-label w-50">
+                                <input class="form-check-input" type="checkbox" name="type" value="ebook">
+                                <span>E-book</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Price</label>
+                        <div class="d-flex align-items-center">
+                            <input name="priceFrom" type="number" min="0" class="form-control" placeholder="From">
+                            <span class="px-1">–</span>
+                            <input name="priceTo" type="number" min="0" class="form-control" placeholder="To">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label d-block">Discount</label>
+                        <div class="d-flex flex-wrap row-gap-1">
+                            <label class="form-check-label w-50">
+                                <input class="form-check-input" type="checkbox" name="discount" value="yes">
+                                <span>Yes</span>
+                            </label>
+                            <label class="form-check-label w-50">
+                                <input class="form-check-input" type="checkbox" name="discount" value="no">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Final price</label>
+                        <div class="d-flex align-items-center">
+                            <input name="finalFrom" type="number" min="0" class="form-control" placeholder="From">
+                            <span class="px-1">–</span>
+                            <input name="finalTo" type="number" min="0" class="form-control" placeholder="To">
+                        </div>
+                    </div>
+                </div>
+                <div class="position-sticky d-flex gap-2 mt-auto border-top p-2">
+                    <button type="reset" class="btn btn-primary w-100 d-flex align-items-center gap-2">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reset
+                    </button>
+                    <button type="submit" class="btn btn-primary w-100 d-flex align-items-center gap-2">
+                        <i class="bi bi-search"></i>
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rightPanel = document.querySelector('.admin-table-right');
+        const rightScroll = document.querySelector('.admin-table-filter-scrollable');
+
+        rightPanel.addEventListener('wheel', function (e) {
+            const atTop = rightScroll.scrollTop === 0;
+            const atBottom = rightScroll.scrollHeight - rightScroll.scrollTop === rightScroll.clientHeight;
+            if (atTop && e.deltaY < 0) e.preventDefault();
+            if (atBottom && e.deltaY > 0) e.preventDefault();
+        }, { passive: false });
+    });
+</script>

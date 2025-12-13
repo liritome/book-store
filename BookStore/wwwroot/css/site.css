@@ -32,6 +32,11 @@ body {
     max-width: 1300px;
 }
 
+.main-admin {
+    margin-top: 102px;
+    max-width: 1300px;
+}
+
 .footer-inner {
     max-width: 1300px;
 }
@@ -777,7 +782,7 @@ body {
 }
 
 .admin-filter-input-l {
-    width: 300px;
+    width: 248px;
 }
 
 .admin-image {
@@ -790,4 +795,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.admin-table-left{
+    width: 100%;
+}
+
+.admin-table-right {
+    width: 350px;
+}
+
+.admin-table-filter-scrollable{
+    height: calc(100vh - 200px);
+}
+.admin-table-filter-scrollable >div{
+    padding: 8px 8px;
 }

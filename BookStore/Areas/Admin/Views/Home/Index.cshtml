@@ -2,7 +2,7 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<div class="mt-4">
+<div>
     <div class="row g-3">
         <div class="col-md-3">
             <div class="admin-card p-3">
@@ -134,7 +134,7 @@
                                 <td>@(150 + i)</td>
                                 <td>user@(i) (User Name)</td>
                                 <td>@(i * 2 + 1)</td>
-                                <td>$@(20 + i * 3)</td>
+                                <td>@(20 + i * 3) ₴</td>
                                 <td><span class="bg-primary-subtle text-muted px-2 rounded-5">New</span></td>
                                 <td>@(DateTime.Today.AddHours(i)) </td>
                             </tr>

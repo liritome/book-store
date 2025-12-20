@@ -19,10 +19,10 @@
 
         <!-- Add button -->
         <div class="d-flex gap-2">
-            <button class="btn btn-primary d-flex align-items-center gap-2">
+            <a class="btn btn-primary d-flex align-items-center gap-2" asp-action="Create">
                 <i class="bi bi-plus-circle"></i>
                 <span>Add Book</span>
-            </button>
+            </a>
         </div>
 
         <!-- Pagination top -->
@@ -199,7 +199,7 @@
                                 }
                             </td>
                             <td>
-                                <a class="text-primary" asp-area="Admin" asp-controller="Books" asp-action="Details">
+                                <a class="text-primary" asp-area="Admin" asp-controller="Books" asp-action="Details" asp-route-id="@(10000 + i)">
                                     @(10000 + i)
                                 </a>
                             </td>
@@ -463,7 +463,7 @@
                         Search
                     </button>
                     <button type="reset" class="admin-filter-button btn btn-secondary d-flex justify-content-center align-items-center" title="Reset form">
-                        <i class="bi bi-arrow-clockwise"></i>
+                        <i class="bi bi-arrow-counterclockwise"></i>
                     </button>
                     <a class="admin-filter-button btn btn-danger d-flex justify-content-center align-items-center" asp-action="Index" title="Clear filters">
                         <i class="bi bi-x-circle"></i>

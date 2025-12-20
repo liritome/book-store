@@ -1,0 +1,249 @@
+﻿@{
+    ViewData["Title"] = "Book Details";
+}
+
+@{
+    int id = 10001;
+}
+
+<form asp-action="Update" asp-route-id="@id" method="post">
+    <div class="d-flex justify-content-between align-items-start">
+        <div>
+            <h2 class="mb-1">Book Title</h2>
+            <div class="d-flex gap-2 align-items-center">
+                <span class="border border-1 border-success bg-success-subtle text-success rounded-5 px-2">
+                    Visible
+                </span>
+                <span class="border border-1 border-secondary bg-secondary-subtle text-secondary rounded-5 px-2">
+                    Hidden
+                </span>
+                <span class="border border-1 border-primary bg-primary-subtle text-primary rounded-5 px-2">
+                    Scheduled
+                </span>
+                <span class="text-muted">ID: 10001</span>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="admin-details-button btn btn-primary">
+                <i class="bi bi-floppy"></i>
+                <span>Save</span>
+            </button>
+            <button type="reset" class="admin-details-button btn btn-secondary">
+                <i class="bi bi-arrow-clockwise"></i>
+                <span>Reset</span>
+            </button>
+            <a class="admin-details-button btn btn-secondary d-flex justify-content-center align-items-center" asp-action="Details" asp-route-id="10001">
+                <i class="bi bi-box-arrow-left"></i>
+                <span class="ms-1">Back</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="bg-white rounded-4 p-3 text-center">
+                    <div class="d-flex flex-wrap gap-3 p-2">
+                        @for (int i = 0; i < 6; i++)
+                        {
+                            <div class="position-relative">
+                                <button type="button" class="admin-tag-button position-absolute top-0 end-0 btn btn-outline-secondary d-flex justify-content-center align-items-center p-0 rounded-5">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                                <img class="admin-book-image-small img-fluid" src="~/images/book-empty.png" />
+                            </div>
+                        }
+                        <div class="d-flex align-items-center">
+                            <button type="button" class="btn btn-outline-primary h-100 d-flex justify-content-center align-items-center rounded-5">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-flush text-end">
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Link</span>
+                            <div class="d-flex text-muted">
+                                <span>Catalog/</span>
+                                <input name="slug" type="text" class="form-control py-0"
+                                       value="book-title" />
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Ebook</span>
+                            <div class="d-flex text-muted">
+                                <span>Catalog/</span>
+                                <input name="eslug" type="text" class="form-control py-0"
+                                       value="book-title" />
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>ISBN</span>
+                            <input name="isbn" type="text" class="form-control py-0"
+                                   value="978-617-12-9941-2" />
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Title</span>
+                            <input name="title" type="text" class="form-control py-0"
+                                   value="Book title" />
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Author</span>
+                            <select name="author" class="form-select py-0">
+                                @for (int i = 0; i < 200; i++)
+                                {
+                                    <option value="Author">Author Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Series</span>
+                            <select name="series" class="form-select py-0">
+                                @for (int i = 0; i < 200; i++)
+                                {
+                                    <option value="Series">Series Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Year</span>
+                            <input name="year" type="number" min="0" class="form-control w-50 py-0"
+                                   value="2025" />
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Publisher</span>
+                            <select name="publisher" class="form-select py-0">
+                                @for (int i = 0; i < 200; i++)
+                                {
+                                    <option value="Publisher">Publishing Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Translator</span>
+                            <select name="translator" class="form-select py-0">
+                                @for (int i = 0; i < 200; i++)
+                                {
+                                    <option value="TranslatorName">Translator Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Language</span>
+                            <select name="language" class="form-select w-50 py-0">
+                                <option value="Ukrainian">Ukrainian</option>
+                                <option value="English">English</option>
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Cover type</span>
+                            <select name="coverType" class="form-select w-50 py-0">
+                                <option value="HardCover">Hard cover</option>
+                                <option value="Paperback">Paperback</option>
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Pages</span>
+                            <input name="pages" type="number" min="0" class="form-control w-50 py-0"
+                                   value="418" />
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Size</span>
+                            <div class="d-flex">
+                                <input name="width" type="number" min="0" class="form-control w-50 py-0 px-2"
+                                       value="160" />
+                                <span class="px-1">x</span>
+                                <input name="height" type="number" min="0" class="form-control w-50 py-0 px-2"
+                                       value="220" />
+                                <span class="px-1">x</span>
+                                <input name="thickness" type="number" min="0" class="form-control w-50 py-0 px-2"
+                                       value="32" />
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Weight</span>
+                            <input name="weight" type="number" min="0" class="form-control w-50 py-0"
+                                   value="300" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 mt-4 mt-lg-0">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="bg-white rounded-4 p-3">
+                            <h6>Stock</h6>
+                            <input name="stock" type="number" min="0" class="form-control"
+                                   value="10000" />
+                            <small class="text-muted mt-4">Last restock: 11.12.2025 12:00:00</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="bg-white rounded-4 p-3 mt-4 mt-lg-0">
+                            <div class="d-flex gap-2">
+                                <div class="w-100">
+                                    <h6>Price</h6>
+                                    <input name="price" type="number" min="0" class="form-control"
+                                           value="400" />
+                                </div>
+                                <div class="w-100">
+                                    <h6>Discount</h6>
+                                    <select name="discount" class="form-select">
+                                        <option value="1">10%</option>
+                                        <option value="2">20%</option>
+                                        <option value="3">30%</option>
+                                        <option value="4">40%</option>
+                                    </select>
+                                </div>
+                                <div class="w-100">
+                                    <h6>Final price</h6>
+                                    <input name="final" type="number" min="0" class="form-control"
+                                           value="360" />
+                                </div>
+                            </div>
+                            <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-4 p-3 mt-4">
+                    <h5>Tags</h5>
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        @for (int i = 0; i < 6; i++)
+                        {
+                            <div class="bg-secondary-subtle d-flex align-items-center px-2 py-1 rounded-5">
+                                <span class="me-1">Tag name</span>
+                                <button type="button" class="admin-tag-button btn btn-outline-secondary d-flex justify-content-center align-items-center p-0 rounded-5">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </div>
+                        }
+                        @for (int i = 0; i < 2; i++)
+                        {
+                            <div class="bg-success-subtle d-flex align-items-center px-2 py-1 rounded-5">
+                                <span class="me-1">Tag name</span>
+                                <button type="button" class="admin-tag-button btn btn-outline-success d-flex justify-content-center align-items-center p-0 rounded-5">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </div>
+                        }
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <div class="bg-danger-subtle d-flex align-items-center px-2 py-1 rounded-5">
+                                <span class="me-1">Tag name</span>
+                                <button type="button" class="admin-tag-button btn btn-outline-danger d-flex justify-content-center align-items-center p-0 rounded-5">
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                </button>
+                            </div>
+                        }
+                        <button type="button" class="btn btn-outline-primary d-flex justify-content-center align-items-center rounded-5">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-4 p-3 mt-4">
+                    <h5>Description</h5>
+                    <textarea name="description" class="form-control mt-2" rows="20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices velit orci, sed posuere mauris sagittis in. Maecenas turpis lectus, convallis a accumsan commodo, luctus dapibus nunc. Proin vitae massa sed mauris tincidunt faucibus id ut dui. Duis ut velit euismod, auctor turpis et, cursus metus. Vivamus auctor ligula finibus nisl gravida porttitor. Nulla pulvinar imperdiet augue ullamcorper congue. Aenean posuere metus aliquet dui fermentum hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a felis at nulla elementum aliquam ac et eros. Nullam lacinia hendrerit turpis, ut tempor justo condimentum id. Fusce hendrerit ullamcorper ornare. Duis suscipit tortor est, eu congue ligula commodo sed. Nulla mattis id libero sit amet facilisis. Nulla ultricies magna nec tellus laoreet, quis blandit purus laoreet. Cras non rutrum nisi. Pellentesque malesuada dapibus sapien, sit amet sodales elit tempus nec. Proin sagittis, ante ut cursus dignissim, nunc risus rutrum eros, varius bibendum leo justo a urna. Aliquam sed mauris ut libero finibus fringilla id gravida felis. Aliquam efficitur malesuada neque ornare laoreet. Aenean quam magna, vestibulum non odio et, tempus elementum diam. Vestibulum vitae tellus facilisis, vestibulum ipsum in, lobortis odio. Sed leo erat, dapibus condimentum feugiat vel, congue vitae sem. Nunc at dignissim eros. Nunc vel nunc id nisl fringilla sollicitudin in non justo. Fusce dignissim et orci a bibendum. Proin tristique ut nisl sed rutrum. Sed pulvinar et lorem vel malesuada. Phasellus ultrices feugiat gravida. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vitae enim gravida, tristique neque at, gravida libero. Suspendisse ipsum eros, posuere eu augue nec, ullamcorper interdum enim. Praesent eget dui porta, pharetra turpis non, tempor massa. Quisque lacus nunc, convallis quis sagittis eget, rutrum a enim.</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

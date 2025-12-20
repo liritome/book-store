@@ -22,10 +22,10 @@ namespace BookStore.Models
         public int Width { get; set; }
 
         [Range(1, int.MaxValue)]
-        public int Length { get; set; }
+        public int Height { get; set; }
 
         [Range(1, int.MaxValue)]
-        public int Height { get; set; }
+        public int Thickness { get; set; }
 
         [Range(1, int.MaxValue)]
         public int Weight { get; set; }

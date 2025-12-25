@@ -1,0 +1,249 @@
+﻿@{
+    ViewData["Title"] = "Add book";
+}
+
+<form asp-action="Create" method="post">
+    <div class="d-flex justify-content-between align-items-start">
+        <div>
+            <h2 class="mb-1">Book Title</h2>
+            <div class="d-flex gap-2 align-items-center">
+                <span class="border border-1 border-success bg-success-subtle text-success rounded-5 px-2">
+                    Visible
+                </span>
+                <span class="border border-1 border-secondary bg-secondary-subtle text-secondary rounded-5 px-2">
+                    Hidden
+                </span>
+                <span class="border border-1 border-primary bg-primary-subtle text-primary rounded-5 px-2">
+                    Scheduled
+                </span>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="admin-details-button btn btn-primary">
+                <i class="bi bi-floppy"></i>
+                <span>Create</span>
+            </button>
+            <button type="reset" class="admin-details-button btn btn-secondary">
+                <i class="bi bi-arrow-clockwise"></i>
+                <span>Clear</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="bg-white rounded-4 p-3 text-center">
+                    <div class="d-flex flex-wrap gap-3 p-2">
+                        @for (int i = 0; i < 6; i++)
+                        {
+                            <div class="position-relative">
+                                <button type="button" class="admin-tag-button position-absolute top-0 end-0 btn btn-outline-secondary d-flex justify-content-center align-items-center p-0 rounded-5">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                                <img class="admin-book-image-small img-fluid" src="~/images/book-empty.png" />
+                            </div>
+                        }
+                        <div class="d-flex align-items-center">
+                            <button type="button" class="btn btn-outline-primary h-100 d-flex justify-content-center align-items-center rounded-5">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-flush text-end">
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Link</span>
+                            <div class="d-flex text-muted">
+                                <span>Catalog/</span>
+                                <input name="slug" type="text" class="form-control py-0"/>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Ebook</span>
+                            <div class="d-flex text-muted">
+                                <span>Catalog/</span>
+                                <input name="eslug" type="text" class="form-control py-0"/>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>ISBN</span>
+                            <input name="isbn" type="text" class="form-control py-0"/>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Title</span>
+                            <input name="title" type="text" class="form-control py-0"/>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Author</span>
+                            <select name="author" class="form-select py-0">
+                                <option value="None">-</option>
+                                @for (int i = 0; i < 200; i++)
+                                {
+                                    <option value="Author">Author Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Series</span>
+                            <select name="series" class="form-select py-0">
+                                <option value="None">-</option>
+                                @for (int i = 0; i < 200; i++)
+                                {
+                                    <option value="Series">Series Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Year</span>
+                            <input name="year" type="number" min="0" class="form-control w-50 py-0"/>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Publisher</span>
+                            <select name="publisher" class="form-select py-0">
+                                <option value="None">-</option>
+                                @for (int i = 0; i < 200; i++)
+                                {
+                                    <option value="Publisher">Publishing Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Translator</span>
+                            <select name="translator" class="form-select py-0">
+                                <option value="None">-</option>
+                                @for (int i = 0; i < 200; i++)
+                                {
+                                    <option value="TranslatorName">Translator Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Language</span>
+                            <select name="language" class="form-select w-50 py-0">
+                                <option value="Ukrainian">Ukrainian</option>
+                                <option value="English">English</option>
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Cover type</span>
+                            <select name="coverType" class="form-select w-50 py-0">
+                                <option value="HardCover">Hard cover</option>
+                                <option value="Paperback">Paperback</option>
+                            </select>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Pages</span>
+                            <input name="pages" type="number" min="0" class="form-control w-50 py-0"/>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Size</span>
+                            <div class="d-flex">
+                                <input name="width" type="number" min="0" class="form-control w-50 py-0 px-2"/>
+                                <span class="px-1">x</span>
+                                <input name="height" type="number" min="0" class="form-control w-50 py-0 px-2"/>
+                                <span class="px-1">x</span>
+                                <input name="thickness" type="number" min="0" class="form-control w-50 py-0 px-2"/>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Weight</span>
+                            <input name="weight" type="number" min="0" class="form-control w-50 py-0"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 mt-4 mt-lg-0">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="bg-white rounded-4 p-3">
+                            <h6>Stock</h6>
+                            <input name="stock" type="number" min="0" class="form-control mb-4"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="bg-white rounded-4 p-3 mt-4 mt-lg-0">
+                            <div class="d-flex gap-2">
+                                <div class="w-100">
+                                    <h6>Price</h6>
+                                    <input name="price" type="number" min="0" class="form-control"/>
+                                </div>
+                                <div class="w-100">
+                                    <h6>Discount</h6>
+                                    <select name="discount" class="form-select">
+                                        <option value="None">-</option>
+                                        <option value="1">10%</option>
+                                        <option value="2">20%</option>
+                                        <option value="3">30%</option>
+                                        <option value="4">40%</option>
+                                    </select>
+                                </div>
+                                <div class="w-100">
+                                    <h6>Final price</h6>
+                                    <input name="final" type="number" min="0" class="form-control"/>
+                                </div>
+                            </div>
+                            <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-4 p-3 mt-4">
+                    <h5>Visibility</h5>
+                    <div class="mt-3 d-flex gap-3">
+                        <div class="form-check">
+                            <input checked class="form-check-input" type="radio" value="Visible" name="visibility" id="newBookVisibilityVisible" />
+                            <label class="form-check-label" for="newBookVisibilityVisible">Visible</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="Hidden" name="visibility" id="newBookVisibilityHidden" />
+                            <label class="form-check-label" for="newBookVisibilityHidden">Hidden</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="Scheduled" name="visibility" id="newBookVisibilityScheduledAt" />
+                            <label class="form-check-label" for="newBookVisibilityScheduledAt">Scheduled</label>
+                        </div>
+                    </div>
+                    <div class="mt-2 w-50">
+                        <input name="scheduledAt" type="datetime-local" class="form-control" id="scheduledAt" disabled />
+                    </div>
+                </div>
+                <div class="bg-white rounded-4 p-3 mt-4">
+                    <h5>Tags</h5>
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        @for (int i = 0; i < 6; i++)
+                        {
+                            <div class="bg-secondary-subtle d-flex align-items-center px-2 py-1 rounded-5">
+                                <span class="me-1">Tag name</span>
+                                <button type="button" class="admin-tag-button btn btn-outline-secondary d-flex justify-content-center align-items-center p-0 rounded-5">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </div>
+                        }
+                        <button type="button" class="btn btn-outline-primary d-flex justify-content-center align-items-center rounded-5">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-4 p-3 mt-4">
+                    <h5>Description</h5>
+                    <textarea name="description" class="form-control mt-2" rows="20"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    const scheduledRadio = document.getElementById("newBookVisibilityScheduledAt");
+    const scheduledAt = document.getElementById("scheduledAt");
+    document.querySelectorAll('input[name="visibility"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (scheduledRadio.checked) {
+                scheduledAt.disabled = false;
+            }
+            else {
+                scheduledAt.value = "";
+                scheduledAt.disabled = true;
+            }
+        });
+    });
+</script>

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Book Details";
+    ViewData["Title"] = "Edit book";
 }
 
 @{
@@ -32,10 +32,6 @@
                 <i class="bi bi-arrow-clockwise"></i>
                 <span>Reset</span>
             </button>
-            <a class="admin-details-button btn btn-secondary d-flex justify-content-center align-items-center" asp-action="Details" asp-route-id="10001">
-                <i class="bi bi-box-arrow-left"></i>
-                <span class="ms-1">Back</span>
-            </a>
         </div>
     </div>
 
@@ -89,6 +85,7 @@
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Author</span>
                             <select name="author" class="form-select py-0">
+                                <option value="None">-</option>
                                 @for (int i = 0; i < 200; i++)
                                 {
                                     <option value="Author">Author Name</option>
@@ -98,6 +95,7 @@
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Series</span>
                             <select name="series" class="form-select py-0">
+                                <option value="None">-</option>
                                 @for (int i = 0; i < 200; i++)
                                 {
                                     <option value="Series">Series Name</option>
@@ -112,6 +110,7 @@
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Publisher</span>
                             <select name="publisher" class="form-select py-0">
+                                <option value="None">-</option>
                                 @for (int i = 0; i < 200; i++)
                                 {
                                     <option value="Publisher">Publishing Name</option>
@@ -121,6 +120,7 @@
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Translator</span>
                             <select name="translator" class="form-select py-0">
+                                <option value="None">-</option>
                                 @for (int i = 0; i < 200; i++)
                                 {
                                     <option value="TranslatorName">Translator Name</option>
@@ -188,6 +188,7 @@
                                 <div class="w-100">
                                     <h6>Discount</h6>
                                     <select name="discount" class="form-select">
+                                        <option value="None">-</option>
                                         <option value="1">10%</option>
                                         <option value="2">20%</option>
                                         <option value="3">30%</option>
@@ -213,24 +214,6 @@
                                 <span class="me-1">Tag name</span>
                                 <button type="button" class="admin-tag-button btn btn-outline-secondary d-flex justify-content-center align-items-center p-0 rounded-5">
                                     <i class="bi bi-x"></i>
-                                </button>
-                            </div>
-                        }
-                        @for (int i = 0; i < 2; i++)
-                        {
-                            <div class="bg-success-subtle d-flex align-items-center px-2 py-1 rounded-5">
-                                <span class="me-1">Tag name</span>
-                                <button type="button" class="admin-tag-button btn btn-outline-success d-flex justify-content-center align-items-center p-0 rounded-5">
-                                    <i class="bi bi-x"></i>
-                                </button>
-                            </div>
-                        }
-                        @for (int i = 0; i < 3; i++)
-                        {
-                            <div class="bg-danger-subtle d-flex align-items-center px-2 py-1 rounded-5">
-                                <span class="me-1">Tag name</span>
-                                <button type="button" class="admin-tag-button btn btn-outline-danger d-flex justify-content-center align-items-center p-0 rounded-5">
-                                    <i class="bi bi-arrow-counterclockwise"></i>
                                 </button>
                             </div>
                         }

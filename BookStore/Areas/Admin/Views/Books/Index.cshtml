@@ -19,7 +19,7 @@
 
         <!-- Add button -->
         <div class="d-flex gap-2">
-            <a class="btn btn-primary d-flex align-items-center gap-2" asp-action="Create">
+            <a class="btn btn-primary d-flex align-items-center gap-2" asp-action="Add">
                 <i class="bi bi-plus-circle"></i>
                 <span>Add Book</span>
             </a>
@@ -232,7 +232,7 @@
                             <td>20000</td>
                             <td>
                                 <div class="d-flex gap-1">
-                                    <a class="admin-table-btn btn btn-primary" asp-area="Admin" asp-controller="Books" asp-action="Edit">
+                                    <a class="admin-table-btn btn btn-primary" asp-area="Admin" asp-controller="Books" asp-action="Edit" asp-route-id="10001">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <form asp-action="ToggleVisibility" asp-route-id="@i" method="post">

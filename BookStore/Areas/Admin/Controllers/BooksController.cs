@@ -16,13 +16,13 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Add()
+        public IActionResult Create()
         {
             return RedirectToAction("Index");
         }

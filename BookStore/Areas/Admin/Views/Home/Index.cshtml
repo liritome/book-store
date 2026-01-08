@@ -94,39 +94,21 @@
             24 products are out of stock
         </div>
     </div>
-    <div class="mt-4">
-        <h4>Recent Orders</h4>
-        <div class="admin-new-orders-header mt-3">
-            <table class="table mb-0">
-                <colgroup>
-                    <col style="width: 10%;">
-                    <col style="width: 25%;">
-                    <col style="width: 10%;">
-                    <col style="width: 15%;">
-                    <col style="width: 20%;">
-                    <col style="width: 20%;">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>User</th>
-                        <th>Items</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Datetime</th>
-                    </tr>
-                </thead>
-            </table>
-            <div class="admin-new-orders-body">
-                <table class="table">
-                    <colgroup>
-                        <col style="width: 10%;">
-                        <col style="width: 25%;">
-                        <col style="width: 10%;">
-                        <col style="width: 15%;">
-                        <col style="width: 20%;">
-                        <col style="width: 20%;">
-                    </colgroup>
+    <div class="mt-5 row">
+        <div class="col-8">
+            <h4>Recent Orders</h4>
+            <div class="bg-white rounded-4 py-2 mt-3">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>User</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Datetime</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         @for (int i = 0; i < 20; i++)
                         {
@@ -134,7 +116,7 @@
                                 <td>@(150 + i)</td>
                                 <td>user@(i) (User Name)</td>
                                 <td>@(i * 2 + 1)</td>
-                                <td>@(20 + i * 3) ₴</td>
+                                <td>@(200 * (i + 1)) ₴</td>
                                 <td><span class="bg-primary-subtle text-muted px-2 rounded-5">New</span></td>
                                 <td>@(DateTime.Today.AddHours(i)) </td>
                             </tr>
@@ -143,17 +125,17 @@
                 </table>
             </div>
         </div>
-    </div>
-    <div class="mt-5">
-        <h4>Recent Activity</h4>
-        <ul class="admin-activiy list-group mt-3">
-            @for (int i = 0; i < 10; i++)
-            {
-                <li class="list-group-item d-flex align-items-center gap-2 mb-1">
-                    <i class="bi bi-dot fs-3 text-primary"></i>
-                    Order #@(150 + i) marked as completed
-                </li>
-            }
-        </ul>
+        <div class="col-4">
+            <h4>Recent Activity</h4>
+            <ul class="list-group mt-3">
+                @for (int i = 0; i < 15; i++)
+                {
+                    <li class="list-group-item d-flex align-items-center gap-2 mb-1">
+                        <i class="bi bi-dot fs-3 text-primary"></i>
+                        Order #@(150 + i) marked as completed
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
 </div>

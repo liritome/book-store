@@ -38,7 +38,7 @@
     <div class="mt-3">
         <div class="row">
             <div class="col-lg-4">
-                <div class="bg-white rounded-4 p-3 text-center">
+                <div class="bg-white rounded-4 p-3">
                     <div class="d-flex flex-wrap gap-3 p-2">
                         @for (int i = 0; i < 6; i++)
                         {
@@ -55,130 +55,159 @@
                             </button>
                         </div>
                     </div>
-                    <div class="list-group list-group-flush text-end">
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Link</span>
-                            <div class="d-flex text-muted">
-                                <span>Catalog/</span>
-                                <input name="slug" type="text" class="form-control py-0"
-                                       value="book-title" />
+                    <div class="">
+                        <div class="mt-4">
+                            <div>
+                                <h5>Details</h5>
+                            </div>
+                            <div class="list-group list-group-flush text-end">
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Title</span>
+                                    <input name="title" type="text" class="form-control py-0"
+                                           value="Book title" />
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Author</span>
+                                    <select name="author" class="form-select py-0">
+                                        <option value="None">-</option>
+                                        @for (int i = 0; i < 200; i++)
+                                        {
+                                                <option value="Author">Author Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Series</span>
+                                    <select name="series" class="form-select py-0">
+                                        <option value="None">-</option>
+                                        @for (int i = 0; i < 200; i++)
+                                        {
+                                                <option value="Series">Series Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Year</span>
+                                    <input name="year" type="number" min="0" class="form-control w-50 py-0"
+                                           value="2025" />
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Publisher</span>
+                                    <select name="publisher" class="form-select py-0">
+                                        <option value="None">-</option>
+                                        @for (int i = 0; i < 200; i++)
+                                        {
+                                                <option value="Publisher">Publishing Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Translator</span>
+                                    <select name="translator" class="form-select py-0">
+                                        <option value="None">-</option>
+                                        @for (int i = 0; i < 200; i++)
+                                        {
+                                                <option value="TranslatorName">Translator Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Language</span>
+                                    <select name="language" class="form-select w-50 py-0">
+                                        <option value="Ukrainian">Ukrainian</option>
+                                        <option value="English">English</option>
+                                    </select>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Has ebook</span>
+                                    <input type="hidden" name="ebook" value="False" />
+                                    <input class="form-check-input" type="checkbox" name="ebook" value="True" id="hasEbook" />
+                                </div>
                             </div>
                         </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Ebook</span>
-                            <div class="d-flex text-muted">
-                                <span>Catalog/</span>
-                                <input name="eslug" type="text" class="form-control py-0"
-                                       value="book-title" />
+                        <div class="mt-2">
+                            <div>
+                                <h5>Physical details</h5>
+                            </div>
+                            <div class="list-group list-group-flush text-end">
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Link</span>
+                                    <div class="d-flex text-muted">
+                                        <span>Catalog/</span>
+                                        <input name="slug" type="text" class="form-control py-0"
+                                               value="book-title" />
+                                    </div>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>ISBN</span>
+                                    <input name="isbn" type="text" class="form-control py-0"
+                                           value="978-617-12-9941-2" />
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Cover type</span>
+                                    <select name="coverType" class="form-select w-50 py-0">
+                                        <option value="HardCover">Hard cover</option>
+                                        <option value="Paperback">Paperback</option>
+                                    </select>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Pages</span>
+                                    <input name="pages" type="number" min="0" class="form-control w-50 py-0"
+                                           value="418" />
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Size</span>
+                                    <div class="d-flex">
+                                        <input name="width" type="number" min="0" class="form-control w-50 py-0 px-2"
+                                               value="160" />
+                                        <span class="px-1">x</span>
+                                        <input name="height" type="number" min="0" class="form-control w-50 py-0 px-2"
+                                               value="220" />
+                                        <span class="px-1">x</span>
+                                        <input name="thickness" type="number" min="0" class="form-control w-50 py-0 px-2"
+                                               value="32" />
+                                    </div>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Weight</span>
+                                    <input name="weight" type="number" min="0" class="form-control w-50 py-0"
+                                           value="300" />
+                                </div>
                             </div>
                         </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>ISBN</span>
-                            <input name="isbn" type="text" class="form-control py-0"
-                                   value="978-617-12-9941-2" />
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Title</span>
-                            <input name="title" type="text" class="form-control py-0"
-                                   value="Book title" />
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Author</span>
-                            <select name="author" class="form-select py-0">
-                                <option value="None">-</option>
-                                @for (int i = 0; i < 200; i++)
-                                {
-                                    <option value="Author">Author Name</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Series</span>
-                            <select name="series" class="form-select py-0">
-                                <option value="None">-</option>
-                                @for (int i = 0; i < 200; i++)
-                                {
-                                    <option value="Series">Series Name</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Year</span>
-                            <input name="year" type="number" min="0" class="form-control w-50 py-0"
-                                   value="2025" />
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Publisher</span>
-                            <select name="publisher" class="form-select py-0">
-                                <option value="None">-</option>
-                                @for (int i = 0; i < 200; i++)
-                                {
-                                    <option value="Publisher">Publishing Name</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Translator</span>
-                            <select name="translator" class="form-select py-0">
-                                <option value="None">-</option>
-                                @for (int i = 0; i < 200; i++)
-                                {
-                                    <option value="TranslatorName">Translator Name</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Language</span>
-                            <select name="language" class="form-select w-50 py-0">
-                                <option value="Ukrainian">Ukrainian</option>
-                                <option value="English">English</option>
-                            </select>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Cover type</span>
-                            <select name="coverType" class="form-select w-50 py-0">
-                                <option value="HardCover">Hard cover</option>
-                                <option value="Paperback">Paperback</option>
-                            </select>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Pages</span>
-                            <input name="pages" type="number" min="0" class="form-control w-50 py-0"
-                                   value="418" />
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Size</span>
-                            <div class="d-flex">
-                                <input name="width" type="number" min="0" class="form-control w-50 py-0 px-2"
-                                       value="160" />
-                                <span class="px-1">x</span>
-                                <input name="height" type="number" min="0" class="form-control w-50 py-0 px-2"
-                                       value="220" />
-                                <span class="px-1">x</span>
-                                <input name="thickness" type="number" min="0" class="form-control w-50 py-0 px-2"
-                                       value="32" />
+                        <div class="mt-2" id="ebookDetails">
+                            <div>
+                                <h5>Ebook details</h5>
                             </div>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Weight</span>
-                            <input name="weight" type="number" min="0" class="form-control w-50 py-0"
-                                   value="300" />
+                            <div class="list-group list-group-flush text-end">
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>Ebook</span>
+                                    <div class="d-flex text-muted">
+                                        <span>Catalog/</span>
+                                        <input name="eslug" type="text" class="form-control py-0"
+                                               value="book-title" />
+                                    </div>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>ISBN</span>
+                                    <input name="eisbn" type="text" class="form-control py-0"
+                                           value="978-617-12-9941-3" />
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between gap-3">
+                                    <span>File</span>
+                                    <input name="file" type="file" class="form-control py-0"
+                                           value="" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-8 mt-4 mt-lg-0">
-                <div class="row">
+                <h5 class="">Physical stock and pricing</h5>
+                <div class="row mt-2">
                     <div class="col-lg-6">
                         <div class="bg-white rounded-4 p-3">
-                            <h6>Stock</h6>
-                            <input name="stock" type="number" min="0" class="form-control"
-                                   value="10000" />
-                            <small class="text-muted mt-4">Last restock: 11.12.2025 12:00:00</small>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="bg-white rounded-4 p-3 mt-4 mt-lg-0">
                             <div class="d-flex gap-2">
                                 <div class="w-100">
                                     <h6>Price</h6>
@@ -203,6 +232,79 @@
                             </div>
                             <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
                         </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="bg-white rounded-4 p-3 mt-3 mt-lg-0">
+                            <h6>Stock</h6>
+                            <div class="d-flex align-items-center">
+                                <input name="stock" type="number" min="0" class="form-control w-50"
+                                       value="10000" />
+                                <input class="form-check-input ms-4" type="checkbox" value="Unavailable" name="availability" id="availability" />
+                                <label class="form-check-label ps-2" for="availability">Unavailable</label>
+                            </div>
+                            <small class="text-muted mt-4">Last restock: 11.12.2025 12:00:00</small>
+                        </div>
+                    </div>
+                </div>
+                <div id="ebookStockAndPricing">
+                    <h5 class="mt-4">Ebook stock and pricing</h5>
+                    <div class="row mt-2">
+                        <div class="col-lg-6">
+                            <div class="bg-white rounded-4 p-3">
+                                <div class="d-flex gap-2">
+                                    <div class="w-100">
+                                        <h6>Price</h6>
+                                        <input name="eprice" type="number" min="0" class="form-control"
+                                               value="200" />
+                                    </div>
+                                    <div class="w-100">
+                                        <h6>Discount</h6>
+                                        <select name="ediscount" class="form-select">
+                                            <option value="None">-</option>
+                                            <option value="1">10%</option>
+                                            <option value="2">20%</option>
+                                            <option value="3">30%</option>
+                                            <option value="4">40%</option>
+                                        </select>
+                                    </div>
+                                    <div class="w-100">
+                                        <h6>Final price</h6>
+                                        <input name="efinal" type="number" min="0" class="form-control"
+                                               value="120" />
+                                    </div>
+                                </div>
+                                <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="bg-white rounded-4 h-lg-100 p-3 mt-3 mt-lg-0">
+                                <h6>Stock</h6>
+                                <div class="d-flex">
+                                    <input class="form-check-input" type="checkbox" value="Unavailable" name="eavailability" id="eavailability"/>
+                                    <label class="form-check-label ps-2" for="eavailability">Unavailable</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-4 p-3 mt-4">
+                    <h5>Visibility</h5>
+                    <div class="mt-3 d-flex gap-3">
+                        <div class="form-check">
+                            <input checked class="form-check-input" type="radio" value="Visible" name="visibility" id="bookVisibilityVisible" />
+                            <label class="form-check-label" for="bookVisibilityVisible">Visible</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="Hidden" name="visibility" id="bookVisibilityHidden" />
+                            <label class="form-check-label" for="bookVisibilityHidden">Hidden</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="Scheduled" name="visibility" id="bookVisibilityScheduledAt" />
+                            <label class="form-check-label" for="bookVisibilityScheduledAt">Scheduled</label>
+                        </div>
+                    </div>
+                    <div class="mt-2 w-50">
+                        <input name="scheduledAt" type="datetime-local" class="form-control" id="scheduledAt" disabled />
                     </div>
                 </div>
                 <div class="bg-white rounded-4 p-3 mt-4">
@@ -230,3 +332,35 @@
         </div>
     </div>
 </form>
+
+<script>
+    const scheduledRadio = document.getElementById("bookVisibilityScheduledAt");
+    const scheduledAt = document.getElementById("scheduledAt");
+    document.querySelectorAll('input[name="visibility"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (scheduledRadio.checked) {
+                scheduledAt.disabled = false;
+            }
+            else {
+                scheduledAt.value = "";
+                scheduledAt.disabled = true;
+            }
+        });
+    });
+</script>
+
+<script>
+    const hasEbookCheck = document.getElementById("hasEbook");
+    const ebookDetails = document.getElementById("ebookDetails");
+    const ebookStockAndPricing = document.getElementById("ebookStockAndPricing");
+    
+    function toggleEbookSectionsVisibility(){
+        const isChecked = hasEbookCheck.checked;
+        ebookDetails.classList.toggle("d-none", !isChecked);
+        ebookStockAndPricing.classList.toggle("d-none", !isChecked);
+    }
+
+    toggleEbookSectionsVisibility();
+
+    hasEbookCheck.addEventListener("change", toggleEbookSectionsVisibility);
+</script>

@@ -190,16 +190,16 @@
                     <h5>Visibility</h5>
                     <div class="mt-3 d-flex gap-3">
                         <div class="form-check">
-                            <input checked class="form-check-input" type="radio" value="Visible" name="visibility" id="newBookVisibilityVisible" />
-                            <label class="form-check-label" for="newBookVisibilityVisible">Visible</label>
+                            <input checked class="form-check-input" type="radio" value="Visible" name="visibility" id="bookVisibilityVisible" />
+                            <label class="form-check-label" for="bookVisibilityVisible">Visible</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="Hidden" name="visibility" id="newBookVisibilityHidden" />
-                            <label class="form-check-label" for="newBookVisibilityHidden">Hidden</label>
+                            <input class="form-check-input" type="radio" value="Hidden" name="visibility" id="bookVisibilityHidden" />
+                            <label class="form-check-label" for="bookVisibilityHidden">Hidden</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="Scheduled" name="visibility" id="newBookVisibilityScheduledAt" />
-                            <label class="form-check-label" for="newBookVisibilityScheduledAt">Scheduled</label>
+                            <input class="form-check-input" type="radio" value="Scheduled" name="visibility" id="bookVisibilityScheduledAt" />
+                            <label class="form-check-label" for="bookVisibilityScheduledAt">Scheduled</label>
                         </div>
                     </div>
                     <div class="mt-2 w-50">
@@ -233,7 +233,7 @@
 </form>
 
 <script>
-    const scheduledRadio = document.getElementById("newBookVisibilityScheduledAt");
+    const scheduledRadio = document.getElementById("bookVisibilityScheduledAt");
     const scheduledAt = document.getElementById("scheduledAt");
     document.querySelectorAll('input[name="visibility"]').forEach(radio => {
         radio.addEventListener('change', () => {

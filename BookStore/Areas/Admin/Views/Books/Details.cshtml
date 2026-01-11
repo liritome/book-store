@@ -17,7 +17,12 @@
                 Hidden
             </span>
             <span class="border border-1 border-primary bg-primary-subtle text-primary rounded-5 px-2">
-                Scheduled
+                Scheduled - 
+                <small>
+                    <strong>
+                        13.01.2026 12:00
+                    </strong>
+                </small>
             </span>
             <span class="text-muted">ID: 10001</span>
         </div>
@@ -51,89 +56,118 @@
 <div class="mt-3">
     <div class="row">
         <div class="col-lg-4">
-            <div class="bg-white rounded-4 p-3 text-center">
-                <img class="admin-book-image img-fluid mb-3" src="~/images/book-empty.png" />
-                <div class="d-flex gap-3 overflow-x-auto p-2">
-                    @for (int i = 0; i < 5; i++)
-                    {
-                        <img class="admin-book-image-small img-fluid" src="~/images/book-empty.png" />
-                    }
+            <div class="bg-white rounded-4 p-3">
+                <div class="text-center">
+                    <img class="admin-book-image img-fluid mb-3" src="~/images/book-empty.png" />
+                    <div class="d-flex gap-3 overflow-x-auto p-2">
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <img class="admin-book-image-small img-fluid" src="~/images/book-empty.png" />
+                        }
+                    </div>
                 </div>
-                <div class="list-group list-group-flush text-end">
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Link</span>
-                        <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="book-title">
-                            <span>Catalog/book-title</span>
-                        </a>
+                <div class="mt-4">
+                    <div>
+                        <h5>Details</h5>
                     </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Ebook</span>
-                        <a class="text-muted" asp-controller="Books" asp-action="Details">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
+                    <div class="list-group list-group-flush text-end">
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Title</span>
+                            <span class="text-muted">Book title</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Author</span>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Authors" asp-action="Details" asp-route-slug="author-name">Author Name</a>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Series</span>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-slug="series-name">Series Name</a>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Year</span>
+                            <span class="text-muted">2025</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Publisher</span>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Publishers" asp-action="Details" asp-route-slug="publisher-name">Booklab Publishing Name</a>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Translator</span>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Translators" asp-action="Details" asp-route-slug="translator-name">Translator Name</a>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Language</span>
+                            <span class="text-muted">Ukrainian</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Has ebook</span>
+                            <span class="text-muted">
+                                <i class="bi bi-check"></i>
+                            </span>
+                        </div>
                     </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>ISBN</span>
-                        <span class="text-muted">978-617-12-9941-2</span>
+                </div>
+                <div class="mt-2">
+                    <div>
+                        <h5>Physical details</h5>
                     </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Title</span>
-                        <span class="text-muted">Book title</span>
+                    <div class="list-group list-group-flush text-end">
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Link</span>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="book-title">
+                                <span>Catalog/book-title</span>
+                            </a>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>ISBN</span>
+                            <span class="text-muted">978-617-12-9941-2</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Cover type</span>
+                            <span class="text-muted">Hard cover</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Pages</span>
+                            <span class="text-muted">418</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Size</span>
+                            <span class="text-muted">160 x 220 x 32 mm</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Weight</span>
+                            <span class="text-muted">300 g</span>
+                        </div>
                     </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Author</span>
-                        <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Authors" asp-action="Details" asp-route-slug="author-name">Author Name</a>
+                </div>
+                <div class="mt-2">
+                    <div>
+                        <h5>Ebook details</h5>
                     </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Series</span>
-                        <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-slug="series-name">Series Name</a>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Year</span>
-                        <span class="text-muted">2025</span>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Publisher</span>
-                        <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Publishers" asp-action="Details" asp-route-slug="publisher-name">Booklab Publishing Name</a>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Translator</span>
-                        <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Translators" asp-action="Details" asp-route-slug="translator-name">Translator Name</a>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Language</span>
-                        <span class="text-muted">Ukrainian</span>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Cover type</span>
-                        <span class="text-muted">Hard cover</span>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Pages</span>
-                        <span class="text-muted">418</span>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Size</span>
-                        <span class="text-muted">160 x 220 x 32 mm</span>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between gap-3">
-                        <span>Weight</span>
-                        <span class="text-muted">300 g</span>
+                    <div class="list-group list-group-flush text-end">
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Link</span>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="book-title">
+                                <span>Catalog/ebook-title</span>
+                            </a>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>ISBN</span>
+                            <span class="text-muted">978-617-12-9941-3</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>File</span>
+                            <span class="text-muted">/ebooks/ebook-title</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-8 mt-4 mt-lg-0">
-            <div class="row">
+            <h5 class="">Physical stock and pricing</h5>
+            <div class="row mt-2">
                 <div class="col-lg-6">
                     <div class="bg-white rounded-4 p-3">
-                        <h6>Stock</h6>
-                        <h3>10000</h3>
-                        <small class="text-muted">Last restock: 11.12.2025 12:00:00</small>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="bg-white rounded-4 p-3 mt-4 mt-lg-0">
                         <div class="d-flex gap-2">
                             <div class="w-100">
                                 <h6>Price</h6>
@@ -149,6 +183,58 @@
                             </div>
                         </div>
                         <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="bg-white rounded-4 p-3 mt-3 mt-lg-0">
+                        <h6>Stock</h6>
+                        <div class="d-flex align-items-center">
+                            <h3>10000</h3>
+                            <div class="ms-4">
+                                <span>
+                                    <i class="bi bi-check"></i>
+                                </span>
+                                <span>Available</span>
+                            </div>
+                        </div>
+                        <small class="text-muted">Last restock: 11.12.2025 12:00:00</small>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <h5 class="mt-4">Ebook stock and pricing</h5>
+                <div class="row mt-2">
+                    <div class="col-lg-6">
+                        <div class="bg-white rounded-4 p-3">
+                            <div class="d-flex gap-2">
+                                <div class="w-100">
+                                    <h6>Price</h6>
+                                    <h3>200 ₴</h3>
+                                </div>
+                                <div class="w-100">
+                                    <h6>Discount</h6>
+                                    <h3 class="text-success">10%</h3>
+                                </div>
+                                <div class="w-100">
+                                    <h6>Final price</h6>
+                                    <h3>180 ₴</h3>
+                                </div>
+                            </div>
+                            <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="bg-white rounded-4 h-lg-100 p-3 mt-3 mt-lg-0">
+                            <h6>Stock</h6>
+                            <div class="d-flex">
+                                <div>
+                                    <span>
+                                        <i class="bi bi-check"></i>
+                                    </span>
+                                    <span>Available</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

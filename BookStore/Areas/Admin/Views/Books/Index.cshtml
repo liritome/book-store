@@ -481,7 +481,7 @@
 
         rightPanel.addEventListener('wheel', function (e) {
             const atTop = rightScroll.scrollTop === 0;
-            const atBottom = rightScroll.scrollHeight - rightScroll.scrollTop === rightScroll.clientHeight;
+            const atBottom = rightScroll.scrollTop + rightScroll.clientHeight >= rightScroll.scrollHeight - 1;
             if (atTop && e.deltaY < 0) e.preventDefault();
             if (atBottom && e.deltaY > 0) e.preventDefault();
         }, { passive: false });

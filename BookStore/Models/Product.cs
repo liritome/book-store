@@ -18,6 +18,11 @@ namespace BookStore.Models
         public double Rating { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+
+        public virtual ICollection<Image> Images { get; set; } = new List<Image>();
+
         public bool IsVisible { get; set; }
+
+        public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
     }
 }

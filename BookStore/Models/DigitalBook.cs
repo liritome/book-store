@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace BookStore.Models
 {
     [Owned]
-    public class DigitalBookDetails
+    public class DigitalBook
     {
         [Required]
         [MaxLength(120)]
@@ -17,8 +17,13 @@ namespace BookStore.Models
         [Required]
         public string FilePath { get; set; } = null!;
 
+        public bool IsAvailable { get; set; }
+
         [Range(1, 100000)]
         public decimal Price { get; set; }
+
+        [Range(1, 100000)]
+        public decimal FinalPrice { get; set; }
 
         public int? DiscountId { get; set; }
         public virtual Discount? Discount { get; set; }
@@ -26,7 +31,5 @@ namespace BookStore.Models
         [Required]
         [MaxLength(100)]
         public string ISBN { get; set; } = null!;
-
-        public virtual ICollection<Image> Images { get; set; } = new List<Image>();
     }
 }

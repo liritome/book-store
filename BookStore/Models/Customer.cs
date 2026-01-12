@@ -15,9 +15,9 @@ namespace BookStore.Models
         public string PhoneNumber { get; set; } = null!;
 
         public DateOnly BirthDate { get; set; }
+
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-        public int CartId { get; set; }
-        public virtual Cart Cart { get; set; } = null!;
+
         public virtual ICollection<Product> Wishlist { get; set; } = new List<Product>();
 
         [Range(0, int.MaxValue)]

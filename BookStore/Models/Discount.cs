@@ -15,7 +15,5 @@ namespace BookStore.Models
 
         public DateTime ValidFrom { get; set; }
         public DateTime ValidTo { get; set; }
-
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

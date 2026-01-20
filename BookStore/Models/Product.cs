@@ -19,7 +19,7 @@ namespace BookStore.Models
 
         public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 
-        public virtual ICollection<Image> Images { get; set; } = new List<Image>();
+        public virtual ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
 
         public bool IsVisible { get; set; }
 

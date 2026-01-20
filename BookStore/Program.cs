@@ -1,4 +1,5 @@
 using BookStore.Data;
+using BookStore.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore
@@ -12,14 +13,9 @@ namespace BookStore
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<BookStoreDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnectionString")));
+            builder.Services.AddScoped<ProductService>();
 
             var app = builder.Build();
-
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
 
             app.UseHttpsRedirection();
             app.UseRouting();

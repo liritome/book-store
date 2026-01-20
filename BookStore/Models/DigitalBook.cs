@@ -14,9 +14,6 @@ namespace BookStore.Models
         [MaxLength(100)]
         public string FileName { get; set; } = null!;
 
-        [Required]
-        public string FilePath { get; set; } = null!;
-
         public bool IsAvailable { get; set; }
 
         [Range(1, 100000)]

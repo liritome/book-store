@@ -2,49 +2,59 @@
     ViewData["Title"] = "Book details";
 }
 
-@{
-    int id = 10001;
-}
+@model Book
 
 <div class="d-flex justify-content-between align-items-start">
     <div>
-        <h2 class="mb-1">Book Title</h2>
+        <h2 class="mb-1">@Model.Title</h2>
         <div class="d-flex gap-2 align-items-center">
-            <span class="border border-1 border-success bg-success-subtle text-success rounded-5 px-2">
-                Visible
-            </span>
-            <span class="border border-1 border-secondary bg-secondary-subtle text-secondary rounded-5 px-2">
-                Hidden
-            </span>
-            <span class="border border-1 border-primary bg-primary-subtle text-primary rounded-5 px-2">
-                Scheduled - 
-                <small>
-                    <strong>
-                        13.01.2026 12:00
-                    </strong>
-                </small>
-            </span>
-            <span class="text-muted">ID: 10001</span>
+            @if (Model.IsVisible)
+            {
+                <span class="border border-1 border-success bg-success-subtle text-success rounded-5 px-2">
+                    Visible
+                </span>
+            }
+            else
+            {
+                <span class="border border-1 border-secondary bg-secondary-subtle text-secondary rounded-5 px-2">
+                    Hidden
+                </span>                
+                <span class="border border-1 border-primary bg-primary-subtle text-primary rounded-5 px-2">
+                    Scheduled - 
+                    <small>
+                        <strong>
+                            13.01.2026 12:00
+                        </strong>
+                    </small>
+                </span>
+            }
+            <span class="text-muted">ID: @Model.Id</span>
         </div>
     </div>
     <div class="d-flex gap-2">
-        <a class="admin-details-button btn btn-primary d-flex justify-content-center align-items-center" asp-action="Edit" asp-route-id="10001">
+        <a class="admin-details-button btn btn-primary d-flex justify-content-center align-items-center" asp-action="Edit" asp-route-id="@Model.Id">
             <i class="bi bi-pencil"></i>
             <span class="ms-1">Edit</span>
         </a>
-        <form asp-action="ToggleVisibility" asp-route-id="@id" method="post">
-            <button class="admin-details-button btn btn-success">
-                <i class="bi bi-eye"></i>
-                <span>Show</span>
-            </button>
-        </form>
-        <form asp-action="ToggleVisibility" asp-route-id="@id" method="post">
-            <button class="admin-details-button btn btn-secondary">
-                <i class="bi bi-eye-slash"></i>
-                <span>Hide</span>
-            </button>
-        </form>
-        <form asp-action="Delete" asp-route-id="@id" method="post" onsubmit="return confirm('Delete this book?')">
+        @if (!Model.IsVisible)
+        {
+            <form asp-action="ToggleVisibility" asp-route-id="@Model.Id" method="post">
+                <button class="admin-details-button btn btn-success">
+                    <i class="bi bi-eye"></i>
+                    <span>Show</span>
+                </button>
+            </form>
+        }
+        else
+        {
+            <form asp-action="ToggleVisibility" asp-route-id="@Model.Id" method="post">
+                <button class="admin-details-button btn btn-secondary">
+                    <i class="bi bi-eye-slash"></i>
+                    <span>Hide</span>
+                </button>
+            </form>            
+        }
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Delete book @Model.Title (ID: @Model.Id)?')">
             <button class="admin-details-button btn btn-danger">
                 <i class="bi bi-trash"></i>
                 <span>Delete</span>
@@ -73,36 +83,57 @@
                     <div class="list-group list-group-flush text-end">
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Title</span>
-                            <span class="text-muted">Book title</span>
+                            <span class="text-muted">
+                                @Model.Title
+                            </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Author</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Authors" asp-action="Details" asp-route-slug="author-name">Author Name</a>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Authors" asp-action="Details" asp-route-slug="author-name">
+                                @Model.Authors.FirstOrDefault()?.Name
+                            </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Series</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-slug="series-name">Series Name</a>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-slug="series-name">
+                                @Model.Series?.Name
+                            </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Year</span>
-                            <span class="text-muted">2025</span>
+                            <span class="text-muted">
+                                @Model.Year
+                            </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Publisher</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Publishers" asp-action="Details" asp-route-slug="publisher-name">Booklab Publishing Name</a>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Publishers" asp-action="Details" asp-route-slug="publisher-name">
+                                @Model.Publisher?.Name
+                            </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Translator</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Translators" asp-action="Details" asp-route-slug="translator-name">Translator Name</a>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Translators" asp-action="Details" asp-route-slug="translator-name">
+                                @Model.Translators.FirstOrDefault()?.Name
+                            </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Language</span>
-                            <span class="text-muted">Ukrainian</span>
+                            <span class="text-muted">
+                                @Model.Language?.Name
+                            </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Has ebook</span>
                             <span class="text-muted">
-                                <i class="bi bi-check"></i>
+                                @if (Model.DigitalBook != null)
+                                {
+                                    <i class="bi bi-check"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-x"></i>
+                                }
                             </span>
                         </div>
                     </div>
@@ -114,50 +145,54 @@
                     <div class="list-group list-group-flush text-end">
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Link</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="book-title">
-                                <span>Catalog/book-title</span>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="@Model.PhysicalBook?.Slug">
+                                <span>Catalog/@Model.PhysicalBook?.Slug</span>
                             </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>ISBN</span>
-                            <span class="text-muted">978-617-12-9941-2</span>
+                            <span class="text-muted">@Model.PhysicalBook?.ISBN</span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Cover type</span>
-                            <span class="text-muted">Hard cover</span>
+                            <span class="text-muted">
+                                @(Model.PhysicalBook?.CoverType == CoverType.Hardcover ? "Hard cover" : "Paperback")
+                            </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Pages</span>
-                            <span class="text-muted">418</span>
+                            <span class="text-muted">@Model.PhysicalBook?.Pages</span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Size</span>
-                            <span class="text-muted">160 x 220 x 32 mm</span>
+                            <span class="text-muted">
+                                @Model.PhysicalBook?.Width x @Model.PhysicalBook?.Height x @Model.PhysicalBook?.Thickness mm
+                            </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Weight</span>
-                            <span class="text-muted">300 g</span>
+                            <span class="text-muted">@Model.PhysicalBook?.Weight g</span>
                         </div>
                     </div>
                 </div>
-                <div class="mt-2">
+                <div class="mt-2 @(Model.DigitalBook == null ? "d-none" : "")">
                     <div>
                         <h5>Ebook details</h5>
                     </div>
                     <div class="list-group list-group-flush text-end">
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Link</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="book-title">
-                                <span>Catalog/ebook-title</span>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="@Model.DigitalBook?.Slug">
+                                <span>Catalog/@Model.DigitalBook?.Slug</span>
                             </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>ISBN</span>
-                            <span class="text-muted">978-617-12-9941-3</span>
+                            <span class="text-muted">@Model.DigitalBook?.ISBN</span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>File</span>
-                            <span class="text-muted">/ebooks/ebook-title</span>
+                            <span class="text-muted">/ebooks/@Model.DigitalBook?.FileName</span>
                         </div>
                     </div>
                 </div>
@@ -171,37 +206,47 @@
                         <div class="d-flex gap-2">
                             <div class="w-100">
                                 <h6>Price</h6>
-                                <h3>400 ₴</h3>
+                                <h3>@Model.PhysicalBook?.Price ₴</h3>
                             </div>
                             <div class="w-100">
                                 <h6>Discount</h6>
-                                <h3 class="text-success">10%</h3>
+                                <h3 class="text-success">@Model.PhysicalBook?.Discount?.Percentage%</h3>
                             </div>
                             <div class="w-100">
                                 <h6>Final price</h6>
-                                <h3>360 ₴</h3>
+                                <h3>@Model.PhysicalBook?.FinalPrice ₴</h3>
                             </div>
                         </div>
-                        <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
+                        <small class="text-muted">Discount valid: @Model.PhysicalBook?.Discount?.ValidFrom - @Model.PhysicalBook?.Discount?.ValidTo</small>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="bg-white rounded-4 p-3 mt-3 mt-lg-0">
                         <h6>Stock</h6>
                         <div class="d-flex align-items-center">
-                            <h3>10000</h3>
+                            <h3>@Model.PhysicalBook?.Stock</h3>
                             <div class="ms-4">
-                                <span>
-                                    <i class="bi bi-check"></i>
-                                </span>
-                                <span>Available</span>
+                                @if (Model.PhysicalBook?.IsAvailable == true)
+                                {
+                                    <span>
+                                        <i class="bi bi-check"></i>
+                                    </span>
+                                    <span>Available</span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        <i class="bi bi-x"></i>
+                                    </span>
+                                    <span>Not available</span>
+                                }
                             </div>
                         </div>
                         <small class="text-muted">Last restock: 11.12.2025 12:00:00</small>
                     </div>
                 </div>
             </div>
-            <div class="">
+            <div class="@(Model.DigitalBook == null ? "d-none" : "")">
                 <h5 class="mt-4">Ebook stock and pricing</h5>
                 <div class="row mt-2">
                     <div class="col-lg-6">
@@ -209,18 +254,18 @@
                             <div class="d-flex gap-2">
                                 <div class="w-100">
                                     <h6>Price</h6>
-                                    <h3>200 ₴</h3>
+                                    <h3>@Model.DigitalBook?.Price ₴</h3>
                                 </div>
                                 <div class="w-100">
                                     <h6>Discount</h6>
-                                    <h3 class="text-success">10%</h3>
+                                    <h3 class="text-success">@Model.DigitalBook?.Discount?.Percentage%</h3>
                                 </div>
                                 <div class="w-100">
                                     <h6>Final price</h6>
-                                    <h3>180 ₴</h3>
+                                    <h3>@Model.DigitalBook?.FinalPrice ₴</h3>
                                 </div>
                             </div>
-                            <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
+                            <small class="text-muted">Discount valid: @Model.DigitalBook?.Discount?.ValidFrom - @Model.DigitalBook?.Discount?.ValidTo</small>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -228,10 +273,20 @@
                             <h6>Stock</h6>
                             <div class="d-flex">
                                 <div>
-                                    <span>
-                                        <i class="bi bi-check"></i>
-                                    </span>
-                                    <span>Available</span>
+                                    @if (Model.DigitalBook?.IsAvailable == true)
+                                    {
+                                        <span>
+                                            <i class="bi bi-check"></i>
+                                        </span>
+                                        <span>Available</span>
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            <i class="bi bi-x"></i>
+                                        </span>
+                                        <span>Not available</span>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -254,20 +309,7 @@
             <div class="bg-white rounded-4 p-3 mt-4">
                 <h5>Description</h5>
                 <p class="mt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices velit orci, sed posuere mauris sagittis in. Maecenas turpis lectus,
-                    convallis a accumsan commodo, luctus dapibus nunc. Proin vitae massa sed mauris tincidunt faucibus id ut dui. Duis ut velit euismod, auctor
-                    turpis et, cursus metus. Vivamus auctor ligula finibus nisl gravida porttitor. Nulla pulvinar imperdiet augue ullamcorper congue. Aenean
-                    posuere metus aliquet dui fermentum hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a felis at nulla
-                    elementum aliquam ac et eros. Nullam lacinia hendrerit turpis, ut tempor justo condimentum id. Fusce hendrerit ullamcorper ornare. Duis
-                    suscipit tortor est, eu congue ligula commodo sed. Nulla mattis id libero sit amet facilisis. Nulla ultricies magna nec tellus laoreet,
-                    quis blandit purus laoreet. Cras non rutrum nisi. Pellentesque malesuada dapibus sapien, sit amet sodales elit tempus nec. Proin sagittis,
-                    ante ut cursus dignissim, nunc risus rutrum eros, varius bibendum leo justo a urna. Aliquam sed mauris ut libero finibus fringilla id gravida
-                    felis. Aliquam efficitur malesuada neque ornare laoreet. Aenean quam magna, vestibulum non odio et, tempus elementum diam. Vestibulum vitae
-                    tellus facilisis, vestibulum ipsum in, lobortis odio. Sed leo erat, dapibus condimentum feugiat vel, congue vitae sem. Nunc at dignissim eros.
-                    Nunc vel nunc id nisl fringilla sollicitudin in non justo. Fusce dignissim et orci a bibendum. Proin tristique ut nisl sed rutrum. Sed pulvinar
-                    et lorem vel malesuada. Phasellus ultrices feugiat gravida. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus
-                    mus. Etiam vitae enim gravida, tristique neque at, gravida libero. Suspendisse ipsum eros, posuere eu augue nec, ullamcorper interdum enim.
-                    Praesent eget dui porta, pharetra turpis non, tempor massa. Quisque lacus nunc, convallis quis sagittis eget, rutrum a enim.
+                    @Model.Description
                 </p>
             </div>
             <div class="bg-white rounded-4 p-3 mt-4">
@@ -277,14 +319,14 @@
                             <h6>Rating</h6>
                             <div>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <span class="ms-1">4.2 / 5</span>
+                                <span class="ms-1">@Model.Rating / 5</span>
                             </div>
                         </div>
                         <div class="w-50">
                             <h6>Reviews</h6>
                             <div>
                                 <i class="bi bi-chat-left-fill text-secondary"></i>
-                                <span class="ms-1">12</span>
+                                <span class="ms-1">@Model.Reviews.Count()</span>
                             </div>
                         </div>
                         <div class="py-2 pe-2">
@@ -296,11 +338,11 @@
                 </div>
                 <div class="collapse border-top" id="reviewsCollapse">
                     <div class="d-flex flex-column">
-                        @for (int j = 0; j < 4; j++)
+                        @foreach(Review review in Model.Reviews)
                         {
                             <div class="border rounded-3 p-3 mt-3">
                                 <div class="d-flex gap-2 align-items-center">
-                                    <strong>User Name</strong>
+                                    <strong>@review.User.Name</strong>
                                     <div class="ms-auto d-flex gap-2">
                                         <span class="border border-1 border-success bg-success-subtle text-success rounded-5 px-2">
                                             New
@@ -308,35 +350,35 @@
                                         <span class="border border-1 border-secondary bg-secondary-subtle text-secondary rounded-5 px-2">
                                             Hidden
                                         </span>
-                                        <small class="text-muted">20.12.2025 14:00</small>
+                                        <small class="text-muted">@review.Date</small>
                                     </div>
                                 </div>
                                 <p>
-                                    Very good book, enjoyed the story a lot.
+                                    @review.Text
                                 </p>
                                 <div class="d-flex gap-2 align-items-end">
                                     <div>
                                         <span class="pe-3 border-end">
                                             <i class="bi bi-star-fill text-warning"></i>
-                                            <span class="ms-1">4.2 / 5</span>
+                                            <span class="ms-1">@review.Rating / 5</span>
                                         </span>
                                         <span class="ms-3 ">
                                             <i class="bi bi-hand-thumbs-up-fill text-secondary"></i>
-                                            <span class="ms-1">+10</span>
+                                            <span class="ms-1">@review.Likes</span>
                                         </span>
                                     </div>
                                     <div class="d-flex gap-2 ms-auto">
-                                        <form asp-controller="Comments" asp-action="ToggleVisibility" asp-route-id="@id" method="post">
+                                        <form asp-controller="Comments" asp-action="ToggleVisibility" asp-route-id="@review.Id" method="post">
                                             <button class="admin-table-btn btn btn-success">
                                                 <i class="bi bi-eye"></i>
                                             </button>
                                         </form>
-                                        <form asp-controller="Comments" asp-action="ToggleVisibility" asp-route-id="@id" method="post">
+                                        <form asp-controller="Comments" asp-action="ToggleVisibility" asp-route-id="@review.Id" method="post">
                                             <button class="admin-table-btn btn btn-secondary">
                                                 <i class="bi bi-eye-slash"></i>
                                             </button>
                                         </form>
-                                        <form asp-controller="Comments" asp-action="Delete" asp-route-id="@id" method="post" onsubmit="return confirm('Delete this commant?')">
+                                        <form asp-controller="Comments" asp-action="Delete" asp-route-id="@review.Id" method="post" onsubmit="return confirm('Delete this commant?')">
                                             <button class="admin-table-btn btn btn-danger">
                                                 <i class="bi bi-trash"></i>
                                             </button>

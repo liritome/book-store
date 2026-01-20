@@ -7,10 +7,6 @@ namespace BookStore.Models
     public class Customer : User
     {
         [Required]
-        [MaxLength(50)]
-        public string Name { get; set; } = null!;
-
-        [Required]
         [Phone]
         public string PhoneNumber { get; set; } = null!;
 

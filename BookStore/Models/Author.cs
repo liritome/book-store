@@ -19,7 +19,7 @@ namespace BookStore.Models
         [MaxLength(3000)]
         public string Bio { get; set; } = null!;
 
-        public Image? Image { get; set; } = null!;
+        public string? ImageUrl { get; set; }
         public virtual ICollection<Book> Books { get; set; } = new List<Book>();
     }
 }

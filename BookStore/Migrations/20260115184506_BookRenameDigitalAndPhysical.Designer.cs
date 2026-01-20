@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Migrations
 {
     [DbContext(typeof(BookStoreDbContext))]
-    [Migration("20260112154330_ProductAddCustomers")]
-    partial class ProductAddCustomers
+    [Migration("20260115184506_BookRenameDigitalAndPhysical")]
+    partial class BookRenameDigitalAndPhysical
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -573,8 +573,8 @@ namespace BookStore.Migrations
                     b.Property<int?>("SeriesId")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("Year")
-                        .HasColumnType("date");
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
 
                     b.HasIndex("LanguageId");
 
@@ -853,7 +853,7 @@ namespace BookStore.Migrations
                         .WithMany("Books")
                         .HasForeignKey("SeriesId");
 
-                    b.OwnsOne("BookStore.Models.DigitalBook", "DigitalBookDetails", b1 =>
+                    b.OwnsOne("BookStore.Models.DigitalBook", "DigitalBook", b1 =>
                         {
                             b1.Property<int>("BookId")
                                 .HasColumnType("int");
@@ -865,10 +865,6 @@ namespace BookStore.Migrations
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)");
-
-                            b1.Property<string>("FilePath")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<decimal>("FinalPrice")
                                 .HasColumnType("decimal(18,2)");
@@ -905,7 +901,7 @@ namespace BookStore.Migrations
                             b1.Navigation("Discount");
                         });
 
-                    b.OwnsOne("BookStore.Models.PhysicalBook", "PhysicalBookDetails", b1 =>
+                    b.OwnsOne("BookStore.Models.PhysicalBook", "PhysicalBook", b1 =>
                         {
                             b1.Property<int>("BookId")
                                 .HasColumnType("int");
@@ -969,11 +965,11 @@ namespace BookStore.Migrations
                             b1.Navigation("Discount");
                         });
 
-                    b.Navigation("DigitalBookDetails");
+                    b.Navigation("DigitalBook");
 
                     b.Navigation("Language");
 
-                    b.Navigation("PhysicalBookDetails");
+                    b.Navigation("PhysicalBook");
 
                     b.Navigation("Publisher");
 

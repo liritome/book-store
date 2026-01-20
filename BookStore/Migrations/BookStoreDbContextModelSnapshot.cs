@@ -99,8 +99,8 @@ namespace BookStore.Migrations
                         .HasMaxLength(3000)
                         .HasColumnType("nvarchar(3000)");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -113,8 +113,6 @@ namespace BookStore.Migrations
                         .HasColumnType("nvarchar(120)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.ToTable("Authors");
                 });
@@ -188,28 +186,6 @@ namespace BookStore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Discounts");
-                });
-
-            modelBuilder.Entity("BookStore.Models.Image", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("BookStore.Models.Language", b =>
@@ -334,6 +310,31 @@ namespace BookStore.Migrations
                     b.UseTptMappingStrategy();
                 });
 
+            modelBuilder.Entity("BookStore.Models.ProductImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
+                });
+
             modelBuilder.Entity("BookStore.Models.Publisher", b =>
                 {
                     b.Property<int>("Id")
@@ -342,8 +343,8 @@ namespace BookStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -356,8 +357,6 @@ namespace BookStore.Migrations
                         .HasColumnType("nvarchar(120)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.ToTable("Publishers");
                 });
@@ -497,6 +496,11 @@ namespace BookStore.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -558,20 +562,20 @@ namespace BookStore.Migrations
                 {
                     b.HasBaseType("BookStore.Models.Product");
 
-                    b.Property<int>("LanguageId")
+                    b.Property<int?>("LanguageId")
                         .HasColumnType("int");
 
                     b.Property<int?>("NumberInSeries")
                         .HasColumnType("int");
 
-                    b.Property<int>("PublisherId")
+                    b.Property<int?>("PublisherId")
                         .HasColumnType("int");
 
                     b.Property<int?>("SeriesId")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("Year")
-                        .HasColumnType("date");
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
 
                     b.HasIndex("LanguageId");
 
@@ -625,11 +629,6 @@ namespace BookStore.Migrations
                     b.Property<int>("Bonuses")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -670,15 +669,6 @@ namespace BookStore.Migrations
                         .HasForeignKey("RoleId");
                 });
 
-            modelBuilder.Entity("BookStore.Models.Author", b =>
-                {
-                    b.HasOne("BookStore.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
-                    b.Navigation("Image");
-                });
-
             modelBuilder.Entity("BookStore.Models.Cart", b =>
                 {
                     b.HasOne("BookStore.Models.Customer", "Customer")
@@ -707,13 +697,6 @@ namespace BookStore.Migrations
                     b.Navigation("Cart");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("BookStore.Models.Image", b =>
-                {
-                    b.HasOne("BookStore.Models.Product", null)
-                        .WithMany("Images")
-                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("BookStore.Models.Order", b =>
@@ -746,13 +729,13 @@ namespace BookStore.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("BookStore.Models.Publisher", b =>
+            modelBuilder.Entity("BookStore.Models.ProductImage", b =>
                 {
-                    b.HasOne("BookStore.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
+                    b.HasOne("BookStore.Models.Product", "Product")
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId");
 
-                    b.Navigation("Image");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("BookStore.Models.Review", b =>
@@ -836,21 +819,17 @@ namespace BookStore.Migrations
 
                     b.HasOne("BookStore.Models.Language", "Language")
                         .WithMany("Books")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LanguageId");
 
                     b.HasOne("BookStore.Models.Publisher", "Publisher")
                         .WithMany("Books")
-                        .HasForeignKey("PublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PublisherId");
 
                     b.HasOne("BookStore.Models.Series", "Series")
                         .WithMany("Books")
                         .HasForeignKey("SeriesId");
 
-                    b.OwnsOne("BookStore.Models.DigitalBook", "DigitalBookDetails", b1 =>
+                    b.OwnsOne("BookStore.Models.DigitalBook", "DigitalBook", b1 =>
                         {
                             b1.Property<int>("BookId")
                                 .HasColumnType("int");
@@ -862,10 +841,6 @@ namespace BookStore.Migrations
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)");
-
-                            b1.Property<string>("FilePath")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<decimal>("FinalPrice")
                                 .HasColumnType("decimal(18,2)");
@@ -902,7 +877,7 @@ namespace BookStore.Migrations
                             b1.Navigation("Discount");
                         });
 
-                    b.OwnsOne("BookStore.Models.PhysicalBook", "PhysicalBookDetails", b1 =>
+                    b.OwnsOne("BookStore.Models.PhysicalBook", "PhysicalBook", b1 =>
                         {
                             b1.Property<int>("BookId")
                                 .HasColumnType("int");
@@ -966,11 +941,11 @@ namespace BookStore.Migrations
                             b1.Navigation("Discount");
                         });
 
-                    b.Navigation("DigitalBookDetails");
+                    b.Navigation("DigitalBook");
 
                     b.Navigation("Language");
 
-                    b.Navigation("PhysicalBookDetails");
+                    b.Navigation("PhysicalBook");
 
                     b.Navigation("Publisher");
 

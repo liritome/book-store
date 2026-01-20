@@ -16,5 +16,9 @@ namespace BookStore.Models
         [Required]
         [MaxLength(256)]
         public string PasswordHash { get; set; } = null!;
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; } = null!;
     }
 }

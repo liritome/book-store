@@ -20,7 +20,7 @@ namespace BookStore.Data
 
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Discount> Discounts { get; set; }
-        public DbSet<Image> Images { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Admin> Admins { get; set; }
@@ -35,7 +35,7 @@ namespace BookStore.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+
         }
     }
 }

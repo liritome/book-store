@@ -2,6 +2,8 @@
     ViewData["Title"] = "Books";
 }
 
+@model List<Book>
+
 @{
     var routeValues = new Dictionary<string, string>();
     foreach (var key in Context.Request.Query.Keys)
@@ -181,15 +183,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (int i = 1; i < 21; i++)
+                    @foreach(Book book in Model)
                     {
                         <tr>
                             <td class="admin-table-status">
-                                @if (i % 3 == 0)
-                                {
-                                    <div class="bg-primary-subtle"></div>
-                                }
-                                else if (i % 3 == 1)
+                                @if (book.IsVisible)
                                 {
                                     <div class="bg-success-subtle"></div>
                                 }
@@ -199,27 +197,29 @@
                                 }
                             </td>
                             <td>
-                                <a class="text-primary" asp-area="Admin" asp-controller="Books" asp-action="Details" asp-route-id="@(10000 + i)">
-                                    @(10000 + i)
+                                <a class="text-primary" asp-area="Admin" asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
+                                    @book.Id
                                 </a>
                             </td>
                             <td>
                                 <img src="~/images/book-empty-small.png" class="admin-image" />
                             </td>
                             <td>
-                                <span class="admin-book-table-title" title="Book title super long version. Book 8. Delux edition">
-                                    Book title super long version. Book 8. Delux edition
+                                <span class="admin-book-table-title" title="@book.Title">
+                                    @book.Title
                                 </span>
                             </td>
                             <td>
-                                <span class="admin-book-table-type">@(i % 2 == 0 ? "paper" : "e-book")</span>
+                                <span class="admin-book-table-type">
+                                    @(book.PhysicalBook?.CoverType == CoverType.Hardcover ? "hardcover" : "paperback")
+                                </span>
                             </td>
                             <td>
-                                <span class="admin-book-table-isbn">978-617-15-1745-5</span>
+                                <span class="admin-book-table-isbn">@book.PhysicalBook?.ISBN</span>
                             </td>
-                            <td>400 ₴</td>
+                            <td>@book.PhysicalBook?.Price ₴</td>
                             <td class="text-center">
-                                @if (i % 2 == 0)
+                                @if (book.PhysicalBook?.Discount == null)
                                 {
                                     <i class="admin-book-discount-icon bi bi-x text-danger"></i>
                                 }
@@ -228,19 +228,19 @@
                                     <i class="admin-book-discount-icon bi bi-check text-success"></i>
                                 }
                             </td>
-                            <td>360 ₴</td>
-                            <td>20000</td>
+                            <td>@book.PhysicalBook?.FinalPrice ₴</td>
+                            <td>@book.PhysicalBook?.Stock</td>
                             <td>
                                 <div class="d-flex gap-1">
-                                    <a class="admin-table-btn btn btn-primary" asp-area="Admin" asp-controller="Books" asp-action="Edit" asp-route-id="10001">
+                                    <a class="admin-table-btn btn btn-primary" asp-area="Admin" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form asp-action="ToggleVisibility" asp-route-id="@i" method="post">
-                                        <button type="submit" class="admin-table-btn btn @(i % 2 == 0 ? "btn-secondary" : "btn-success")">
-                                            <i class="bi @(i % 2 == 0 ? "bi-eye-slash" : "bi-eye")"></i>
+                                    <form asp-action="ToggleVisibility" asp-route-id="@book.Id" method="post">
+                                        <button type="submit" class="admin-table-btn btn @(book.IsVisible ? "btn-success" : "btn-secondary")">
+                                            <i class="bi @(book.IsVisible ? "bi-eye" : "bi-eye-slash")"></i>
                                         </button>
                                     </form>
-                                    <form asp-action="Delete" asp-route-id="@i" method="post" onsubmit="return confirm('Delete this book?')">
+                                    <form asp-action="Delete" asp-route-id="@book.Id" method="post" onsubmit="return confirm('Delete this book?')">
                                         <button type="submit" class="admin-table-btn btn btn-danger">
                                             <i class="bi bi-trash3"></i>
                                         </button>

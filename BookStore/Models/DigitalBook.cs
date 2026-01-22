@@ -17,16 +17,16 @@ namespace BookStore.Models
         public bool IsAvailable { get; set; }
 
         [Range(1, 100000)]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         [Range(1, 100000)]
-        public decimal FinalPrice { get; set; }
+        public int FinalPrice { get; set; }
 
         public int? DiscountId { get; set; }
         public virtual Discount? Discount { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string ISBN { get; set; } = null!;
+        public string Isbn { get; set; } = null!;
     }
 }

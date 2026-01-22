@@ -14,7 +14,8 @@ namespace BookStore.ViewModels
         public int Year { get; set; }
         public int Language { get; set; }
         public int Series { get; set; }
-        public bool HasEbook { get; set; }
+        public int NumberInSeries { get; set; }
+        public bool HasDigitalBook { get; set; }
 
         public string Slug { get; set; } = null!;
         public string Isbn { get; set; } = null!;
@@ -24,19 +25,18 @@ namespace BookStore.ViewModels
         public int Height { get; set; }
         public int Thickness { get; set; }
         public int Weight { get; set; }
-        public decimal Price { get; set; }
+        public int Price { get; set; }
         public int Discount { get; set; }
-        public decimal FinalPrice { get; set; }
+        public int FinalPrice { get; set; }
         public int Stock { get; set; }
         public bool IsAvailable { get; set; }
 
-
-        public string ESlug { get; set; } = null!;
-        public string EIsbn { get; set; } = null!;
+        public string DigitalSlug { get; set; } = null!;
+        public string DigitalIsbn { get; set; } = null!;
         public IFormFile? File { get; set; }
-        public decimal EPrice { get; set; }
-        public int EDiscount { get; set; }
-        public decimal EFinalPrice { get; set; }
-        public bool EIsAvailable { get; set; }
+        public int DigitalPrice { get; set; }
+        public int DigitalDiscount { get; set; }
+        public int DigitalFinalPrice { get; set; }
+        public bool DigitalIsAvailable { get; set; }
     }
 }

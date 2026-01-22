@@ -1,6 +1,7 @@
 using BookStore.Data;
 using BookStore.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace BookStore
 {
@@ -8,6 +9,10 @@ namespace BookStore
     {
         public static void Main(string[] args)
         {
+            var culture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllersWithViews();

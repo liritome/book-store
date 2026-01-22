@@ -261,8 +261,8 @@ namespace BookStore.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -593,11 +593,11 @@ namespace BookStore.Migrations
                     b.Property<int?>("DiscountId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("FinalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("FinalPrice")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -842,19 +842,19 @@ namespace BookStore.Migrations
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)");
 
-                            b1.Property<decimal>("FinalPrice")
-                                .HasColumnType("decimal(18,2)");
-
-                            b1.Property<string>("ISBN")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)");
+                            b1.Property<int>("FinalPrice")
+                                .HasColumnType("int");
 
                             b1.Property<bool>("IsAvailable")
                                 .HasColumnType("bit");
 
-                            b1.Property<decimal>("Price")
-                                .HasColumnType("decimal(18,2)");
+                            b1.Property<string>("Isbn")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<int>("Price")
+                                .HasColumnType("int");
 
                             b1.Property<string>("Slug")
                                 .IsRequired()
@@ -888,25 +888,25 @@ namespace BookStore.Migrations
                             b1.Property<int?>("DiscountId")
                                 .HasColumnType("int");
 
-                            b1.Property<decimal>("FinalPrice")
-                                .HasColumnType("decimal(18,2)");
+                            b1.Property<int>("FinalPrice")
+                                .HasColumnType("int");
 
                             b1.Property<int>("Height")
                                 .HasColumnType("int");
 
-                            b1.Property<string>("ISBN")
+                            b1.Property<bool>("IsAvailable")
+                                .HasColumnType("bit");
+
+                            b1.Property<string>("Isbn")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)");
 
-                            b1.Property<bool>("IsAvailable")
-                                .HasColumnType("bit");
-
                             b1.Property<int>("Pages")
                                 .HasColumnType("int");
 
-                            b1.Property<decimal>("Price")
-                                .HasColumnType("decimal(18,2)");
+                            b1.Property<int>("Price")
+                                .HasColumnType("int");
 
                             b1.Property<string>("Slug")
                                 .IsRequired()

@@ -2,16 +2,14 @@
     ViewData["Title"] = "Edit book";
 }
 
-@{
-    int id = 10001;
-}
+@model Book
 
-<form asp-action="Edit" asp-route-id="@id" method="post">
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
     <div class="d-flex justify-content-between align-items-start">
         <div>
-            <h2 class="mb-1">Book Title</h2>
+            <h2 class="mb-1">@Model.Title</h2>
             <div class="d-flex gap-2 align-items-center">
-                <span class="text-muted">ID: 10001</span>
+                <span class="text-muted">ID: @Model.Id</span>
             </div>
         </div>
         <div class="d-flex gap-2">
@@ -51,14 +49,15 @@
                             <h5>Details</h5>
                         </div>
                         <div class="list-group list-group-flush text-end">
+                            <input hidden name="Id" type="number" value="@Model.Id" />
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Title</span>
-                                <input name="title" type="text" class="form-control py-0"
-                                       value="Book title" />
+                                <input name="Title" type="text" class="form-control py-0"
+                                       value="@Model.Title" />
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Author</span>
-                                <select name="author" class="form-select py-0">
+                                <select name="Author" class="form-select py-0">
                                     <option value="None">-</option>
                                     @for (int i = 0; i < 200; i++)
                                     {
@@ -68,7 +67,7 @@
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Series</span>
-                                <select name="series" class="form-select py-0">
+                                <select name="Series" class="form-select py-0">
                                     <option value="None">-</option>
                                     @for (int i = 0; i < 200; i++)
                                     {
@@ -77,13 +76,18 @@
                                 </select>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
+                                <span>Number is series</span>
+                                <input name="NumberInSeries" type="number" min="0" class="form-control w-50 py-0"
+                                       value="@Model.NumberInSeries" />
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Year</span>
-                                <input name="year" type="number" min="0" class="form-control w-50 py-0"
-                                       value="2025" />
+                                <input name="Year" type="number" min="0" class="form-control w-50 py-0"
+                                       value="@Model.Year" />
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Publisher</span>
-                                <select name="publisher" class="form-select py-0">
+                                <select name="Publisher" class="form-select py-0">
                                     <option value="None">-</option>
                                     @for (int i = 0; i < 200; i++)
                                     {
@@ -93,7 +97,7 @@
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Translator</span>
-                                <select name="translator" class="form-select py-0">
+                                <select name="Translator" class="form-select py-0">
                                     <option value="None">-</option>
                                     @for (int i = 0; i < 200; i++)
                                     {
@@ -103,7 +107,7 @@
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Language</span>
-                                <select name="language" class="form-select w-50 py-0">
+                                <select name="Language" class="form-select w-50 py-0">
                                     <option value="Ukrainian">Ukrainian</option>
                                     <option value="English">English</option>
                                 </select>
@@ -111,7 +115,7 @@
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Has ebook</span>
                                 <input type="hidden" name="ebook" value="False" />
-                                <input checked class="form-check-input" type="checkbox" name="ebook" value="True" id="hasEbook" />
+                                <input @(Model.DigitalBook != null ? "checked" : "") class="form-check-input" type="checkbox" name="HasDigitalBook" value="True" id="hasDigitalBook" />
                             </div>
                         </div>
                     </div>
@@ -124,48 +128,48 @@
                                 <span>Link</span>
                                 <div class="d-flex text-muted">
                                     <span>Catalog/</span>
-                                    <input name="slug" type="text" class="form-control py-0"
-                                           value="book-title" />
+                                    <input name="Slug" type="text" class="form-control py-0"
+                                           value="@Model.PhysicalBook?.Slug" />
                                 </div>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>ISBN</span>
-                                <input name="isbn" type="text" class="form-control py-0"
-                                       value="978-617-12-9941-2" />
+                                <input name="Isbn" type="text" class="form-control py-0"
+                                       value="@Model.PhysicalBook?.Isbn" />
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Cover type</span>
-                                <select name="coverType" class="form-select w-50 py-0">
-                                    <option value="HardCover">Hard cover</option>
-                                    <option value="Paperback">Paperback</option>
+                                <select name="CoverType" class="form-select w-50 py-0">
+                                    <option value="@CoverType.Hardcover">Hard cover</option>
+                                    <option value="@CoverType.Paperback">Paperback</option>
                                 </select>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Pages</span>
-                                <input name="pages" type="number" min="0" class="form-control w-50 py-0"
-                                       value="418" />
+                                <input name="Pages" type="number" min="0" class="form-control w-50 py-0"
+                                       value="@Model.PhysicalBook?.Pages" />
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Size</span>
                                 <div class="d-flex">
-                                    <input name="width" type="number" min="0" class="form-control w-50 py-0 px-2"
-                                           value="160" />
+                                    <input name="Width" type="number" min="0" class="form-control w-50 py-0 px-2"
+                                           value="@Model.PhysicalBook?.Width" />
                                     <span class="px-1">x</span>
-                                    <input name="height" type="number" min="0" class="form-control w-50 py-0 px-2"
-                                           value="220" />
+                                    <input name="Height" type="number" min="0" class="form-control w-50 py-0 px-2"
+                                           value="@Model.PhysicalBook?.Height" />
                                     <span class="px-1">x</span>
-                                    <input name="thickness" type="number" min="0" class="form-control w-50 py-0 px-2"
-                                           value="32" />
+                                    <input name="Thickness" type="number" min="0" class="form-control w-50 py-0 px-2"
+                                           value="@Model.PhysicalBook?.Thickness" />
                                 </div>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Weight</span>
-                                <input name="weight" type="number" min="0" class="form-control w-50 py-0"
-                                       value="300" />
+                                <input name="Weight" type="number" min="0" class="form-control w-50 py-0"
+                                       value="@Model.PhysicalBook?.Weight" />
                             </div>
                         </div>
                     </div>
-                    <div class="mt-2" id="ebookDetails">
+                    <div class="mt-2" id="digitalBookDetails">
                         <div>
                             <h5>Ebook details</h5>
                         </div>
@@ -174,18 +178,18 @@
                                 <span>Ebook</span>
                                 <div class="d-flex text-muted">
                                     <span>Catalog/</span>
-                                    <input name="eslug" type="text" class="form-control py-0"
-                                           value="book-title" />
+                                    <input name="DigitalSlug" type="text" class="form-control py-0"
+                                           value="@Model.DigitalBook?.Slug" />
                                 </div>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>ISBN</span>
-                                <input name="eisbn" type="text" class="form-control py-0"
-                                       value="978-617-12-9941-3" />
+                                <input name="DigitalIsbn" type="text" class="form-control py-0"
+                                       value="@Model.DigitalBook?.Isbn" />
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>File</span>
-                                <input name="file" type="file" class="form-control py-0"
+                                <input name="File" type="file" class="form-control py-0"
                                        value="" />
                             </div>
                         </div>
@@ -200,8 +204,8 @@
                             <div class="d-flex gap-2">
                                 <div class="w-100">
                                     <h6>Price</h6>
-                                    <input name="price" type="number" min="0" class="form-control"
-                                           value="400" />
+                                    <input name="Price" type="number" min="0" class="form-control"
+                                           value="@Model.PhysicalBook?.Price" />
                                 </div>
                                 <div class="w-100">
                                     <h6>Discount</h6>
@@ -215,8 +219,8 @@
                                 </div>
                                 <div class="w-100">
                                     <h6>Final price</h6>
-                                    <input name="final" type="number" min="0" class="form-control"
-                                           value="360" />
+                                    <input name="FinalPrice" type="number" min="0" class="form-control"
+                                           value="@Model.PhysicalBook?.FinalPrice" />
                                 </div>
                             </div>
                             <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
@@ -226,18 +230,18 @@
                         <div class="bg-white rounded-4 p-3 mt-3 mt-lg-0">
                             <h6>Stock</h6>
                             <div class="d-flex align-items-center">
-                                <input name="stock" type="number" min="0" class="form-control w-50"
-                                       value="10000" />
+                                <input name="Stock" type="number" min="0" class="form-control w-50"
+                                       value="@Model.PhysicalBook?.Stock" />
                                 <div class="ms-4">
-                                    <input class="form-check-input" type="checkbox" value="Unavailable" name="availability" id="availability" />
-                                    <label class="form-check-label ps-2" for="availability">Unavailable</label>
+                                    <input @(Model.PhysicalBook?.IsAvailable == true ? "checked" : "") class="form-check-input" type="checkbox" value="true" name="IsAvailable" id="isAvailable" />
+                                    <label class="form-check-label ps-2" for="isAvailable">Available</label>
                                 </div>
                             </div>
                             <small class="text-muted mt-4">Last restock: 11.12.2025 12:00:00</small>
                         </div>
                     </div>
                 </div>
-                <div id="ebookStockAndPricing">
+                <div id="digitalBookStockAndPricing">
                     <h5 class="mt-4">Ebook stock and pricing</h5>
                     <div class="row mt-2">
                         <div class="col-lg-6">
@@ -245,12 +249,12 @@
                                 <div class="d-flex gap-2">
                                     <div class="w-100">
                                         <h6>Price</h6>
-                                        <input name="eprice" type="number" min="0" class="form-control"
-                                               value="200" />
+                                        <input name="DigitalPrice" type="number" min="0" class="form-control"
+                                               value="@Model.DigitalBook?.Price" />
                                     </div>
                                     <div class="w-100">
                                         <h6>Discount</h6>
-                                        <select name="ediscount" class="form-select">
+                                        <select name="DigitalDiscount" class="form-select">
                                             <option value="None">-</option>
                                             <option value="1">10%</option>
                                             <option value="2">20%</option>
@@ -260,8 +264,8 @@
                                     </div>
                                     <div class="w-100">
                                         <h6>Final price</h6>
-                                        <input name="efinal" type="number" min="0" class="form-control"
-                                               value="180" />
+                                        <input name="DigitalFinalPrice" type="number" min="0" class="form-control"
+                                               value="@Model.DigitalBook?.FinalPrice" />
                                     </div>
                                 </div>
                                 <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
@@ -272,8 +276,8 @@
                                 <h6>Stock</h6>
                                 <div class="d-flex">
                                     <div>
-                                        <input class="form-check-input" type="checkbox" value="Unavailable" name="availability" id="availability" />
-                                        <label class="form-check-label ps-2" for="availability">Unavailable</label>
+                                        <input @(Model.DigitalBook?.IsAvailable == true ? "checked" : "") class="form-check-input" type="checkbox" value="true" name="DigitalIsAvailable" id="digitalIsAvailable" />
+                                        <label class="form-check-label ps-2" for="digitalIsAvailable">Available</label>
                                     </div>
                                 </div>
                             </div>
@@ -284,20 +288,20 @@
                     <h5>Visibility</h5>
                     <div class="mt-3 d-flex gap-3">
                         <div class="form-check">
-                            <input checked class="form-check-input" type="radio" value="Visible" name="visibility" id="bookVisibilityVisible" />
-                            <label class="form-check-label" for="bookVisibilityVisible">Visible</label>
+                            <input @(Model.IsVisible == true ? "checked" : "") class="form-check-input" type="radio" value="Visible" name="IsVisible" id="visibleRadio" />
+                            <label class="form-check-label" for="visibleRadio">Visible</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="Hidden" name="visibility" id="bookVisibilityHidden" />
-                            <label class="form-check-label" for="bookVisibilityHidden">Hidden</label>
+                            <input @(Model.IsVisible == true ? "" : "checked") class="form-check-input" type="radio" value="Hidden" name="IsVisible" id="hiddenRadio" />
+                            <label class="form-check-label" for="hiddenRadio">Hidden</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="Scheduled" name="visibility" id="bookVisibilityScheduledAt" />
-                            <label class="form-check-label" for="bookVisibilityScheduledAt">Scheduled</label>
+                            <input class="form-check-input" type="radio" value="Scheduled" name="IsVisible" id="scheduledAtRadio" />
+                            <label class="form-check-label" for="scheduledAtRadio">Scheduled</label>
                         </div>
                     </div>
                     <div class="mt-2 w-50">
-                        <input name="scheduledAt" type="datetime-local" class="form-control" id="scheduledAt" disabled />
+                        <input name="ScheduledAt" type="datetime-local" class="form-control" id="scheduledAt" disabled />
                     </div>
                 </div>
                 <div class="bg-white rounded-4 p-3 mt-4">
@@ -319,7 +323,7 @@
                 </div>
                 <div class="bg-white rounded-4 p-3 mt-4">
                     <h5>Description</h5>
-                    <textarea name="description" class="form-control mt-2" rows="20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices velit orci, sed posuere mauris sagittis in. Maecenas turpis lectus, convallis a accumsan commodo, luctus dapibus nunc. Proin vitae massa sed mauris tincidunt faucibus id ut dui. Duis ut velit euismod, auctor turpis et, cursus metus. Vivamus auctor ligula finibus nisl gravida porttitor. Nulla pulvinar imperdiet augue ullamcorper congue. Aenean posuere metus aliquet dui fermentum hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a felis at nulla elementum aliquam ac et eros. Nullam lacinia hendrerit turpis, ut tempor justo condimentum id. Fusce hendrerit ullamcorper ornare. Duis suscipit tortor est, eu congue ligula commodo sed. Nulla mattis id libero sit amet facilisis. Nulla ultricies magna nec tellus laoreet, quis blandit purus laoreet. Cras non rutrum nisi. Pellentesque malesuada dapibus sapien, sit amet sodales elit tempus nec. Proin sagittis, ante ut cursus dignissim, nunc risus rutrum eros, varius bibendum leo justo a urna. Aliquam sed mauris ut libero finibus fringilla id gravida felis. Aliquam efficitur malesuada neque ornare laoreet. Aenean quam magna, vestibulum non odio et, tempus elementum diam. Vestibulum vitae tellus facilisis, vestibulum ipsum in, lobortis odio. Sed leo erat, dapibus condimentum feugiat vel, congue vitae sem. Nunc at dignissim eros. Nunc vel nunc id nisl fringilla sollicitudin in non justo. Fusce dignissim et orci a bibendum. Proin tristique ut nisl sed rutrum. Sed pulvinar et lorem vel malesuada. Phasellus ultrices feugiat gravida. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vitae enim gravida, tristique neque at, gravida libero. Suspendisse ipsum eros, posuere eu augue nec, ullamcorper interdum enim. Praesent eget dui porta, pharetra turpis non, tempor massa. Quisque lacus nunc, convallis quis sagittis eget, rutrum a enim.</textarea>
+                    <textarea name="Description" class="form-control mt-2" rows="20">@Model.Description</textarea>
                 </div>
             </div>
         </div>
@@ -327,9 +331,9 @@
 </form>
 
 <script>
-    const scheduledRadio = document.getElementById("bookVisibilityScheduledAt");
+    const scheduledRadio = document.getElementById("scheduledAtRadio");
     const scheduledAt = document.getElementById("scheduledAt");
-    document.querySelectorAll('input[name="visibility"]').forEach(radio => {
+    document.querySelectorAll('input[name="IsVisible"]').forEach(radio => {
         radio.addEventListener('change', () => {
             if (scheduledRadio.checked) {
                 scheduledAt.disabled = false;
@@ -343,9 +347,9 @@
 </script>
 
 <script>
-    const hasEbookCheck = document.getElementById("hasEbook");
-    const ebookDetails = document.getElementById("ebookDetails");
-    const ebookStockAndPricing = document.getElementById("ebookStockAndPricing");
+    const hasEbookCheck = document.getElementById("hasDigitalBook");
+    const ebookDetails = document.getElementById("digitalBookDetails");
+    const ebookStockAndPricing = document.getElementById("digitalBookStockAndPricing");
 
     function toggleEbookSectionsVisibility(){
         const isChecked = hasEbookCheck.checked;

@@ -11,7 +11,7 @@ namespace BookStore.Models
         public virtual Product Product { get; set; } = null!;
 
         [Range(1, 100000)]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }

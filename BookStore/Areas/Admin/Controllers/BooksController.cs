@@ -2,6 +2,7 @@
 using BookStore.Models;
 using BookStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BookStore.Areas.Admin.Controllers
 {
@@ -23,6 +24,11 @@ namespace BookStore.Areas.Admin.Controllers
         public async Task<IActionResult> Details(int id)
         {
             Book? book = await productService.GetBookByIdAsync(id);
+            if (book == null)
+            {
+                ViewData["ErrorMessage"] = "Book is null";
+                return View("Error");
+            }
             return View(book);
         }
 
@@ -56,16 +62,16 @@ namespace BookStore.Areas.Admin.Controllers
                 //Language = new Language(),
                 Tags = new List<Tag>(),
                 //Series = new Series(),
-                NumberInSeries = 1,
+                NumberInSeries = bookModel.NumberInSeries,
                 DigitalBook = new DigitalBook
                 {
-                    Slug = bookModel.Slug,
+                    Slug = bookModel.DigitalSlug,
                     FileName = bookModel.File == null ? "" : bookModel.File.FileName,
-                    IsAvailable = bookModel.EIsAvailable,
-                    Price = bookModel.EPrice,
-                    FinalPrice = bookModel.EFinalPrice,
+                    IsAvailable = bookModel.DigitalIsAvailable,
+                    Price = bookModel.DigitalPrice,
+                    FinalPrice = bookModel.DigitalFinalPrice,
                     //Discount = new Discount(),
-                    ISBN = bookModel.EIsbn
+                    Isbn = bookModel.DigitalIsbn
                 },
                 PhysicalBook = new PhysicalBook
                 {
@@ -81,7 +87,7 @@ namespace BookStore.Areas.Admin.Controllers
                     Price = bookModel.Price,
                     FinalPrice = bookModel.FinalPrice,
                     //Discount = new Discount(),
-                    ISBN = bookModel.Isbn
+                    Isbn = bookModel.Isbn
                 }
             };
 
@@ -90,14 +96,75 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            Book? book = await productService.GetBookByIdAsync(id);
+            if (book == null)
+            {
+                ViewData["ErrorMessage"] = "Book is null";
+                return View("Error");
+            }
+            return View(book);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Book book)
+        public async Task<IActionResult> Edit(BookEditViewModel bookModel)
         {
+            Book? book = await productService.GetBookByIdAsync(bookModel.Id);
+            if(book == null)
+            {
+                ViewData["ErrorMessage"] = "Book is null";
+                return View("Error");
+            }
+
+            book.Title = bookModel.Title;
+            book.Description = bookModel.Description;
+            book.Images = new List<ProductImage>();
+            book.IsVisible = bookModel.IsVisible switch
+            {
+                "Visible" => true,
+                "Hidden" => false,
+                _ => false
+            };
+            book.Authors = new List<Author>();
+            book.Translators = new List<Translator>();
+            // book.Publisher = new Publisher();
+            book.Year = bookModel.Year;
+            // book.Language = new Language();
+            book.Tags = new List<Tag>();
+            // book.Series = new Series();
+            book.NumberInSeries = bookModel.NumberInSeries;
+
+            if (book.DigitalBook == null)
+            {
+                book.DigitalBook = new DigitalBook();
+            }
+            book.DigitalBook.Slug = bookModel.DigitalSlug;
+            book.DigitalBook.FileName = bookModel.File == null ? "" : bookModel.File.FileName;
+            book.DigitalBook.IsAvailable = bookModel.DigitalIsAvailable;
+            book.DigitalBook.Price = bookModel.DigitalPrice;
+            book.DigitalBook.FinalPrice = bookModel.DigitalFinalPrice;
+            // book.DigitalBook.Discount = new Discount();
+            book.DigitalBook.Isbn = bookModel.DigitalIsbn;
+
+            if (book.PhysicalBook == null)
+            {
+                book.PhysicalBook = new PhysicalBook();
+            }
+            book.PhysicalBook.Slug = bookModel.Slug;
+            book.PhysicalBook.CoverType = bookModel.CoverType;
+            book.PhysicalBook.Pages = bookModel.Pages;
+            book.PhysicalBook.Stock = bookModel.Stock;
+            book.PhysicalBook.IsAvailable = bookModel.IsAvailable;
+            book.PhysicalBook.Width = bookModel.Width;
+            book.PhysicalBook.Height = bookModel.Height;
+            book.PhysicalBook.Thickness = bookModel.Thickness;
+            book.PhysicalBook.Weight = bookModel.Weight;
+            book.PhysicalBook.Price = bookModel.Price;
+            book.PhysicalBook.FinalPrice = bookModel.FinalPrice;
+            // book.PhysicalBook.Discount = new Discount();
+            book.PhysicalBook.Isbn = bookModel.Isbn;
+
             await productService.UpdateBookAsync(book);
             return RedirectToAction("Details", new { book.Id });
         }

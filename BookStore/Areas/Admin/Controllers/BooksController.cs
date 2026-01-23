@@ -1,8 +1,8 @@
 ﻿using BookStore.Services;
 using BookStore.Models;
-using BookStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using BookStore.ViewModels;
+using BookStore.InputModels;
 
 namespace BookStore.Areas.Admin.Controllers
 {
@@ -10,9 +10,11 @@ namespace BookStore.Areas.Admin.Controllers
     public class BooksController : Controller
     {
         private readonly ProductService productService;
-        public BooksController(ProductService productService)
+        private readonly LanguageService languageService;
+        public BooksController(ProductService productService, LanguageService languageService)
         {
             this.productService = productService;
+            this.languageService = languageService;
         }
 
         public async Task<IActionResult> Index()
@@ -33,22 +35,26 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            return View();
+            BookAddViewModel model = new BookAddViewModel
+            {
+                Languages = await languageService.GetAllLanguagesAsync()
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(BookAddViewModel bookModel)
+        public async Task<IActionResult> Add(BookAddInputModel model)
         {
             var book = new Book
             {
-                Title = bookModel.Title,
-                Description = bookModel.Description,
+                Title = model.Title,
+                Description = model.Description,
                 Rating = 0,
                 Reviews = new List<Review>(),
                 Images = new List<ProductImage>(),
-                IsVisible = bookModel.IsVisible switch
+                IsVisible = model.IsVisible switch
                 {
                     "Visible" => true,
                     "Hidden" => false,
@@ -58,36 +64,36 @@ namespace BookStore.Areas.Admin.Controllers
                 Authors = new List<Author>(),
                 Translators = new List<Translator>(),
                 //Publisher = new Publisher(),
-                Year = bookModel.Year,
-                //Language = new Language(),
+                Year = model.Year,
+                Language = await languageService.GetLanguageByIdAsync(model.LanguageId),
                 Tags = new List<Tag>(),
                 //Series = new Series(),
-                NumberInSeries = bookModel.NumberInSeries,
+                NumberInSeries = model.NumberInSeries,
                 DigitalBook = new DigitalBook
                 {
-                    Slug = bookModel.DigitalSlug,
-                    FileName = bookModel.File == null ? "" : bookModel.File.FileName,
-                    IsAvailable = bookModel.DigitalIsAvailable,
-                    Price = bookModel.DigitalPrice,
-                    FinalPrice = bookModel.DigitalFinalPrice,
+                    Slug = model.DigitalSlug,
+                    FileName = model.File == null ? "" : model.File.FileName,
+                    IsAvailable = model.DigitalIsAvailable,
+                    Price = model.DigitalPrice,
+                    FinalPrice = model.DigitalFinalPrice,
                     //Discount = new Discount(),
-                    Isbn = bookModel.DigitalIsbn
+                    Isbn = model.DigitalIsbn
                 },
                 PhysicalBook = new PhysicalBook
                 {
-                    Slug = bookModel.Slug,
-                    CoverType = bookModel.CoverType,
-                    Pages = bookModel.Pages,
-                    Stock = bookModel.Stock,
-                    IsAvailable = bookModel.IsAvailable,
-                    Width = bookModel.Width,
-                    Height = bookModel.Height,
-                    Thickness = bookModel.Thickness,
-                    Weight = bookModel.Weight,
-                    Price = bookModel.Price,
-                    FinalPrice = bookModel.FinalPrice,
+                    Slug = model.Slug,
+                    CoverType = model.CoverType,
+                    Pages = model.Pages,
+                    Stock = model.Stock,
+                    IsAvailable = model.IsAvailable,
+                    Width = model.Width,
+                    Height = model.Height,
+                    Thickness = model.Thickness,
+                    Weight = model.Weight,
+                    Price = model.Price,
+                    FinalPrice = model.FinalPrice,
                     //Discount = new Discount(),
-                    Isbn = bookModel.Isbn
+                    Isbn = model.Isbn
                 }
             };
 
@@ -104,23 +110,28 @@ namespace BookStore.Areas.Admin.Controllers
                 ViewData["ErrorMessage"] = "Book is null";
                 return View("Error");
             }
-            return View(book);
+            BookEditViewModel model = new BookEditViewModel
+            {
+                Book = book,
+                Languages = await languageService.GetAllLanguagesAsync()
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(BookEditViewModel bookModel)
+        public async Task<IActionResult> Edit(BookEditInputModel model)
         {
-            Book? book = await productService.GetBookByIdAsync(bookModel.Id);
+            Book? book = await productService.GetBookByIdAsync(model.Id);
             if(book == null)
             {
                 ViewData["ErrorMessage"] = "Book is null";
                 return View("Error");
             }
 
-            book.Title = bookModel.Title;
-            book.Description = bookModel.Description;
+            book.Title = model.Title;
+            book.Description = model.Description;
             book.Images = new List<ProductImage>();
-            book.IsVisible = bookModel.IsVisible switch
+            book.IsVisible = model.IsVisible switch
             {
                 "Visible" => true,
                 "Hidden" => false,
@@ -129,41 +140,48 @@ namespace BookStore.Areas.Admin.Controllers
             book.Authors = new List<Author>();
             book.Translators = new List<Translator>();
             // book.Publisher = new Publisher();
-            book.Year = bookModel.Year;
-            // book.Language = new Language();
+            book.Year = model.Year;
+            book.Language = await languageService.GetLanguageByIdAsync(model.LanguageId);
             book.Tags = new List<Tag>();
             // book.Series = new Series();
-            book.NumberInSeries = bookModel.NumberInSeries;
+            book.NumberInSeries = model.NumberInSeries;
 
-            if (book.DigitalBook == null)
+            if(!model.HasDigitalBook && book.DigitalBook != null)
+            {
+                book.DigitalBook = null;
+            }
+            if (model.HasDigitalBook && book.DigitalBook == null)
             {
                 book.DigitalBook = new DigitalBook();
             }
-            book.DigitalBook.Slug = bookModel.DigitalSlug;
-            book.DigitalBook.FileName = bookModel.File == null ? "" : bookModel.File.FileName;
-            book.DigitalBook.IsAvailable = bookModel.DigitalIsAvailable;
-            book.DigitalBook.Price = bookModel.DigitalPrice;
-            book.DigitalBook.FinalPrice = bookModel.DigitalFinalPrice;
-            // book.DigitalBook.Discount = new Discount();
-            book.DigitalBook.Isbn = bookModel.DigitalIsbn;
+            if(book.DigitalBook != null)
+            {
+                book.DigitalBook.Slug = model.DigitalSlug;
+                book.DigitalBook.FileName = model.File == null ? "" : model.File.FileName;
+                book.DigitalBook.IsAvailable = model.DigitalIsAvailable;
+                book.DigitalBook.Price = model.DigitalPrice;
+                book.DigitalBook.FinalPrice = model.DigitalFinalPrice;
+                // book.DigitalBook.Discount = new Discount();
+                book.DigitalBook.Isbn = model.DigitalIsbn;
+            }
 
             if (book.PhysicalBook == null)
             {
                 book.PhysicalBook = new PhysicalBook();
             }
-            book.PhysicalBook.Slug = bookModel.Slug;
-            book.PhysicalBook.CoverType = bookModel.CoverType;
-            book.PhysicalBook.Pages = bookModel.Pages;
-            book.PhysicalBook.Stock = bookModel.Stock;
-            book.PhysicalBook.IsAvailable = bookModel.IsAvailable;
-            book.PhysicalBook.Width = bookModel.Width;
-            book.PhysicalBook.Height = bookModel.Height;
-            book.PhysicalBook.Thickness = bookModel.Thickness;
-            book.PhysicalBook.Weight = bookModel.Weight;
-            book.PhysicalBook.Price = bookModel.Price;
-            book.PhysicalBook.FinalPrice = bookModel.FinalPrice;
+            book.PhysicalBook.Slug = model.Slug;
+            book.PhysicalBook.CoverType = model.CoverType;
+            book.PhysicalBook.Pages = model.Pages;
+            book.PhysicalBook.Stock = model.Stock;
+            book.PhysicalBook.IsAvailable = model.IsAvailable;
+            book.PhysicalBook.Width = model.Width;
+            book.PhysicalBook.Height = model.Height;
+            book.PhysicalBook.Thickness = model.Thickness;
+            book.PhysicalBook.Weight = model.Weight;
+            book.PhysicalBook.Price = model.Price;
+            book.PhysicalBook.FinalPrice = model.FinalPrice;
             // book.PhysicalBook.Discount = new Discount();
-            book.PhysicalBook.Isbn = bookModel.Isbn;
+            book.PhysicalBook.Isbn = model.Isbn;
 
             await productService.UpdateBookAsync(book);
             return RedirectToAction("Details", new { book.Id });
@@ -173,6 +191,19 @@ namespace BookStore.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await productService.DeleteBookAsync(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ToggleVisibility(int id)
+        {
+            await productService.ToggleBookVisibility(id);
+
+            string? returnUrl = Request.Headers["Referer"].ToString();
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
             return RedirectToAction("Index");
         }
     }

@@ -2,6 +2,8 @@
     ViewData["Title"] = "Add book";
 }
 
+@model BookAddViewModel
+
 <form asp-action="Add" method="post">
     <div class="d-flex justify-content-between align-items-start">
         <h2>Book Title</h2>
@@ -48,7 +50,7 @@
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Author</span>
-                                <select name="Author" class="form-select py-0">
+                                <select name="AuthorId" class="form-select py-0">
                                     <option value="None">-</option>
                                     @for (int i = 0; i < 5; i++)
                                     {
@@ -58,7 +60,7 @@
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Series</span>
-                                <select name="Series" class="form-select py-0">
+                                <select name="SeriesId" class="form-select py-0">
                                     <option value="None">-</option>
                                     @for (int i = 0; i < 5; i++)
                                     {
@@ -76,7 +78,7 @@
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Publisher</span>
-                                <select name="Publisher" class="form-select py-0">
+                                <select name="PublisherId" class="form-select py-0">
                                     <option value="None">-</option>
                                     @for (int i = 0; i < 5; i++)
                                     {
@@ -86,7 +88,7 @@
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Translator</span>
-                                <select name="Translator" class="form-select py-0">
+                                <select name="TranslatorId" class="form-select py-0">
                                     <option value="None">-</option>
                                     @for (int i = 0; i < 5; i++)
                                     {
@@ -96,10 +98,10 @@
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Language</span>
-                                <select name="Language" class="form-select w-50 py-0">
-                                    @for (int i = 0; i < 2; i++)
+                                <select name="LanguageId" class="form-select w-50 py-0">
+                                    @foreach(Language language in Model.Languages)
                                     {
-                                        <option value="@i">Language @i</option>
+                                        <option value="@language.Id">@language.Name</option>
                                     }
                                 </select>
                             </div>
@@ -188,7 +190,7 @@
                                 </div>
                                 <div class="w-100">
                                     <h6>Discount</h6>
-                                    <select name="Discount" class="form-select">
+                                    <select name="DiscountId" class="form-select">
                                         <option value="0">-</option>
                                         <option value="1">10%</option>
                                         <option value="2">20%</option>
@@ -230,7 +232,7 @@
                                     </div>
                                     <div class="w-100">
                                         <h6>Discount</h6>
-                                        <select name="DigitalDiscount" class="form-select">
+                                        <select name="DigitalDiscountId" class="form-select">
                                             <option value="0">-</option>
                                             <option value="1">10%</option>
                                             <option value="2">20%</option>

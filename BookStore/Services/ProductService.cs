@@ -21,7 +21,9 @@ namespace BookStore.Services
 
         public async Task<Book?> GetBookByIdAsync(int id)
         {
-            return await dbContext.Books.FindAsync(id);
+            return await dbContext.Books
+                .Include(b => b.Language)
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task AddBookAsync(Book book)
@@ -41,6 +43,14 @@ namespace BookStore.Services
             var book = await dbContext.Books.FindAsync(id);
             if (book == null) return;
             dbContext.Books.Remove(book);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task ToggleBookVisibility(int id)
+        {
+            var book = await dbContext.Books.FindAsync(id);
+            if(book == null) return;
+            book.IsVisible = !book.IsVisible;
             await dbContext.SaveChangesAsync();
         }
     }

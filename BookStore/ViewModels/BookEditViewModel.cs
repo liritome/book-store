@@ -1,7 +1,9 @@
-﻿namespace BookStore.ViewModels
+﻿using BookStore.Models;
+
+namespace BookStore.ViewModels
 {
     public class BookEditViewModel : BookAddViewModel
     {
-        public int Id { get; set; }
+        public Book Book { get; set; } = null!;
     }
 }

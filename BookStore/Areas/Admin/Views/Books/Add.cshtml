@@ -60,17 +60,17 @@
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Series</span>
-                                <select name="SeriesId" class="form-select py-0">
-                                    <option value="None">-</option>
-                                    @for (int i = 0; i < 5; i++)
+                                <select id="seriesSelect" name="SeriesId" class="form-select py-0">
+                                    <option value="">-</option>
+                                    @foreach (Series series in Model.Series)
                                     {
-                                        <option value="@i">Series @i</option>
+                                        <option value="@series.Id">@series.Name</option>
                                     }
                                 </select>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Number is series</span>
-                                <input name="NumberInSeries" type="number" min="0" class="form-control w-50 py-0" />
+                                <input id="numberInSeriesInput" name="NumberInSeries" type="number" min="0" class="form-control w-50 py-0" />
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Year</span>
@@ -99,7 +99,7 @@
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Language</span>
                                 <select name="LanguageId" class="form-select w-50 py-0">
-                                    @foreach(Language language in Model.Languages)
+                                    @foreach (Language language in Model.Languages)
                                     {
                                         <option value="@language.Id">@language.Name</option>
                                     }
@@ -141,10 +141,17 @@
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Size</span>
                                 <div class="d-flex">
+                                    <span class="px-1">
+                                        <i class="bi bi-arrows"></i>
+                                    </span>
                                     <input name="Width" type="number" min="0" class="form-control w-50 py-0 px-2" />
-                                    <span class="px-1">x</span>
+                                    <span class="px-1">
+                                        <i class="bi bi-arrows-vertical"></i>
+                                    </span>
                                     <input name="Height" type="number" min="0" class="form-control w-50 py-0 px-2" />
-                                    <span class="px-1">x</span>
+                                    <span class="px-1">
+                                        <i class="bi bi-arrows-angle-expand"></i>
+                                    </span>
                                     <input name="Thickness" type="number" min="0" class="form-control w-50 py-0 px-2" />
                                 </div>
                             </div>
@@ -203,7 +210,7 @@
                                     <input name="FinalPrice" type="number" min="0" class="form-control" />
                                 </div>
                             </div>
-                            <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
+                            <small class="text-muted">Discount valid: - </small>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -216,7 +223,7 @@
                                     <label class="form-check-label ps-2" for="isAvailable">Available</label>
                                 </div>
                             </div>
-                            <small class="text-muted mt-4">Last restock: 11.12.2025 12:00:00</small>
+                            <small class="text-muted mt-4">Last restock:</small>
                         </div>
                     </div>
                 </div>
@@ -245,7 +252,7 @@
                                         <input name="DigitalFinalPrice" type="number" min="0" class="form-control" />
                                     </div>
                                 </div>
-                                <small class="text-muted">Discount valid until: 01.01.2026 0:00:00</small>
+                                <small class="text-muted">Discount valid: - </small>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -337,4 +344,23 @@
     toggleEbookSectionsVisibility();
 
     hasEbookCheck.addEventListener("change", toggleEbookSectionsVisibility);
+</script>
+
+<script>
+    const numberInSeriesInput = document.getElementById("numberInSeriesInput");
+    const seriesSelect = document.getElementById("seriesSelect");
+
+    function toggleNumberInSeriesInput(){
+        if(seriesSelect.value) {
+            numberInSeriesInput.disabled = false;
+        }
+        else{
+            numberInSeriesInput.value = '';
+            numberInSeriesInput.disabled = true;
+        }
+    }
+
+    seriesSelect.addEventListener("change", toggleNumberInSeriesInput);
+
+    toggleNumberInSeriesInput();
 </script>

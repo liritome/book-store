@@ -95,7 +95,7 @@
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Series</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-slug="series-name">
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-slug="@Model.Series?.Slug">
                                 @Model.Series?.Name
                             </a>
                         </div>
@@ -172,7 +172,13 @@
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Size</span>
                             <span class="text-muted">
-                                @Model.PhysicalBook?.Width x @Model.PhysicalBook?.Height x @Model.PhysicalBook?.Thickness mm
+                                <i class="bi bi-arrows"></i>
+                                <span>@Model.PhysicalBook?.Width</span>
+                                <i class="bi bi-arrows-vertical"></i>
+                                <span>@Model.PhysicalBook?.Height</span>
+                                <i class="bi bi-arrows-angle-expand"></i>
+                                <span>@Model.PhysicalBook?.Thickness</span>
+                                <span>mm</span>
                             </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">

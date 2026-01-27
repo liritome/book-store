@@ -23,6 +23,7 @@ namespace BookStore.Services
         {
             return await dbContext.Books
                 .Include(b => b.Language)
+                .Include(b => b.Series)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 

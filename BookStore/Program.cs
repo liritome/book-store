@@ -18,8 +18,10 @@ namespace BookStore
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<BookStoreDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnectionString")));
+
             builder.Services.AddScoped<ProductService>();
             builder.Services.AddScoped<LanguageService>();
+            builder.Services.AddScoped<SeriesService>();
 
             var app = builder.Build();
 

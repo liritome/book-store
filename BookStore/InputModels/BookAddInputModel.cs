@@ -13,8 +13,8 @@ namespace BookStore.InputModels
         public int PublisherId { get; set; }
         public int Year { get; set; }
         public int LanguageId { get; set; }
-        public int SeriesId { get; set; }
-        public int NumberInSeries { get; set; }
+        public int? SeriesId { get; set; }
+        public int? NumberInSeries { get; set; }
         public bool HasDigitalBook { get; set; }
 
         public string Slug { get; set; } = null!;

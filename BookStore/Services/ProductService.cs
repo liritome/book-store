@@ -24,6 +24,9 @@ namespace BookStore.Services
             return await dbContext.Books
                 .Include(b => b.Language)
                 .Include(b => b.Series)
+                .Include(b => b.Publisher)
+                .Include(b => b.PhysicalBook.Discount)
+                .Include(b => b.DigitalBook.Discount)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 

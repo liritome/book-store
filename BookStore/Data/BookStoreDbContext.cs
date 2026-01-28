@@ -35,7 +35,10 @@ namespace BookStore.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<Discount>()
+                .HasDiscriminator<string>("Type")
+                .HasValue<PercentageDiscount>("Percentage")
+                .HasValue<AmountDiscount>("Amount");
         }
     }
 }

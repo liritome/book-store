@@ -96,14 +96,8 @@
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Series</span>
                             <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-slug="@Model.Series?.Slug">
-                                @Model.Series?.Name
+                                @Model.Series?.Name #@Model.NumberInSeries
                             </a>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Number in series</span>
-                            <span class="text-muted">
-                                @Model.NumberInSeries
-                            </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Year</span>
@@ -222,7 +216,7 @@
                             </div>
                             <div class="w-100">
                                 <h6>Discount</h6>
-                                <h3 class="text-success">@Model.PhysicalBook?.Discount?.Percentage%</h3>
+                                <h3 class="text-success">@Model.PhysicalBook?.Discount?.Display()</h3>
                             </div>
                             <div class="w-100">
                                 <h6>Final price</h6>
@@ -270,7 +264,7 @@
                                 </div>
                                 <div class="w-100">
                                     <h6>Discount</h6>
-                                    <h3 class="text-success">@Model.DigitalBook?.Discount?.Percentage%</h3>
+                                    <h3 class="text-success">@Model.DigitalBook?.Discount?.Display()</h3>
                                 </div>
                                 <div class="w-100">
                                     <h6>Final price</h6>

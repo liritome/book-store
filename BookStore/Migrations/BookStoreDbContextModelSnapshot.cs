@@ -174,8 +174,10 @@ namespace BookStore.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Percentage")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<DateTime>("ValidFrom")
                         .HasColumnType("datetime2");
@@ -186,6 +188,10 @@ namespace BookStore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Discounts");
+
+                    b.HasDiscriminator<string>("Type").HasValue("Discount");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("BookStore.Models.Language", b =>
@@ -556,6 +562,26 @@ namespace BookStore.Migrations
                     b.HasIndex("WishlistId");
 
                     b.ToTable("CustomerProduct");
+                });
+
+            modelBuilder.Entity("BookStore.Models.AmountDiscount", b =>
+                {
+                    b.HasBaseType("BookStore.Models.Discount");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("Amount");
+                });
+
+            modelBuilder.Entity("BookStore.Models.PercentageDiscount", b =>
+                {
+                    b.HasBaseType("BookStore.Models.Discount");
+
+                    b.Property<int>("Percentage")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("Percentage");
                 });
 
             modelBuilder.Entity("BookStore.Models.Book", b =>

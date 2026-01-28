@@ -12,12 +12,18 @@ namespace BookStore.Areas.Admin.Controllers
         private readonly ProductService productService;
         private readonly LanguageService languageService;
         private readonly SeriesService seriesService;
+        private readonly PublisherService publisherService;
+        private readonly DiscountService discountService;
 
-        public BooksController(ProductService productService, LanguageService languageService, SeriesService seriesService)
+        public BooksController(ProductService productService, LanguageService languageService,
+            SeriesService seriesService, PublisherService publisherService,
+            DiscountService discountService)
         {
             this.productService = productService;
             this.languageService = languageService;
             this.seriesService = seriesService;
+            this.publisherService = publisherService;
+            this.discountService = discountService;
         }
 
         public async Task<IActionResult> Index()
@@ -43,7 +49,9 @@ namespace BookStore.Areas.Admin.Controllers
             BookAddViewModel model = new BookAddViewModel
             {
                 Languages = await languageService.GetAllLanguagesAsync(),
-                Series = await seriesService.GetAllSeriesAsync()
+                Series = await seriesService.GetAllSeriesAsync(),
+                Publishers = await publisherService.GetAllPublishersAsync(),
+                Discounts = await discountService.GetAllDiscountsAsync()
             };
             return View(model);
         }
@@ -68,7 +76,7 @@ namespace BookStore.Areas.Admin.Controllers
 
                 Authors = new List<Author>(),
                 Translators = new List<Translator>(),
-                //PublisherId = model.PublisherId,
+                PublisherId = model.PublisherId,
                 Year = model.Year,
                 LanguageId = model.LanguageId,
                 Tags = new List<Tag>(),
@@ -87,7 +95,7 @@ namespace BookStore.Areas.Admin.Controllers
                     Weight = model.Weight,
                     Price = model.Price,
                     FinalPrice = model.FinalPrice,
-                    //DiscountId = model.DigitalDiscountId,
+                    DiscountId = model.DigitalDiscountId,
                     Isbn = model.Isbn
                 },
                 DigitalBook = model.HasDigitalBook ? new DigitalBook
@@ -97,7 +105,7 @@ namespace BookStore.Areas.Admin.Controllers
                     IsAvailable = model.DigitalIsAvailable,
                     Price = model.DigitalPrice,
                     FinalPrice = model.DigitalFinalPrice,
-                    //DiscountId = model.DiscountId,
+                    DiscountId = model.DiscountId,
                     Isbn = model.DigitalIsbn
                 } : null
             };
@@ -120,6 +128,8 @@ namespace BookStore.Areas.Admin.Controllers
                 Book = book,
                 Languages = await languageService.GetAllLanguagesAsync(),
                 Series = await seriesService.GetAllSeriesAsync(),
+                Publishers = await publisherService.GetAllPublishersAsync(),
+                Discounts = await discountService.GetAllDiscountsAsync()
             };
             return View(model);
         }
@@ -128,7 +138,7 @@ namespace BookStore.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(BookEditInputModel model)
         {
             Book? book = await productService.GetBookByIdAsync(model.Id);
-            if(book == null)
+            if (book == null)
             {
                 ViewData["ErrorMessage"] = "Book is null";
                 return View("Error");
@@ -146,7 +156,7 @@ namespace BookStore.Areas.Admin.Controllers
             };
             book.Authors = new List<Author>();
             book.Translators = new List<Translator>();
-            // book.PublisherId = model.PublisherId;
+            book.PublisherId = model.PublisherId;
             book.Year = model.Year;
             book.LanguageId = model.LanguageId;
             book.Tags = new List<Tag>();
@@ -165,10 +175,10 @@ namespace BookStore.Areas.Admin.Controllers
             book.PhysicalBook.Weight = model.Weight;
             book.PhysicalBook.Price = model.Price;
             book.PhysicalBook.FinalPrice = model.FinalPrice;
-            // book.PhysicalBook.DiscountId = model.DiscountId;
+            book.PhysicalBook.DiscountId = model.DiscountId;
             book.PhysicalBook.Isbn = model.Isbn;
 
-            if(!model.HasDigitalBook)
+            if (!model.HasDigitalBook)
             {
                 book.DigitalBook = null;
             }
@@ -180,7 +190,7 @@ namespace BookStore.Areas.Admin.Controllers
                 book.DigitalBook.IsAvailable = model.DigitalIsAvailable;
                 book.DigitalBook.Price = model.DigitalPrice;
                 book.DigitalBook.FinalPrice = model.DigitalFinalPrice;
-                // book.DigitalBook.DiscountId = model.DigitalDiscountId;
+                book.DigitalBook.DiscountId = model.DigitalDiscountId;
                 book.DigitalBook.Isbn = model.DigitalIsbn;
             }
 

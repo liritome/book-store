@@ -10,7 +10,7 @@ namespace BookStore.InputModels
         public string IsVisible { get; set; } = null!;
         public int AuthorId { get; set; }
         public int TranslatorId { get; set; }
-        public int PublisherId { get; set; }
+        public int? PublisherId { get; set; }
         public int Year { get; set; }
         public int LanguageId { get; set; }
         public int? SeriesId { get; set; }
@@ -26,7 +26,7 @@ namespace BookStore.InputModels
         public int Thickness { get; set; }
         public int Weight { get; set; }
         public int Price { get; set; }
-        public int DiscountId { get; set; }
+        public int? DiscountId { get; set; }
         public int FinalPrice { get; set; }
         public int Stock { get; set; }
         public bool IsAvailable { get; set; }
@@ -35,7 +35,7 @@ namespace BookStore.InputModels
         public string DigitalIsbn { get; set; } = null!;
         public IFormFile? File { get; set; }
         public int DigitalPrice { get; set; }
-        public int DigitalDiscountId { get; set; }
+        public int? DigitalDiscountId { get; set; }
         public int DigitalFinalPrice { get; set; }
         public bool DigitalIsAvailable { get; set; }
     }

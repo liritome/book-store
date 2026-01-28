@@ -25,6 +25,6 @@ namespace BookStore.Models
         public int? NumberInSeries { get; set; }
 
         public DigitalBook? DigitalBook { get; set; }
-        public PhysicalBook? PhysicalBook { get; set; } = null!;
+        public PhysicalBook PhysicalBook { get; set; } = null!;
     }
 }

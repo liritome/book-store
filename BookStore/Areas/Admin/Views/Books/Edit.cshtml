@@ -71,7 +71,7 @@
                                     <option value="" selected="@(Model.Book.Series == null)">-</option>
                                     @foreach (Series series in Model.Series)
                                     {
-                                        <option value="@series.Id" selected="@(series.Id == Model.Book.Series?.Id)">@series.Name</option>
+                                        <option value="@series.Id" selected="@(series.Id == Model.Book.SeriesId)">@series.Name</option>
                                     }
                                 </select>
                             </div>
@@ -88,10 +88,10 @@
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Publisher</span>
                                 <select name="PublisherId" class="form-select py-0">
-                                    <option value="None">-</option>
-                                    @for (int i = 0; i < 200; i++)
+                                    <option value="" selected="@(Model.Book.Publisher == null)">-</option>
+                                    @foreach (Publisher publisher in Model.Publishers)
                                     {
-                                        <option value="Publisher">Publishing Name</option>
+                                        <option value="@publisher.Id" selected="@(publisher.Id == Model.Book.PublisherId)">@publisher.Name</option>
                                     }
                                 </select>
                             </div>
@@ -212,22 +212,26 @@
                             <div class="d-flex gap-2">
                                 <div class="w-100">
                                     <h6>Price</h6>
-                                    <input name="Price" type="number" min="0" class="form-control"
+                                    <input id="priceInput" name="Price" type="number" min="0" class="form-control"
                                            value="@Model.Book.PhysicalBook?.Price" />
                                 </div>
                                 <div class="w-100">
                                     <h6>Discount</h6>
-                                    <select name="DiscountId" class="form-select">
-                                        <option value="None">-</option>
-                                        <option value="1">10%</option>
-                                        <option value="2">20%</option>
-                                        <option value="3">30%</option>
-                                        <option value="4">40%</option>
+                                    <select id ="discountSelect" name="DiscountId" class="form-select">
+                                        <option value="" selected="@(Model.Book.PhysicalBook?.Discount == null)">-</option>
+                                        @foreach (Discount discount in Model.Discounts)
+                                        {
+                                            <option value="@discount.Id" selected="@(discount.Id == Model.Book.PhysicalBook?.DiscountId)"
+                                                    data-type="@discount.GetType().Name"
+                                                    data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
+                                                @discount.Name (@discount.Display())
+                                            </option>
+                                        }
                                     </select>
                                 </div>
                                 <div class="w-100">
                                     <h6>Final price</h6>
-                                    <input name="FinalPrice" type="number" min="0" class="form-control"
+                                    <input id="finalPriceInput" name="FinalPrice" type="number" min="0" class="form-control"
                                            value="@Model.Book.PhysicalBook?.FinalPrice" />
                                 </div>
                             </div>
@@ -263,11 +267,11 @@
                                     <div class="w-100">
                                         <h6>Discount</h6>
                                         <select name="DigitalDiscountId" class="form-select">
-                                            <option value="None">-</option>
-                                            <option value="1">10%</option>
-                                            <option value="2">20%</option>
-                                            <option value="3">30%</option>
-                                            <option value="4">40%</option>
+                                            <option value="" selected="@(Model.Book.DigitalBook?.Discount == null)">-</option>
+                                            @foreach (Discount discount in Model.Discounts)
+                                            {
+                                                <option value="@discount.Id" selected="@(discount.Id == Model.Book.DigitalBook?.DiscountId)">@discount.Name (@discount.Display())</option>
+                                            }
                                         </select>
                                     </div>
                                     <div class="w-100">
@@ -338,53 +342,8 @@
     </div>
 </form>
 
-<script>
-    const scheduledRadio = document.getElementById("scheduledAtRadio");
-    const scheduledAt = document.getElementById("scheduledAt");
-    document.querySelectorAll('input[name="IsVisible"]').forEach(radio => {
-        radio.addEventListener('change', () => {
-            if (scheduledRadio.checked) {
-                scheduledAt.disabled = false;
-            }
-            else {
-                scheduledAt.value = "";
-                scheduledAt.disabled = true;
-            }
-        });
-    });
-</script>
-
-<script>
-    const hasEbookCheck = document.getElementById("hasDigitalBook");
-    const ebookDetails = document.getElementById("digitalBookDetails");
-    const ebookStockAndPricing = document.getElementById("digitalBookStockAndPricing");
-
-    function toggleEbookSectionsVisibility(){
-        const isChecked = hasEbookCheck.checked;
-        ebookDetails.classList.toggle("d-none", !isChecked);
-        ebookStockAndPricing.classList.toggle("d-none", !isChecked);
-    }
-
-    toggleEbookSectionsVisibility();
-
-    hasEbookCheck.addEventListener("change", toggleEbookSectionsVisibility);
-</script>
-
-<script>
-    const numberInSeriesInput = document.getElementById("numberInSeriesInput");
-    const seriesSelect = document.getElementById("seriesSelect");
-
-    function toggleNumberInSeriesInput(){
-        if(seriesSelect.value) {
-            numberInSeriesInput.disabled = false;
-        }
-        else{
-            numberInSeriesInput.value = '';
-            numberInSeriesInput.disabled = true;
-        }
-    }
-
-    seriesSelect.addEventListener("change", toggleNumberInSeriesInput);
-
-    toggleNumberInSeriesInput();
-</script>
+<script src="~/js/book-scheduled-disabled-toggle.js"></script>
+<script src="~/js/book-ebook-details-visibility-toggle.js"></script>
+<script src="~/js/book-number-in-series-disabled-toggle.js"></script>
+<script src="~/js/book-fill-final-price.js"></script>
+<script src="~/js/book-form-reset-disabled-inputs.js"></script>

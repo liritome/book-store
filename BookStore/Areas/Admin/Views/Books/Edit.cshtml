@@ -68,7 +68,7 @@
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Series</span>
                                 <select id="seriesSelect" name="SeriesId" class="form-select py-0">
-                                    <option value="" selected="@(Model.Book.Series == null)">-</option>
+                                    <option value="" selected="@(Model.Book.SeriesId == null)">-</option>
                                     @foreach (Series series in Model.Series)
                                     {
                                         <option value="@series.Id" selected="@(series.Id == Model.Book.SeriesId)">@series.Name</option>
@@ -88,7 +88,7 @@
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Publisher</span>
                                 <select name="PublisherId" class="form-select py-0">
-                                    <option value="" selected="@(Model.Book.Publisher == null)">-</option>
+                                    <option value="" selected="@(Model.Book.PublisherId == null)">-</option>
                                     @foreach (Publisher publisher in Model.Publishers)
                                     {
                                         <option value="@publisher.Id" selected="@(publisher.Id == Model.Book.PublisherId)">@publisher.Name</option>
@@ -217,8 +217,8 @@
                                 </div>
                                 <div class="w-100">
                                     <h6>Discount</h6>
-                                    <select id ="discountSelect" name="DiscountId" class="form-select">
-                                        <option value="" selected="@(Model.Book.PhysicalBook?.Discount == null)">-</option>
+                                    <select id="discountSelect" name="DiscountId" class="form-select">
+                                        <option value="" selected="@(Model.Book.PhysicalBook?.DiscountId == null)">-</option>
                                         @foreach (Discount discount in Model.Discounts)
                                         {
                                             <option value="@discount.Id" selected="@(discount.Id == Model.Book.PhysicalBook?.DiscountId)"
@@ -261,22 +261,26 @@
                                 <div class="d-flex gap-2">
                                     <div class="w-100">
                                         <h6>Price</h6>
-                                        <input name="DigitalPrice" type="number" min="0" class="form-control"
+                                        <input id="digitalPriceInput" name="DigitalPrice" type="number" min="0" class="form-control"
                                                value="@Model.Book.DigitalBook?.Price" />
                                     </div>
                                     <div class="w-100">
                                         <h6>Discount</h6>
-                                        <select name="DigitalDiscountId" class="form-select">
-                                            <option value="" selected="@(Model.Book.DigitalBook?.Discount == null)">-</option>
+                                        <select id="digitalDiscountSelect" name="DigitalDiscountId" class="form-select">
+                                            <option value="" selected="@(Model.Book.DigitalBook?.DiscountId == null)">-</option>
                                             @foreach (Discount discount in Model.Discounts)
                                             {
-                                                <option value="@discount.Id" selected="@(discount.Id == Model.Book.DigitalBook?.DiscountId)">@discount.Name (@discount.Display())</option>
+                                                <option value="@discount.Id" selected="@(discount.Id == Model.Book.DigitalBook?.DiscountId)"
+                                                        data-type="@discount.GetType().Name"
+                                                        data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
+                                                    @discount.Name (@discount.Display())
+                                                </option>
                                             }
                                         </select>
                                     </div>
                                     <div class="w-100">
                                         <h6>Final price</h6>
-                                        <input name="DigitalFinalPrice" type="number" min="0" class="form-control"
+                                        <input id="digitalFinalPriceInput" name="DigitalFinalPrice" type="number" min="0" class="form-control"
                                                value="@Model.Book.DigitalBook?.FinalPrice" />
                                     </div>
                                 </div>
@@ -342,8 +346,4 @@
     </div>
 </form>
 
-<script src="~/js/book-scheduled-disabled-toggle.js"></script>
-<script src="~/js/book-ebook-details-visibility-toggle.js"></script>
-<script src="~/js/book-number-in-series-disabled-toggle.js"></script>
-<script src="~/js/book-fill-final-price.js"></script>
-<script src="~/js/book-form-reset-disabled-inputs.js"></script>
+<script src="~/js/book-add-edit.js"></script>

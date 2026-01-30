@@ -237,11 +237,11 @@
                                 <div class="d-flex gap-2">
                                     <div class="w-100">
                                         <h6>Price</h6>
-                                        <input name="DigitalPrice" type="number" min="0" class="form-control" />
+                                        <input id="digitalPriceInput" name="DigitalPrice" type="number" min="0" class="form-control" />
                                     </div>
                                     <div class="w-100">
                                         <h6>Discount</h6>
-                                        <select name="DigitalDiscountId" class="form-select">
+                                        <select id="digitalDiscountSelect" name="DigitalDiscountId" class="form-select">
                                             <option value="">-</option>
                                             @foreach (Discount discount in Model.Discounts)
                                             {
@@ -251,7 +251,7 @@
                                     </div>
                                     <div class="w-100">
                                         <h6>Final price</h6>
-                                        <input name="DigitalFinalPrice" type="number" min="0" class="form-control" />
+                                        <input id="digitalFinalPriceInput" name="DigitalFinalPrice" type="number" min="0" class="form-control" />
                                     </div>
                                 </div>
                                 <small class="text-muted">Discount valid: - </small>
@@ -316,8 +316,4 @@
     </div>
 </form>
 
-<script src="~/js/book-scheduled-disabled-toggle.js"></script>
-<script src="~/js/book-ebook-details-visibility-toggle.js"></script>
-<script src="~/js/book-number-in-series-disabled-toggle.js"></script>
-<script src="~/js/book-fill-final-price.js"></script>
-<script src="~/js/book-form-reset-disabled-inputs.js"></script>
+<script src="~/js/book-add-edit.js"></script>

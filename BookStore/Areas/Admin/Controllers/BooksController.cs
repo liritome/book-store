@@ -95,7 +95,7 @@ namespace BookStore.Areas.Admin.Controllers
                     Weight = model.Weight,
                     Price = model.Price,
                     FinalPrice = model.FinalPrice,
-                    DiscountId = model.DigitalDiscountId,
+                    DiscountId = model.DiscountId,
                     Isbn = model.Isbn
                 },
                 DigitalBook = model.HasDigitalBook ? new DigitalBook
@@ -105,7 +105,7 @@ namespace BookStore.Areas.Admin.Controllers
                     IsAvailable = model.DigitalIsAvailable,
                     Price = model.DigitalPrice,
                     FinalPrice = model.DigitalFinalPrice,
-                    DiscountId = model.DiscountId,
+                    DiscountId = model.DigitalDiscountId,
                     Isbn = model.DigitalIsbn
                 } : null
             };

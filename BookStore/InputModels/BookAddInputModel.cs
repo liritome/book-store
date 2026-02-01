@@ -1,5 +1,4 @@
 ﻿using BookStore.Models;
-using System.Reflection;
 
 namespace BookStore.InputModels
 {
@@ -8,8 +7,8 @@ namespace BookStore.InputModels
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string IsVisible { get; set; } = null!;
-        public int AuthorId { get; set; }
-        public int TranslatorId { get; set; }
+        public int? AuthorId { get; set; }
+        public int? TranslatorId { get; set; }
         public int? PublisherId { get; set; }
         public int Year { get; set; }
         public int LanguageId { get; set; }

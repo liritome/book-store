@@ -49,7 +49,7 @@
                             <h5>Details</h5>
                         </div>
                         <div class="list-group list-group-flush text-end">
-                            <input hidden name="Id" type="number" value="@Model.Book.Id" />
+                            <input hidden name="BookId" type="number" value="@Model.Book.Id" />
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Title</span>
                                 <input name="Title" type="text" class="form-control py-0"
@@ -58,10 +58,12 @@
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Author</span>
                                 <select name="AuthorId" class="form-select py-0">
-                                    <option value="None">-</option>
-                                    @for (int i = 0; i < 200; i++)
+                                    <option value="" selected="@(Model.Book.Authors.Count == 0)">-</option>
+                                    @foreach (Author author in Model.Authors)
                                     {
-                                        <option value="Author">Author Name</option>
+                                        <option value="@author.Id" selected="@(author.Id == Model.Book.Authors.FirstOrDefault()?.Id)">
+                                            @author.Name
+                                        </option>
                                     }
                                 </select>
                             </div>
@@ -71,7 +73,9 @@
                                     <option value="" selected="@(Model.Book.SeriesId == null)">-</option>
                                     @foreach (Series series in Model.Series)
                                     {
-                                        <option value="@series.Id" selected="@(series.Id == Model.Book.SeriesId)">@series.Name</option>
+                                        <option value="@series.Id" selected="@(series.Id == Model.Book.SeriesId)">
+                                            @series.Name
+                                        </option>
                                     }
                                 </select>
                             </div>
@@ -91,17 +95,21 @@
                                     <option value="" selected="@(Model.Book.PublisherId == null)">-</option>
                                     @foreach (Publisher publisher in Model.Publishers)
                                     {
-                                        <option value="@publisher.Id" selected="@(publisher.Id == Model.Book.PublisherId)">@publisher.Name</option>
+                                        <option value="@publisher.Id" selected="@(publisher.Id == Model.Book.PublisherId)">
+                                            @publisher.Name
+                                        </option>
                                     }
                                 </select>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Translator</span>
                                 <select name="TranslatorId" class="form-select py-0">
-                                    <option value="None">-</option>
-                                    @for (int i = 0; i < 200; i++)
+                                    <option value="" selected="@(Model.Book.Translators.Count == 0)">-</option>
+                                    @foreach (Translator translator in Model.Translators)
                                     {
-                                        <option value="TranslatorName">Translator Name</option>
+                                        <option value="@translator.Id" selected="@(translator.Id == Model.Book.Translators.FirstOrDefault()?.Id)">
+                                            @translator.Name
+                                        </option>
                                     }
                                 </select>
                             </div>
@@ -110,7 +118,9 @@
                                 <select name="LanguageId" class="form-select w-50 py-0">
                                     @foreach (Language language in Model.Languages)
                                     {
-                                        <option value="@language.Id" selected="@(language.Id == Model.Book.LanguageId)">@language.Name</option>
+                                        <option value="@language.Id" selected="@(language.Id == Model.Book.LanguageId)">
+                                            @language.Name
+                                        </option>
                                     }
                                 </select>
                             </div>

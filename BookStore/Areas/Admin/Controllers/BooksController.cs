@@ -14,16 +14,20 @@ namespace BookStore.Areas.Admin.Controllers
         private readonly SeriesService seriesService;
         private readonly PublisherService publisherService;
         private readonly DiscountService discountService;
+        private readonly AuthorService authorService;
+        private readonly TranslatorService translatorService;
 
         public BooksController(ProductService productService, LanguageService languageService,
-            SeriesService seriesService, PublisherService publisherService,
-            DiscountService discountService)
+            SeriesService seriesService, PublisherService publisherService, DiscountService discountService,
+            AuthorService authorService, TranslatorService translatorService)
         {
             this.productService = productService;
             this.languageService = languageService;
             this.seriesService = seriesService;
             this.publisherService = publisherService;
             this.discountService = discountService;
+            this.authorService = authorService;
+            this.translatorService = translatorService;
         }
 
         public async Task<IActionResult> Index()
@@ -51,7 +55,9 @@ namespace BookStore.Areas.Admin.Controllers
                 Languages = await languageService.GetAllLanguagesAsync(),
                 Series = await seriesService.GetAllSeriesAsync(),
                 Publishers = await publisherService.GetAllPublishersAsync(),
-                Discounts = await discountService.GetAllDiscountsAsync()
+                Discounts = await discountService.GetAllDiscountsAsync(),
+                Authors = await authorService.GetAllAuthorsAsync(),
+                Translators = await translatorService.GetAllTranslatorsAsync()
             };
             return View(model);
         }
@@ -59,58 +65,7 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(BookAddInputModel model)
         {
-            var book = new Book
-            {
-                Title = model.Title,
-                Description = model.Description,
-                Rating = 0,
-                Reviews = new List<Review>(),
-                Images = new List<ProductImage>(),
-                IsVisible = model.IsVisible switch
-                {
-                    "Visible" => true,
-                    "Hidden" => false,
-                    "Scheduled" => false,
-                    _ => false
-                },
-
-                Authors = new List<Author>(),
-                Translators = new List<Translator>(),
-                PublisherId = model.PublisherId,
-                Year = model.Year,
-                LanguageId = model.LanguageId,
-                Tags = new List<Tag>(),
-                SeriesId = model.SeriesId,
-                NumberInSeries = model.NumberInSeries,
-                PhysicalBook = new PhysicalBook
-                {
-                    Slug = model.Slug,
-                    CoverType = model.CoverType,
-                    Pages = model.Pages,
-                    Stock = model.Stock,
-                    IsAvailable = model.IsAvailable,
-                    Width = model.Width,
-                    Height = model.Height,
-                    Thickness = model.Thickness,
-                    Weight = model.Weight,
-                    Price = model.Price,
-                    FinalPrice = model.FinalPrice,
-                    DiscountId = model.DiscountId,
-                    Isbn = model.Isbn
-                },
-                DigitalBook = model.HasDigitalBook ? new DigitalBook
-                {
-                    Slug = model.DigitalSlug,
-                    FileName = model.File == null ? "" : model.File.FileName,
-                    IsAvailable = model.DigitalIsAvailable,
-                    Price = model.DigitalPrice,
-                    FinalPrice = model.DigitalFinalPrice,
-                    DiscountId = model.DigitalDiscountId,
-                    Isbn = model.DigitalIsbn
-                } : null
-            };
-
-            await productService.AddBookAsync(book);
+            await productService.AddBookAsync(model);
             return RedirectToAction("Index");
         }
 
@@ -129,7 +84,9 @@ namespace BookStore.Areas.Admin.Controllers
                 Languages = await languageService.GetAllLanguagesAsync(),
                 Series = await seriesService.GetAllSeriesAsync(),
                 Publishers = await publisherService.GetAllPublishersAsync(),
-                Discounts = await discountService.GetAllDiscountsAsync()
+                Discounts = await discountService.GetAllDiscountsAsync(),
+                Authors = await authorService.GetAllAuthorsAsync(),
+                Translators = await translatorService.GetAllTranslatorsAsync()
             };
             return View(model);
         }
@@ -137,65 +94,8 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(BookEditInputModel model)
         {
-            Book? book = await productService.GetBookByIdAsync(model.Id);
-            if (book == null)
-            {
-                ViewData["ErrorMessage"] = "Book is null";
-                return View("Error");
-            }
-
-            book.Title = model.Title;
-            book.Description = model.Description;
-            book.Images = new List<ProductImage>();
-            book.IsVisible = model.IsVisible switch
-            {
-                "Visible" => true,
-                "Hidden" => false,
-                "Scheduled" => false,
-                _ => false
-            };
-            book.Authors = new List<Author>();
-            book.Translators = new List<Translator>();
-            book.PublisherId = model.PublisherId;
-            book.Year = model.Year;
-            book.LanguageId = model.LanguageId;
-            book.Tags = new List<Tag>();
-            book.SeriesId = model.SeriesId;
-            book.NumberInSeries = model.NumberInSeries;
-
-            book.PhysicalBook ??= new PhysicalBook();
-            book.PhysicalBook.Slug = model.Slug;
-            book.PhysicalBook.CoverType = model.CoverType;
-            book.PhysicalBook.Pages = model.Pages;
-            book.PhysicalBook.Stock = model.Stock;
-            book.PhysicalBook.IsAvailable = model.IsAvailable;
-            book.PhysicalBook.Width = model.Width;
-            book.PhysicalBook.Height = model.Height;
-            book.PhysicalBook.Thickness = model.Thickness;
-            book.PhysicalBook.Weight = model.Weight;
-            book.PhysicalBook.Price = model.Price;
-            book.PhysicalBook.FinalPrice = model.FinalPrice;
-            book.PhysicalBook.DiscountId = model.DiscountId;
-            book.PhysicalBook.Isbn = model.Isbn;
-
-            if (!model.HasDigitalBook)
-            {
-                book.DigitalBook = null;
-            }
-            else
-            {
-                book.DigitalBook ??= new DigitalBook();
-                book.DigitalBook.Slug = model.DigitalSlug;
-                book.DigitalBook.FileName = model.File == null ? "" : model.File.FileName;
-                book.DigitalBook.IsAvailable = model.DigitalIsAvailable;
-                book.DigitalBook.Price = model.DigitalPrice;
-                book.DigitalBook.FinalPrice = model.DigitalFinalPrice;
-                book.DigitalBook.DiscountId = model.DigitalDiscountId;
-                book.DigitalBook.Isbn = model.DigitalIsbn;
-            }
-
-            await productService.UpdateBookAsync(book);
-            return RedirectToAction("Details", new { book.Id });
+            await productService.UpdateBookAsync(model);
+            return RedirectToAction("Details", new { Id = model.BookId });
         }
 
         [HttpPost]

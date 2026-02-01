@@ -96,7 +96,7 @@
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Series</span>
                             <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-slug="@Model.Series?.Slug">
-                                @Model.Series?.Name #@Model.NumberInSeries
+                                @(Model.SeriesId == null ? "" : $"{Model.Series?.Name} #{Model.NumberInSeries}")
                             </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">

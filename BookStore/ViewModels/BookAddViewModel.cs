@@ -8,5 +8,7 @@ namespace BookStore.ViewModels
         public IEnumerable<Series> Series { get; set; } = [];
         public IEnumerable<Publisher> Publishers { get; set; } = [];
         public IEnumerable<Discount> Discounts { get; set; } = [];
+        public IEnumerable<Author> Authors { get; set; } = [];
+        public IEnumerable<Translator> Translators { get; set; } = [];
     }
 }

@@ -15,6 +15,6 @@ namespace BookStore.Models
         public string Slug { get; set; } = null!;
 
         public string? ImageUrl { get; set; }
-        public virtual ICollection<Book> Books { get; set; } = new List<Book>();
+        public virtual ICollection<BookEdition> BookEditions { get; set; } = new List<BookEdition>();
     }
 }

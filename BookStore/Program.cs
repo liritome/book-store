@@ -19,7 +19,9 @@ namespace BookStore
             builder.Services.AddDbContext<BookStoreDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnectionString")));
 
-            builder.Services.AddScoped<ProductService>();
+            builder.Services.AddScoped<BookBaseService>();
+            builder.Services.AddScoped<BookEditionService>();
+            builder.Services.AddScoped<PhysicalBookService>();
             builder.Services.AddScoped<LanguageService>();
             builder.Services.AddScoped<SeriesService>();
             builder.Services.AddScoped<PublisherService>();

@@ -1,8 +1,8 @@
-﻿@{
+﻿@model List<PhysicalBook>
+
+@{
     ViewData["Title"] = "Books";
 }
-
-@model List<Book>
 
 @{
     var routeValues = new Dictionary<string, string>();
@@ -105,7 +105,7 @@
                             <a asp-all-route-data="routeValues">
                                 ID
                                 <i class="bi @(Context.Request.Query["sort"] == "idAsc" ? "bi-caret-down-fill"
-                                : (Context.Request.Query["sort"] == "idDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                    : (Context.Request.Query["sort"] == "idDesc" ? "bi-caret-up-fill" : "")) "></i>
                             </a>
                         </th>
                         <th>Image</th>
@@ -116,7 +116,7 @@
                             <a asp-all-route-data="routeValues">
                                 Name
                                 <i class="bi @(Context.Request.Query["sort"] == "nameAsc" ? "bi-caret-down-fill"
-                                : (Context.Request.Query["sort"] == "nameDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                    : (Context.Request.Query["sort"] == "nameDesc" ? "bi-caret-up-fill" : "")) "></i>
                             </a>
                         </th>
                         <th>
@@ -126,7 +126,7 @@
                             <a asp-all-route-data="routeValues">
                                 Type
                                 <i class="bi @(Context.Request.Query["sort"] == "typeAsc" ? "bi-caret-down-fill"
-                                : (Context.Request.Query["sort"] == "typeDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                    : (Context.Request.Query["sort"] == "typeDesc" ? "bi-caret-up-fill" : "")) "></i>
                             </a>
                         </th>
                         <th>
@@ -136,7 +136,7 @@
                             <a asp-all-route-data="routeValues">
                                 ISBN
                                 <i class="bi @(Context.Request.Query["sort"] == "isbnAsc" ? "bi-caret-down-fill"
-                                : (Context.Request.Query["sort"] == "isbnDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                    : (Context.Request.Query["sort"] == "isbnDesc" ? "bi-caret-up-fill" : "")) "></i>
                             </a>
                         </th>
                         <th>
@@ -146,7 +146,7 @@
                             <a asp-all-route-data="routeValues">
                                 Price
                                 <i class="bi @(Context.Request.Query["sort"] == "priceAsc" ? "bi-caret-down-fill"
-                                : (Context.Request.Query["sort"] == "priceDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                    : (Context.Request.Query["sort"] == "priceDesc" ? "bi-caret-up-fill" : "")) "></i>
                             </a>
                         </th>
                         <th>
@@ -156,7 +156,7 @@
                             <a asp-all-route-data="routeValues">
                                 Discount
                                 <i class="bi @(Context.Request.Query["sort"] == "discountAsc" ? "bi-caret-down-fill"
-                                : (Context.Request.Query["sort"] == "discountDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                    : (Context.Request.Query["sort"] == "discountDesc" ? "bi-caret-up-fill" : "")) "></i>
                             </a>
                         </th>
                         <th>
@@ -166,7 +166,7 @@
                             <a asp-all-route-data="routeValues">
                                 Final
                                 <i class="bi @(Context.Request.Query["sort"] == "finalAsc" ? "bi-caret-down-fill"
-                                : (Context.Request.Query["sort"] == "finalDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                    : (Context.Request.Query["sort"] == "finalDesc" ? "bi-caret-up-fill" : "")) "></i>
                             </a>
                         </th>
                         <th>
@@ -176,14 +176,14 @@
                             <a asp-all-route-data="routeValues">
                                 Stock
                                 <i class="bi @(Context.Request.Query["sort"] == "stockAsc" ? "bi-caret-down-fill"
-                                : (Context.Request.Query["sort"] == "stockDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                    : (Context.Request.Query["sort"] == "stockDesc" ? "bi-caret-up-fill" : "")) "></i>
                             </a>
                         </th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(Book book in Model)
+                    @foreach(var book in Model)
                     {
                         <tr>
                             <td class="admin-table-status">
@@ -197,7 +197,7 @@
                                 }
                             </td>
                             <td>
-                                <a class="text-primary" asp-area="Admin" asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
+                                <a class="text-primary" asp-area="Admin" asp-controller="PhysicalBooks" asp-action="Details" asp-route-id="@book.Id">
                                     @book.Id
                                 </a>
                             </td>
@@ -205,21 +205,21 @@
                                 <img src="~/images/book-empty-small.png" class="admin-image" />
                             </td>
                             <td>
-                                <span class="admin-book-table-title" title="@book.Title">
-                                    @book.Title
+                                <span class="admin-book-table-title" title="@book.Name">
+                                    @book.Name
                                 </span>
                             </td>
                             <td>
                                 <span class="admin-book-table-type">
-                                    @(book.PhysicalBook?.CoverType == CoverType.Hardcover ? "hardcover" : "paperback")
+                                    @(book.CoverType == CoverType.Hardcover ? "hardcover" : "paperback")
                                 </span>
                             </td>
                             <td>
-                                <span class="admin-book-table-isbn">@book.PhysicalBook?.Isbn</span>
+                                <span class="admin-book-table-isbn">@book.Isbn</span>
                             </td>
-                            <td>@book.PhysicalBook?.Price ₴</td>
+                            <td>@book.Price ₴</td>
                             <td class="text-center">
-                                @if (book.PhysicalBook?.DiscountId == null)
+                                @if (book.DiscountId == null)
                                 {
                                     <i class="admin-book-discount-icon bi bi-x text-danger"></i>
                                 }
@@ -228,11 +228,11 @@
                                     <i class="admin-book-discount-icon bi bi-check text-success"></i>
                                 }
                             </td>
-                            <td>@book.PhysicalBook?.FinalPrice ₴</td>
-                            <td>@book.PhysicalBook?.Stock</td>
+                            <td>@book.FinalPrice ₴</td>
+                            <td>@book.Stock</td>
                             <td>
                                 <div class="d-flex gap-1">
-                                    <a class="admin-table-btn btn btn-primary" asp-area="Admin" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id">
+                                    <a class="admin-table-btn btn btn-primary" asp-area="Admin" asp-controller="PhysicalBooks" asp-action="Edit" asp-route-id="@book.Id">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <form asp-action="ToggleVisibility" asp-route-id="@book.Id" method="post">
@@ -249,7 +249,7 @@
                                             </button>
                                         }
                                     </form>
-                                    <form asp-action="Delete" asp-route-id="@book.Id" method="post" onsubmit="return confirm('Delete @book.Title (ID: @book.Id)?')">
+                                    <form asp-action="Delete" asp-route-id="@book.Id" method="post" onsubmit="return confirm('Delete @book.Name (ID: @book.Id)?')">
                                         <button type="submit" class="admin-table-btn btn btn-danger">
                                             <i class="bi bi-trash3"></i>
                                         </button>
@@ -257,81 +257,6 @@
                                 </div>
                             </td>
                         </tr>
-                        if (book.DigitalBook != null)
-                        {
-                            <tr>
-                                <td class="admin-table-status">
-                                    @if (book.IsVisible)
-                                    {
-                                        <div class="bg-success-subtle"></div>
-                                    }
-                                    else
-                                    {
-                                        <div class="bg-secondary-subtle"></div>
-                                    }
-                                </td>
-                                <td>
-                                    <a class="text-primary" asp-area="Admin" asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
-                                        @book.Id
-                                    </a>
-                                </td>
-                                <td>
-                                    <img src="~/images/book-empty-small.png" class="admin-image" />
-                                </td>
-                                <td>
-                                    <span class="admin-book-table-title" title="@book.Title">
-                                        @book.Title
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="admin-book-table-type">
-                                        ebook
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="admin-book-table-isbn">@book.DigitalBook?.Isbn</span>
-                                </td>
-                                <td>@book.DigitalBook?.Price ₴</td>
-                                <td class="text-center">
-                                    @if (book.DigitalBook?.DiscountId == null)
-                                    {
-                                        <i class="admin-book-discount-icon bi bi-x text-danger"></i>
-                                    }
-                                    else
-                                    {
-                                        <i class="admin-book-discount-icon bi bi-check text-success"></i>
-                                    }
-                                </td>
-                                <td>@book.DigitalBook?.FinalPrice ₴</td>
-                                <td></td>
-                                <td>
-                                    <div class="d-flex gap-1">
-                                        <a class="admin-table-btn btn btn-primary" asp-area="Admin" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <form asp-action="ToggleVisibility" asp-route-id="@book.Id" method="post">
-                                            @if (book.IsVisible)
-                                            {
-                                                <button type="submit" class="admin-table-btn btn btn-secondary">
-                                                    <i class="bi bi-eye-slash"></i>
-                                                </button>
-                                            }
-                                            else
-                                            {
-                                                <button type="submit" class="admin-table-btn btn btn-success">
-                                                    <i class="bi bi-eye"></i>
-                                                </button>
-                                            }
-                                        </form>
-                                        <form asp-action="Delete" asp-route-id="@book.Id" method="post" onsubmit="return confirm('Delete @book.Title (ID: @book.Id)?')">
-                                            <button type="submit" class="admin-table-btn btn btn-danger">
-                                                <i class="bi bi-trash3"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
                     }
                 </tbody>
             </table>

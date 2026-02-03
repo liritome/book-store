@@ -14,6 +14,6 @@ namespace BookStore.Models
         [MaxLength(120)]
         public string Slug { get; set; } = null!;
 
-        public virtual ICollection<Book> Books { get; set; } = new List<Book>();
+        public virtual ICollection<BookBase> BookBases { get; set; } = new List<BookBase>();
     }
 }

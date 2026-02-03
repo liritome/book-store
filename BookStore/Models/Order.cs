@@ -5,8 +5,11 @@ namespace BookStore.Models
     public class Order
     {
         public int Id { get; set; }
+
         public int CustomerId { get; set; }
+
         public virtual Customer Customer { get; set; } = null!;
+
         public DateTime Date { get; set; }
 
         [Required]
@@ -25,7 +28,9 @@ namespace BookStore.Models
         public string Address { get; set; } = null!;
 
         public PaymentMethod PaymentMethod { get; set; }
+
         public OrderStatus Status { get; set; }
+
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 

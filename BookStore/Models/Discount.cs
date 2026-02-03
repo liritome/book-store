@@ -11,9 +11,11 @@ namespace BookStore.Models
         public string Name { get; set; } = null!;
 
         public DateTime ValidFrom { get; set; }
+
         public DateTime ValidTo { get; set; }
 
         public abstract int Apply(int basePrice);
+
         public abstract string Display();
     }
 

@@ -1,13 +1,13 @@
-﻿@{
+﻿@model PhysicalBookEditViewModel
+
+@{
     ViewData["Title"] = "Edit book";
 }
-
-@model BookEditViewModel
 
 <form asp-action="Edit" asp-route-id="@Model.Book.Id" method="post">
     <div class="d-flex justify-content-between align-items-start">
         <div>
-            <h2 class="mb-1">@Model.Book.Title</h2>
+            <h2 class="mb-1">@Model.Book.Name</h2>
             <div class="d-flex gap-2 align-items-center">
                 <span class="text-muted">ID: @Model.Book.Id</span>
             </div>
@@ -46,11 +46,22 @@
                     </div>
                     <div class="mt-4">
                         <div>
-                            <h5>Details</h5>
+                            <h5>Book Edition</h5>
                         </div>
                         <div class="list-group list-group-flush text-end">
                             <input hidden name="BookId" type="number" value="@Model.Book.Id" />
                             <div class="list-group-item d-flex justify-content-between gap-3">
+                                <span class="text-nowrap">Edition</span>
+                                <select name="BookEditionId" class="form-select w-50 py-0">
+                                    @foreach (BookEdition edition in Model.BookEditions)
+                                    {
+                                        <option value="@edition.Id" selected="@(edition.Id == Model.Book.BookEditionId)">
+                                            @edition.Title (@edition.Publisher?.Name)
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                            @* <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Title</span>
                                 <input name="Title" type="text" class="form-control py-0"
                                        value="@Model.Book.Title" />
@@ -127,7 +138,7 @@
                             <div class="list-group-item d-flex justify-content-between gap-3">
                                 <span>Has ebook</span>
                                 <input @(Model.Book.DigitalBook != null ? "checked" : "") class="form-check-input" type="checkbox" name="HasDigitalBook" value="True" id="hasDigitalBook" />
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                     <div class="mt-2">
@@ -136,86 +147,66 @@
                         </div>
                         <div class="list-group list-group-flush text-end">
                             <div class="list-group-item d-flex justify-content-between gap-3">
-                                <span>Link</span>
+                                <span class="text-nowrap">Slug</span>
                                 <div class="d-flex text-muted">
-                                    <span>Catalog/</span>
+                                    <span>Catalog/Physical/</span>
                                     <input name="Slug" type="text" class="form-control py-0"
-                                           value="@Model.Book.PhysicalBook?.Slug" />
+                                           value="@Model.Book.Slug" />
                                 </div>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
-                                <span>ISBN</span>
-                                <input name="Isbn" type="text" class="form-control py-0"
-                                       value="@Model.Book.PhysicalBook?.Isbn" />
+                                <span class="text-nowrap">Title Addition</span>
+                                <input name="TitleAddition" type="text" class="form-control py-0"
+                                       value="@Model.Book.TitleAddition" />
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
-                                <span>Cover type</span>
+                                <span class="text-nowrap">ISBN</span>
+                                <input name="Isbn" type="text" class="form-control py-0"
+                                       value="@Model.Book.Isbn" />
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between gap-3">
+                                <span class="text-nowrap">Cover type</span>
                                 <select name="CoverType" class="form-select w-50 py-0">
                                     <option value="@CoverType.Hardcover">Hard cover</option>
                                     <option value="@CoverType.Paperback">Paperback</option>
                                 </select>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
-                                <span>Pages</span>
+                                <span class="text-nowrap">Pages</span>
                                 <input name="Pages" type="number" min="0" class="form-control w-50 py-0"
-                                       value="@Model.Book.PhysicalBook?.Pages" />
+                                       value="@Model.Book.Pages" />
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
-                                <span>Size</span>
+                                <span class="text-nowrap">Size</span>
                                 <div class="d-flex">
                                     <span class="px-1">
                                         <i class="bi bi-arrows"></i>
                                     </span>
                                     <input name="Width" type="number" min="0" class="form-control w-50 py-0 px-2"
-                                           value="@Model.Book.PhysicalBook?.Width" />
+                                           value="@Model.Book.Width" />
                                     <span class="px-1">
                                         <i class="bi bi-arrows-vertical"></i>
                                     </span>
                                     <input name="Height" type="number" min="0" class="form-control w-50 py-0 px-2"
-                                           value="@Model.Book.PhysicalBook?.Height" />
+                                           value="@Model.Book.Height" />
                                     <span class="px-1">
                                         <i class="bi bi-arrows-angle-expand"></i>
                                     </span>
                                     <input name="Thickness" type="number" min="0" class="form-control w-50 py-0 px-2"
-                                           value="@Model.Book.PhysicalBook?.Thickness" />
+                                           value="@Model.Book.Thickness" />
                                 </div>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-3">
-                                <span>Weight</span>
+                                <span class="text-nowrap">Weight</span>
                                 <input name="Weight" type="number" min="0" class="form-control w-50 py-0"
-                                       value="@Model.Book.PhysicalBook?.Weight" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-2" id="digitalBookDetails">
-                        <div>
-                            <h5>Ebook details</h5>
-                        </div>
-                        <div class="list-group list-group-flush text-end">
-                            <div class="list-group-item d-flex justify-content-between gap-3">
-                                <span>Ebook</span>
-                                <div class="d-flex text-muted">
-                                    <span>Catalog/</span>
-                                    <input name="DigitalSlug" type="text" class="form-control py-0"
-                                           value="@Model.Book.DigitalBook?.Slug" />
-                                </div>
-                            </div>
-                            <div class="list-group-item d-flex justify-content-between gap-3">
-                                <span>ISBN</span>
-                                <input name="DigitalIsbn" type="text" class="form-control py-0"
-                                       value="@Model.Book.DigitalBook?.Isbn" />
-                            </div>
-                            <div class="list-group-item d-flex justify-content-between gap-3">
-                                <span>File</span>
-                                <input name="File" type="file" class="form-control py-0"
-                                       value="" />
+                                       value="@Model.Book.Weight" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-8 mt-4 mt-lg-0">
-                <h5 class="">Physical stock and pricing</h5>
+                <h5 class="">Stock and pricing</h5>
                 <div class="row mt-2">
                     <div class="col-lg-6">
                         <div class="bg-white rounded-4 p-3">
@@ -223,15 +214,15 @@
                                 <div class="w-100">
                                     <h6>Price</h6>
                                     <input id="priceInput" name="Price" type="number" min="0" class="form-control"
-                                           value="@Model.Book.PhysicalBook?.Price" />
+                                           value="@Model.Book.Price" />
                                 </div>
                                 <div class="w-100">
                                     <h6>Discount</h6>
                                     <select id="discountSelect" name="DiscountId" class="form-select">
-                                        <option value="" selected="@(Model.Book.PhysicalBook?.DiscountId == null)">-</option>
+                                        <option value="" selected="@(Model.Book.DiscountId == null)">-</option>
                                         @foreach (Discount discount in Model.Discounts)
                                         {
-                                            <option value="@discount.Id" selected="@(discount.Id == Model.Book.PhysicalBook?.DiscountId)"
+                                            <option value="@discount.Id" selected="@(discount.Id == Model.Book.DiscountId)"
                                                     data-type="@discount.GetType().Name"
                                                     data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
                                                 @discount.Name (@discount.Display())
@@ -242,7 +233,7 @@
                                 <div class="w-100">
                                     <h6>Final price</h6>
                                     <input id="finalPriceInput" name="FinalPrice" type="number" min="0" class="form-control"
-                                           value="@Model.Book.PhysicalBook?.FinalPrice" />
+                                           value="@Model.Book.FinalPrice" />
                                 </div>
                             </div>
                             <small class="text-muted">Discount valid: - </small>
@@ -253,60 +244,13 @@
                             <h6>Stock</h6>
                             <div class="d-flex align-items-center">
                                 <input name="Stock" type="number" min="0" class="form-control w-50"
-                                       value="@Model.Book.PhysicalBook?.Stock" />
+                                       value="@Model.Book.Stock" />
                                 <div class="ms-4">
-                                    <input @(Model.Book.PhysicalBook?.IsAvailable == true ? "checked" : "") class="form-check-input" type="checkbox" value="true" name="IsAvailable" id="isAvailable" />
+                                    <input @(Model.Book.IsAvailable == true ? "checked" : "") class="form-check-input" type="checkbox" value="true" name="IsAvailable" id="isAvailable" />
                                     <label class="form-check-label ps-2" for="isAvailable">Available</label>
                                 </div>
                             </div>
                             <small class="text-muted mt-4">Last restock:</small>
-                        </div>
-                    </div>
-                </div>
-                <div id="digitalBookStockAndPricing">
-                    <h5 class="mt-4">Ebook stock and pricing</h5>
-                    <div class="row mt-2">
-                        <div class="col-lg-6">
-                            <div class="bg-white rounded-4 p-3">
-                                <div class="d-flex gap-2">
-                                    <div class="w-100">
-                                        <h6>Price</h6>
-                                        <input id="digitalPriceInput" name="DigitalPrice" type="number" min="0" class="form-control"
-                                               value="@Model.Book.DigitalBook?.Price" />
-                                    </div>
-                                    <div class="w-100">
-                                        <h6>Discount</h6>
-                                        <select id="digitalDiscountSelect" name="DigitalDiscountId" class="form-select">
-                                            <option value="" selected="@(Model.Book.DigitalBook?.DiscountId == null)">-</option>
-                                            @foreach (Discount discount in Model.Discounts)
-                                            {
-                                                <option value="@discount.Id" selected="@(discount.Id == Model.Book.DigitalBook?.DiscountId)"
-                                                        data-type="@discount.GetType().Name"
-                                                        data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
-                                                    @discount.Name (@discount.Display())
-                                                </option>
-                                            }
-                                        </select>
-                                    </div>
-                                    <div class="w-100">
-                                        <h6>Final price</h6>
-                                        <input id="digitalFinalPriceInput" name="DigitalFinalPrice" type="number" min="0" class="form-control"
-                                               value="@Model.Book.DigitalBook?.FinalPrice" />
-                                    </div>
-                                </div>
-                                <small class="text-muted">Discount valid: - </small>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="bg-white rounded-4 h-lg-100 p-3 mt-3 mt-lg-0">
-                                <h6>Stock</h6>
-                                <div class="d-flex">
-                                    <div>
-                                        <input @(Model.Book.DigitalBook?.IsAvailable == true ? "checked" : "") class="form-check-input" type="checkbox" value="true" name="DigitalIsAvailable" id="digitalIsAvailable" />
-                                        <label class="form-check-label ps-2" for="digitalIsAvailable">Available</label>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -348,8 +292,8 @@
                     </div>
                 </div>
                 <div class="bg-white rounded-4 p-3 mt-4">
-                    <h5>Description</h5>
-                    <textarea name="Description" class="form-control mt-2" rows="20">@Model.Book.Description</textarea>
+                    <h5>Description Addition</h5>
+                    <textarea name="DescriptionAddition" class="form-control mt-2" rows="20">@Model.Book.DescriptionAddition</textarea>
                 </div>
             </div>
         </div>

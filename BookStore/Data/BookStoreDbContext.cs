@@ -7,8 +7,11 @@ namespace BookStore.Data
     {
         public BookStoreDbContext(DbContextOptions options) : base(options) { }
 
+        public DbSet<BookBase> BookBases { get; set; }
+        public DbSet<BookEdition> BookEditions { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Book> Books { get; set; }
+        public DbSet<PhysicalBook> PhysicalBooks { get; set; }
+        public DbSet<DigitalBook> DigitalBooks { get; set; }
         public DbSet<Merch> Merch { get; set; }
 
         public DbSet<Author> Authors { get; set; }
@@ -35,6 +38,11 @@ namespace BookStore.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Product>().ToTable("Products");
+            modelBuilder.Entity<PhysicalBook>().ToTable("PhysicalBooks");
+            modelBuilder.Entity<DigitalBook>().ToTable("DigitalBooks");
+            modelBuilder.Entity<Merch>().ToTable("Merch");
+
             modelBuilder.Entity<Discount>()
                 .HasDiscriminator<string>("Type")
                 .HasValue<PercentageDiscount>("Percentage")

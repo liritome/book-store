@@ -20,6 +20,7 @@ namespace BookStore.Models
         public string Bio { get; set; } = null!;
 
         public string? ImageUrl { get; set; }
-        public virtual ICollection<Book> Books { get; set; } = new List<Book>();
+
+        public virtual ICollection<BookBase> BookBases { get; set; } = new List<BookBase>();
     }
 }

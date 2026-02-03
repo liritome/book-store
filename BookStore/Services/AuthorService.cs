@@ -6,7 +6,7 @@ namespace BookStore.Services
 {
     public class AuthorService
     {
-        private BookStoreDbContext dbContext;
+        private readonly BookStoreDbContext dbContext;
 
         public AuthorService(BookStoreDbContext dbContext)
         {

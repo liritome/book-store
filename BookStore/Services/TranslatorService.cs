@@ -6,7 +6,7 @@ namespace BookStore.Services
 {
     public class TranslatorService
     {
-        private BookStoreDbContext dbContext;
+        private readonly BookStoreDbContext dbContext;
 
         public TranslatorService(BookStoreDbContext dbContext)
         {

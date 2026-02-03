@@ -1,12 +1,12 @@
-﻿@{
-    ViewData["Title"] = "Book details";
-}
+﻿@model PhysicalBook
 
-@model Book
+@{
+    ViewData["Title"] = Model.Name;
+}
 
 <div class="d-flex justify-content-between align-items-start">
     <div>
-        <h2 class="mb-1">@Model.Title</h2>
+        <h2 class="mb-1">@Model.Name</h2>
         <div class="d-flex gap-2 align-items-center">
             @if (Model.IsVisible)
             {
@@ -54,7 +54,7 @@
                 </button>
             </form>
         }
-        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Delete @Model.Title (ID: @Model.Id)?')">
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Delete @Model.Name (ID: @Model.Id)?')">
             <button class="admin-details-button btn btn-danger">
                 <i class="bi bi-trash"></i>
                 <span>Delete</span>
@@ -78,55 +78,55 @@
                 </div>
                 <div class="mt-4">
                     <div>
-                        <h5>Details</h5>
+                        <h5>Book Base Details</h5>
                     </div>
                     <div class="list-group list-group-flush text-end">
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Title</span>
                             <span class="text-muted">
-                                @Model.Title
+                                @Model.BookEdition.BookBase.Title
                             </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Author</span>
                             <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Authors" asp-action="Details" asp-route-slug="author-name">
-                                @Model.Authors.FirstOrDefault()?.Name
+                                @Model.BookEdition.BookBase.Authors.FirstOrDefault()?.Name
                             </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Series</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-slug="@Model.Series?.Slug">
-                                @(Model.SeriesId == null ? "" : $"{Model.Series?.Name} #{Model.NumberInSeries}")
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-slug="@Model.BookEdition.BookBase.Series?.Slug">
+                                @(Model.BookEdition.BookBase.SeriesId == null ? "" : $"{Model.BookEdition.BookBase.Series?.Name} #{Model.BookEdition.BookBase.NumberInSeries}")
                             </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Year</span>
                             <span class="text-muted">
-                                @Model.Year
+                                @Model.BookEdition.BookBase.Year
                             </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Publisher</span>
                             <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Publishers" asp-action="Details" asp-route-slug="publisher-name">
-                                @Model.Publisher?.Name
+                                @Model.BookEdition.Publisher?.Name
                             </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Translator</span>
                             <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Translators" asp-action="Details" asp-route-slug="translator-name">
-                                @Model.Translators.FirstOrDefault()?.Name
+                                @Model.BookEdition.Translators.FirstOrDefault()?.Name
                             </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Language</span>
                             <span class="text-muted">
-                                @Model.Language?.Name
+                                @Model.BookEdition.Language?.Name
                             </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Has ebook</span>
                             <span class="text-muted">
-                                @if (Model.DigitalBook != null)
+                                @if (Model.BookEdition.DigitalBook != null)
                                 {
                                     <i class="bi bi-check"></i>
                                 }
@@ -145,60 +145,60 @@
                     <div class="list-group list-group-flush text-end">
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Link</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="@Model.PhysicalBook?.Slug">
-                                <span>Catalog/@Model.PhysicalBook?.Slug</span>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="@Model.Slug">
+                                <span>Catalog/@Model.Slug</span>
                             </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>ISBN</span>
-                            <span class="text-muted">@Model.PhysicalBook?.Isbn</span>
+                            <span class="text-muted">@Model.Isbn</span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Cover type</span>
                             <span class="text-muted">
-                                @(Model.PhysicalBook?.CoverType == CoverType.Hardcover ? "Hard cover" : "Paperback")
+                                @(Model.CoverType == CoverType.Hardcover ? "Hard cover" : "Paperback")
                             </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Pages</span>
-                            <span class="text-muted">@Model.PhysicalBook?.Pages</span>
+                            <span class="text-muted">@Model.Pages</span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Size</span>
                             <span class="text-muted">
                                 <i class="bi bi-arrows"></i>
-                                <span>@Model.PhysicalBook?.Width</span>
+                                <span>@Model.Width</span>
                                 <i class="bi bi-arrows-vertical"></i>
-                                <span>@Model.PhysicalBook?.Height</span>
+                                <span>@Model.Height</span>
                                 <i class="bi bi-arrows-angle-expand"></i>
-                                <span>@Model.PhysicalBook?.Thickness</span>
+                                <span>@Model.Thickness</span>
                                 <span>mm</span>
                             </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Weight</span>
-                            <span class="text-muted">@Model.PhysicalBook?.Weight g</span>
+                            <span class="text-muted">@Model.Weight g</span>
                         </div>
                     </div>
                 </div>
-                <div class="mt-2 @(Model.DigitalBook == null ? "d-none" : "")">
+                <div class="mt-2 @(Model.BookEdition.DigitalBook == null ? "d-none" : "")">
                     <div>
                         <h5>Ebook details</h5>
                     </div>
                     <div class="list-group list-group-flush text-end">
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Link</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="@Model.DigitalBook?.Slug">
-                                <span>Catalog/@Model.DigitalBook?.Slug</span>
+                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="@Model.BookEdition.DigitalBook?.Slug">
+                                <span>Catalog/@Model.BookEdition.DigitalBook?.Slug</span>
                             </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>ISBN</span>
-                            <span class="text-muted">@Model.DigitalBook?.Isbn</span>
+                            <span class="text-muted">@Model.BookEdition.DigitalBook?.Isbn</span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>File</span>
-                            <span class="text-muted">/ebooks/@Model.DigitalBook?.FileName</span>
+                            <span class="text-muted">/ebooks/@Model.BookEdition.DigitalBook?.FileName</span>
                         </div>
                     </div>
                 </div>
@@ -212,27 +212,27 @@
                         <div class="d-flex gap-2">
                             <div class="w-100">
                                 <h6>Price</h6>
-                                <h3>@Model.PhysicalBook?.Price ₴</h3>
+                                <h3>@Model.Price ₴</h3>
                             </div>
                             <div class="w-100">
                                 <h6>Discount</h6>
-                                <h3 class="text-success">@Model.PhysicalBook?.Discount?.Display()</h3>
+                                <h3 class="text-success">@Model.Discount?.Display()</h3>
                             </div>
                             <div class="w-100">
                                 <h6>Final price</h6>
-                                <h3>@Model.PhysicalBook?.FinalPrice ₴</h3>
+                                <h3>@Model.FinalPrice ₴</h3>
                             </div>
                         </div>
-                        <small class="text-muted">Discount valid: @Model.PhysicalBook?.Discount?.ValidFrom - @Model.PhysicalBook?.Discount?.ValidTo</small>
+                        <small class="text-muted">Discount valid: @Model.Discount?.ValidFrom - @Model.Discount?.ValidTo</small>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="bg-white rounded-4 p-3 mt-3 mt-lg-0">
                         <h6>Stock</h6>
                         <div class="d-flex align-items-center">
-                            <h3>@Model.PhysicalBook?.Stock</h3>
+                            <h3>@Model.Stock</h3>
                             <div class="ms-4">
-                                @if (Model.PhysicalBook?.IsAvailable == true)
+                                @if (Model.IsAvailable == true)
                                 {
                                     <span>
                                         <i class="bi bi-check"></i>
@@ -252,7 +252,7 @@
                     </div>
                 </div>
             </div>
-            <div class="@(Model.DigitalBook == null ? "d-none" : "")">
+            <div class="@(Model.BookEdition.DigitalBook == null ? "d-none" : "")">
                 <h5 class="mt-4">Ebook stock and pricing</h5>
                 <div class="row mt-2">
                     <div class="col-lg-6">
@@ -260,18 +260,18 @@
                             <div class="d-flex gap-2">
                                 <div class="w-100">
                                     <h6>Price</h6>
-                                    <h3>@Model.DigitalBook?.Price ₴</h3>
+                                    <h3>@Model.BookEdition.DigitalBook?.Price ₴</h3>
                                 </div>
                                 <div class="w-100">
                                     <h6>Discount</h6>
-                                    <h3 class="text-success">@Model.DigitalBook?.Discount?.Display()</h3>
+                                    <h3 class="text-success">@Model.BookEdition.DigitalBook?.Discount?.Display()</h3>
                                 </div>
                                 <div class="w-100">
                                     <h6>Final price</h6>
-                                    <h3>@Model.DigitalBook?.FinalPrice ₴</h3>
+                                    <h3>@Model.BookEdition.DigitalBook?.FinalPrice ₴</h3>
                                 </div>
                             </div>
-                            <small class="text-muted">Discount valid: @Model.DigitalBook?.Discount?.ValidFrom - @Model.DigitalBook?.Discount?.ValidTo</small>
+                            <small class="text-muted">Discount valid: @Model.BookEdition.DigitalBook?.Discount?.ValidFrom - @Model.BookEdition.DigitalBook?.Discount?.ValidTo</small>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -279,7 +279,7 @@
                             <h6>Stock</h6>
                             <div class="d-flex">
                                 <div>
-                                    @if (Model.DigitalBook?.IsAvailable == true)
+                                    @if (Model.BookEdition.DigitalBook?.IsAvailable == true)
                                     {
                                         <span>
                                             <i class="bi bi-check"></i>
@@ -302,7 +302,7 @@
             <div class="bg-white rounded-4 p-3 mt-4">
                 <h5>Tags</h5>
                 <div class="d-flex flex-wrap gap-2 mt-3">
-                    @foreach(Tag tag in Model.Tags)
+                    @foreach(Tag tag in Model.BookEdition.BookBase.Tags)
                     {
                         <a asp-area="Admin" asp-controller="Tags" asp-action="Details" asp-route-slug="tag-name">
                             <div class="bg-secondary-subtle px-2 py-1 rounded-5">
@@ -325,7 +325,7 @@
                             <h6>Rating</h6>
                             <div>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <span class="ms-1">@Model.Rating / 5</span>
+                                <span class="ms-1">@(Model.Rating == null ? "-" : Model.Rating) / 5</span>
                             </div>
                         </div>
                         <div class="w-50">
@@ -344,6 +344,12 @@
                 </div>
                 <div class="collapse border-top" id="reviewsCollapse">
                     <div class="d-flex flex-column">
+                        @if(Model.Reviews.Count == 0)
+                        {
+                            <div class="border rounded-3 p-3 mt-3">
+                                No reviews
+                            </div>
+                        }
                         @foreach (Review review in Model.Reviews)
                         {
                             <div class="border rounded-3 p-3 mt-3">

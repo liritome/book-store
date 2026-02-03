@@ -1,32 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Models
 {
-    [Owned]
-    public class DigitalBook
+    public class DigitalBook : Product
     {
+        public int BookEditionId { get; set; }
+        public virtual BookEdition BookEdition { get; set; } = null!;
+
         [Required]
-        [MaxLength(120)]
-        public string Slug { get; set; } = null!;
+        [MaxLength(100)]
+        public string Isbn { get; set; } = null!;
 
         [Required]
         [MaxLength(100)]
         public string FileName { get; set; } = null!;
 
-        public bool IsAvailable { get; set; }
+        public override string Name => $"{BookEdition.Title}. {BookEdition.BookBase.Title} #{BookEdition.BookBase.NumberInSeries}. E-book";
 
-        [Range(1, 100000)]
-        public int Price { get; set; }
-
-        [Range(1, 100000)]
-        public int FinalPrice { get; set; }
-
-        public int? DiscountId { get; set; }
-        public virtual Discount? Discount { get; set; }
-
-        [Required]
-        [MaxLength(100)]
-        public string Isbn { get; set; } = null!;
+        public override string Description => $"Digital book.\n\n{BookEdition.Description}";
     }
 }

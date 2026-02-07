@@ -15,8 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Views\DigitalBooks\" />
+    <Folder Include="Areas\Admin\Views\BookBases\" />
     <Folder Include="Areas\Admin\Views\BookEditions\" />
+    <Folder Include="Areas\Admin\Views\DigitalBooks\" />
+    <Folder Include="Areas\Admin\Views\Merch\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

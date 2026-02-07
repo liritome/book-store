@@ -78,7 +78,11 @@
                 </div>
                 <div class="mt-4">
                     <div>
-                        <h5>Book Base Details</h5>
+                        <a asp-area="Admin" asp-controller="BookBases" asp-action="Details" asp-route-id="@Model.BookEdition.BookBase.Id">
+                            <span class="admin-title border-bottom border-dark border-2">
+                                Book Base
+                            </span>
+                        </a>
                     </div>
                     <div class="list-group list-group-flush text-end">
                         <div class="list-group-item d-flex justify-content-between gap-3">
@@ -104,6 +108,23 @@
                             <span class="text-muted">
                                 @Model.BookEdition.BookBase.Year
                             </span>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <div>
+                        <a asp-area="Admin" asp-controller="BookEditions" asp-action="Details" asp-route-id="@Model.BookEdition.Id">
+                            <span class="admin-title border-bottom border-dark border-2">
+                                Book Edition
+                            </span>
+                        </a>
+                    </div>
+                    <div class="list-group list-group-flush text-end">
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Title</span>
+                            <span class="text-muted">
+                                @Model.BookEdition.Title
+                            </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Publisher</span>
@@ -124,6 +145,12 @@
                             </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Physical books</span>
+                            <span class="text-muted">
+                                @Model.BookEdition.PhysicalBooks.Count
+                            </span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Has ebook</span>
                             <span class="text-muted">
                                 @if (Model.BookEdition.DigitalBook != null)
@@ -140,7 +167,9 @@
                 </div>
                 <div class="mt-2">
                     <div>
-                        <h5>Physical details</h5>
+                        <span class="admin-title">
+                            Details
+                        </span>
                     </div>
                     <div class="list-group list-group-flush text-end">
                         <div class="list-group-item d-flex justify-content-between gap-3">
@@ -157,6 +186,19 @@
                             <span>Cover type</span>
                             <span class="text-muted">
                                 @(Model.CoverType == CoverType.Hardcover ? "Hard cover" : "Paperback")
+                            </span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-3">
+                            <span>Has illustrations</span>
+                            <span class="text-muted">
+                                @if (Model.HasIllustrations == true)
+                                {
+                                    <i class="bi bi-check"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-x"></i>
+                                }
                             </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
@@ -181,31 +223,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-2 @(Model.BookEdition.DigitalBook == null ? "d-none" : "")">
-                    <div>
-                        <h5>Ebook details</h5>
-                    </div>
-                    <div class="list-group list-group-flush text-end">
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>Link</span>
-                            <a class="text-muted border-bottom border-dark border-1" asp-area="" asp-controller="Catalog" asp-action="Details" asp-route-slug="@Model.BookEdition.DigitalBook?.Slug">
-                                <span>Catalog/@Model.BookEdition.DigitalBook?.Slug</span>
-                            </a>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>ISBN</span>
-                            <span class="text-muted">@Model.BookEdition.DigitalBook?.Isbn</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between gap-3">
-                            <span>File</span>
-                            <span class="text-muted">/ebooks/@Model.BookEdition.DigitalBook?.FileName</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="col-lg-8 mt-4 mt-lg-0">
-            <h5 class="">Physical stock and pricing</h5>
+            <h5 class="">Stock and pricing</h5>
             <div class="row mt-2">
                 <div class="col-lg-6">
                     <div class="bg-white rounded-4 p-3">
@@ -315,7 +336,9 @@
             <div class="bg-white rounded-4 p-3 mt-4">
                 <h5>Description</h5>
                 <p class="mt-2">
-                    @Model.Description
+                    @Model.DescriptionAddition
+                    <br /><br />
+                    @Model.BookEdition.Description
                 </p>
             </div>
             <div class="bg-white rounded-4 p-3 mt-4">

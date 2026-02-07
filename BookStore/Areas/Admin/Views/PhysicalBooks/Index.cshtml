@@ -114,7 +114,7 @@
                                 routeValues["sort"] = Context.Request.Query["sort"] == "nameAsc" ? "nameDesc" : "nameAsc";
                             }
                             <a asp-all-route-data="routeValues">
-                                Name
+                                Title
                                 <i class="bi @(Context.Request.Query["sort"] == "nameAsc" ? "bi-caret-down-fill"
                                     : (Context.Request.Query["sort"] == "nameDesc" ? "bi-caret-up-fill" : "")) "></i>
                             </a>
@@ -124,7 +124,7 @@
                                 routeValues["sort"] = Context.Request.Query["sort"] == "typeAsc" ? "typeDesc" : "typeAsc";
                             }
                             <a asp-all-route-data="routeValues">
-                                Type
+                                Cover
                                 <i class="bi @(Context.Request.Query["sort"] == "typeAsc" ? "bi-caret-down-fill"
                                     : (Context.Request.Query["sort"] == "typeDesc" ? "bi-caret-up-fill" : "")) "></i>
                             </a>
@@ -211,7 +211,7 @@
                             </td>
                             <td>
                                 <span class="admin-book-table-type">
-                                    @(book.CoverType == CoverType.Hardcover ? "hardcover" : "paperback")
+                                    @(book.CoverType == CoverType.Hardcover ? "Hardcover" : "Paperback")
                                 </span>
                             </td>
                             <td>
@@ -332,7 +332,7 @@
                 <div class="admin-table-filter-scrollable d-flex flex-column overflow-y-auto">
                     <div>
                         <label class="form-label">Book</label>
-                        <input name="q" type="text" class="form-control" placeholder="Name, ID or ISBN"
+                        <input name="q" type="text" class="form-control" placeholder="Title, ID or ISBN"
                                value="@Context.Request.Query["q"]">
                     </div>
                     <div>
@@ -416,17 +416,17 @@
                         </div>
                     </div>
                     <div>
-                        <label class="form-label d-block">Type</label>
+                        <label class="form-label d-block">Cover</label>
                         <div class="d-flex flex-wrap row-gap-1">
                             <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="type" value="paper"
-                                       @(Context.Request.Query["type"].ToString().Contains("paper") ? "checked" : "")>
-                                <span>Paper</span>
+                                <input class="form-check-input" type="checkbox" name="cover" value="@CoverType.Hardcover"
+                                       @(Context.Request.Query["cover"].Contains(CoverType.Hardcover.ToString()) ? "checked" : "") >
+                                <span>Hardcover</span>
                             </label>
                             <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="type" value="ebook"
-                                       @(Context.Request.Query["type"].ToString().Contains("ebook") ? "checked" : "")>
-                                <span>E-book</span>
+                                <input class="form-check-input" type="checkbox" name="cover" value="@CoverType.Paperback"
+                                       @(Context.Request.Query["cover"].Contains(CoverType.Paperback.ToString()) ? "checked" : "") >
+                                <span>Paperback</span>
                             </label>
                         </div>
                     </div>

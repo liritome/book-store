@@ -846,3 +846,8 @@ body {
         height: 100%;
     }
 }
+
+.admin-title {
+    font-size: 20px;
+    font-weight: 500;
+}

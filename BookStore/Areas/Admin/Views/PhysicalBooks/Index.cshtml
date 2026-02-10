@@ -202,7 +202,14 @@
                                 </a>
                             </td>
                             <td>
-                                <img src="~/images/book-empty-small.png" class="admin-image" />
+                                @if (book.Images.Count > 0)
+                                {
+                                    <img src="~/images/productImages/@book.Images.FirstOrDefault()?.Url" class="admin-image" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/book-empty-small.png" class="admin-image" />
+                                }
                             </td>
                             <td>
                                 <span class="admin-book-table-title" title="@book.Name">

@@ -18,6 +18,7 @@ namespace BookStore.InputModels
         public int Stock { get; set; }
 
         public string Slug { get; set; } = null!;
+        public List<IFormFile> Images { get; set; } = new();
         public int Price { get; set; }
         public int? DiscountId { get; set; }
         public int FinalPrice { get; set; }

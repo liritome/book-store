@@ -8,10 +8,12 @@ namespace BookStore.Services
     public class PhysicalBookService
     {
         private readonly BookStoreDbContext dbContext;
+        private readonly ProductImageService productImageService;
 
-        public PhysicalBookService(BookStoreDbContext dbContext)
+        public PhysicalBookService(BookStoreDbContext dbContext, ProductImageService productImageService)
         {
             this.dbContext = dbContext;
+            this.productImageService = productImageService;
         }
 
         public async Task<List<PhysicalBook>> GetAllBooksAsync()
@@ -22,6 +24,7 @@ namespace BookStore.Services
                 .Include(b => b.BookEdition)
                     .ThenInclude(e => e.BookBase)
                         .ThenInclude(bb => bb.Series)
+                .Include(b => b.Images)
                 .ToListAsync();
         }
 
@@ -44,10 +47,12 @@ namespace BookStore.Services
                 .Include(b => b.BookEdition)
                     .ThenInclude(be => be.Translators)
                 .Include(b => b.Discount)
+                .Include(b => b.Images)
+                .Include(b => b.Reviews)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task AddBookAsync(PhysicalBookAddInputModel model)
+        public async Task<int> AddBookAsync(PhysicalBookAddInputModel model)
         {
             var book = new PhysicalBook();
 
@@ -80,15 +85,13 @@ namespace BookStore.Services
 
             dbContext.PhysicalBooks.Add(book);
             await dbContext.SaveChangesAsync();
+            return book.Id;
         }
 
-        public async Task UpdateBookAsync(BookEditInputModel model)
+        public async Task UpdateBookAsync(PhysicalBookEditInputModel model)
         {
             PhysicalBook? book = await GetBookByIdAsync(model.BookId);
-            if (book == null)
-            {
-                return;
-            }
+            if (book == null) return;
 
             book.BookEditionId = model.BookEditionId;
             book.Isbn = model.Isbn;
@@ -118,6 +121,33 @@ namespace BookStore.Services
             book.IsAvailable = model.IsAvailable;
 
             dbContext.PhysicalBooks.Update(book);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task AttachImagesToBookAsync(int id, List<IFormFile> files)
+        {
+            var book = await GetBookByIdAsync(id);
+            if (book == null) return;
+
+            var images = await productImageService.CreateImagesAsync(files);
+            await productImageService.DeleteImagesAsync(book.Images);
+            book.Images.Clear();
+            foreach(var image in images)
+            {
+                book.Images.Add(image);
+            }
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task ReorderImagesAsync(List<ImageOrder> imageOrders)
+        {
+            foreach (var item in imageOrders)
+            {
+                var image = dbContext.ProductImages.First(i => i.Id == item.ImageId);
+                image.Number = item.Order;
+            }
+
             await dbContext.SaveChangesAsync();
         }
 

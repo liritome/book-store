@@ -28,6 +28,8 @@ namespace BookStore
             builder.Services.AddScoped<DiscountService>();
             builder.Services.AddScoped<AuthorService>();
             builder.Services.AddScoped<TranslatorService>();
+            builder.Services.AddScoped<TagService>();
+            builder.Services.AddScoped<ProductImageService>();
 
             var app = builder.Build();
 

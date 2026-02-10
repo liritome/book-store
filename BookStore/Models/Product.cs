@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BookStore.Services;
+using Microsoft.EntityFrameworkCore.Query;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Models
@@ -47,5 +49,23 @@ namespace BookStore.Models
 
         [NotMapped]
         public abstract string Description { get; }
+
+        [NotMapped]
+        public ICollection<ProductImage> OrderedImages
+        {
+            get
+            {
+                return Images.OrderBy(i => i.Number).ToList();
+            }
+        }
+
+        [NotMapped]
+        public ProductImage? Cover
+        {
+            get
+            {
+                return Images.FirstOrDefault(i => i.Number == 0);
+            }
+        }
     }
 }

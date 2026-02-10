@@ -1,8 +1,9 @@
-﻿using BookStore.Services;
+﻿using BookStore.InputModels;
 using BookStore.Models;
-using Microsoft.AspNetCore.Mvc;
+using BookStore.Services;
 using BookStore.ViewModels;
-using BookStore.InputModels;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace BookStore.Areas.Admin.Controllers
 {
@@ -52,7 +53,8 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(PhysicalBookAddInputModel model)
         {
-            await physicalBookService.AddBookAsync(model);
+            int bookId = await physicalBookService.AddBookAsync(model);
+            await physicalBookService.AttachImagesToBookAsync(bookId, model.Images);
             return RedirectToAction("Index");
         }
 
@@ -75,9 +77,11 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(BookEditInputModel model)
+        public async Task<IActionResult> Edit(PhysicalBookEditInputModel model)
         {
             await physicalBookService.UpdateBookAsync(model);
+            await physicalBookService.ReorderImagesAsync(model.ImageOrders);
+            //await physicalBookService.AttachImagesToBookAsync(model.BookId, model.Images);
             return RedirectToAction("Details", new { Id = model.BookId });
         }
 

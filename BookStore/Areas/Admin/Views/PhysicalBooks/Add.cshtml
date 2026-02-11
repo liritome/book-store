@@ -31,9 +31,9 @@
                             <h5>Book Edition</h5>
                         </div>
                         <div class="list-group list-group-flush text-end">
-                            <div class="list-group-item d-flex justify-content-between gap-3">
+                            <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Edition</span>
-                                <select name="BookEditionId" class="form-select w-50 py-0">
+                                <select name="BookEditionId" class="form-select admin-input-container py-0">
                                     @foreach (BookEdition edition in Model.BookEditions)
                                     {
                                         <option value="@edition.Id">
@@ -124,56 +124,53 @@
                             <h5>Details</h5>
                         </div>
                         <div class="list-group list-group-flush text-end">
-                            <div class="list-group-item d-flex justify-content-between gap-3">
+                            <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Title Addition</span>
-                                <input name="TitleAddition" type="text" class="form-control py-0" />
+                                <input name="TitleAddition" type="text" class="form-control admin-input-container py-0" />
                             </div>
-                            <div class="list-group-item d-flex justify-content-between gap-3">
+                            <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Slug</span>
-                                <div class="d-flex text-muted">
-                                    <span>Catalog/Physical/</span>
-                                    <input name="Slug" type="text" class="form-control py-0" />
-                                </div>
+                                <input name="Slug" type="text" class="form-control admin-input-container py-0" />
                             </div>
-                            <div class="list-group-item d-flex justify-content-between gap-3">
+                            <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">ISBN</span>
-                                <input name="Isbn" type="text" class="form-control py-0" />
+                                <input name="Isbn" type="text" class="form-control admin-input-container py-0" />
                             </div>
-                            <div class="list-group-item d-flex justify-content-between gap-3">
+                            <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Cover type</span>
-                                <select name="CoverType" class="form-select w-50 py-0">
+                                <select name="CoverType" class="form-select admin-input-container py-0">
                                     <option value="@CoverType.Hardcover">Hard cover</option>
                                     <option value="@CoverType.Paperback">Paperback</option>
                                 </select>
                             </div>
-                            <div class="list-group-item d-flex justify-content-between gap-3">
+                            <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Has illustrations</span>
                                 <input class="form-check-input" type="checkbox" value="true" name="HasIllustrations" />
                             </div>
-                            <div class="list-group-item d-flex justify-content-between gap-3">
+                            <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Pages</span>
-                                <input name="Pages" type="number" min="0" class="form-control w-50 py-0" />
+                                <input name="Pages" type="number" min="0" class="form-control admin-input-container py-0" />
                             </div>
-                            <div class="list-group-item d-flex justify-content-between gap-3">
+                            <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Size</span>
-                                <div class="d-flex">
+                                <div class="d-flex admin-input-container">
                                     <span class="px-1">
                                         <i class="bi bi-arrows"></i>
                                     </span>
-                                    <input name="Width" type="number" min="0" class="form-control w-50 py-0 px-2" />
+                                    <input name="Width" type="number" min="0" class="form-control py-0 px-2" />
                                     <span class="px-1">
                                         <i class="bi bi-arrows-vertical"></i>
                                     </span>
-                                    <input name="Height" type="number" min="0" class="form-control w-50 py-0 px-2" />
+                                    <input name="Height" type="number" min="0" class="form-control py-0 px-2" />
                                     <span class="px-1">
                                         <i class="bi bi-arrows-angle-expand"></i>
                                     </span>
-                                    <input name="Thickness" type="number" min="0" class="form-control w-50 py-0 px-2" />
+                                    <input name="Thickness" type="number" min="0" class="form-control py-0 px-2" />
                                 </div>
                             </div>
-                            <div class="list-group-item d-flex justify-content-between gap-3">
+                            <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Weight</span>
-                                <input name="Weight" type="number" min="0" class="form-control w-50 py-0" />
+                                <input name="Weight" type="number" min="0" class="form-control admin-input-container py-0" />
                             </div>
                         </div>
                     </div>

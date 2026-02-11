@@ -80,8 +80,8 @@ namespace BookStore.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(PhysicalBookEditInputModel model)
         {
             await physicalBookService.UpdateBookAsync(model);
-            await physicalBookService.ReorderImagesAsync(model.ImageOrders);
-            //await physicalBookService.AttachImagesToBookAsync(model.BookId, model.Images);
+            await physicalBookService.ReorderImagesAsync(model.ImageDtos);
+            await physicalBookService.AttachImagesToBookAsync(model.BookId, model.Images);
             return RedirectToAction("Details", new { Id = model.BookId });
         }
 

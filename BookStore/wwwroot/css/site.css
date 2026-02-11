@@ -828,7 +828,7 @@ body {
 }
 
 .admin-book-image-small {
-    max-height: 165px;
+    max-height: 158px;
 }
 
 .admin-details-button {
@@ -852,6 +852,6 @@ body {
     font-weight: 500;
 }
 
-admin-input-container{
-    max-width: 60%;
+.admin-input-container{
+    max-width: 65%;
 }

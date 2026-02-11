@@ -3,12 +3,13 @@
     public class PhysicalBookEditInputModel : PhysicalBookAddInputModel
     {
         public int BookId { get; set; }
-        public List<ImageOrder> ImageOrders { get; set; } = new();
+        public List<ImageDto> ImageDtos { get; set; } = new();
     }
 
-    public class ImageOrder
+    public class ImageDto
     {
         public int ImageId { get; set; }
         public int Order {  get; set; }
+        public bool Delete { get; set; }
     }
 }

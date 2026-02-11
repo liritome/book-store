@@ -2,6 +2,7 @@
 using BookStore.Models;
 using BookStore.InputModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BookStore.Services
 {
@@ -107,8 +108,6 @@ namespace BookStore.Services
             book.Stock = model.Stock;
 
             book.Slug = model.Slug;
-            //book.Images = new List<ProductImage>();
-            //book.Reviews = new List<Review>();
             book.Price = model.Price;
             book.DiscountId = model.DiscountId;
             book.FinalPrice = model.FinalPrice;
@@ -127,33 +126,35 @@ namespace BookStore.Services
         public async Task AttachImagesToBookAsync(int id, List<IFormFile> files)
         {
             var book = await GetBookByIdAsync(id);
-            if (book == null) return;
+            if (book == null || files.IsNullOrEmpty()) return;
 
-            var images = await productImageService.CreateImagesAsync(files);
-            await productImageService.DeleteImagesAsync(book.Images);
-            book.Images.Clear();
-            foreach(var image in images)
+            foreach (var file in files)
             {
+                var image = await productImageService.AddImageAsync(book, file);
                 book.Images.Add(image);
             }
 
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task ReorderImagesAsync(List<ImageOrder> imageOrders)
+        public async Task ReorderImagesAsync(List<ImageDto> imageDtos)
         {
-            foreach (var item in imageOrders)
+            foreach (var item in imageDtos)
             {
-                var image = dbContext.ProductImages.First(i => i.Id == item.ImageId);
-                image.Number = item.Order;
+                if (item.Delete)
+                {
+                    await productImageService.DeleteImageAsync(item.ImageId);
+                }
+                else
+                {
+                    await productImageService.EditImageNumberAsync(item.ImageId, item.Order);
+                }
             }
-
-            await dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteBookAsync(int id)
         {
-            var book = await dbContext.PhysicalBooks.FindAsync(id);
+            var book = await GetBookByIdAsync(id);
             if (book == null) return;
             dbContext.PhysicalBooks.Remove(book);
             await dbContext.SaveChangesAsync();
@@ -161,7 +162,7 @@ namespace BookStore.Services
 
         public async Task ToggleBookVisibilityAsync(int id)
         {
-            var book = await dbContext.PhysicalBooks.FindAsync(id);
+            var book = await GetBookByIdAsync(id);
             if (book == null) return;
             book.IsVisible = !book.IsVisible;
             await dbContext.SaveChangesAsync();

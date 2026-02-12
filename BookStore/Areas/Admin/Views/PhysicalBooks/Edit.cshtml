@@ -33,17 +33,14 @@
                         <div id="image-container" class="d-flex flex-wrap gap-3 p-2">
                             @{
                                 var images = Model.Book.OrderedImages.ToList();
-                                for(int i = 0; i < Model.Book.OrderedImages.Count; i++)
+                                for (int i = 0; i < images.Count; i++)
                                 {
                                     var image = images[i];
                                     <div class="image-item position-relative" draggable="true">
                                         <img class="admin-book-image-small" src="~/images/productImages/@image.Url" />
-                                        <input hidden name="ImageDtos[@i].ImageId" type="number"
-                                            value="@image.Id"/>
-                                        <input hidden name="ImageDtos[@i].Order" type="number"
-                                               value="@image.Number" />
-                                        <input hidden name="ImageDtos[@i].Delete"
-                                               value="false" />
+                                        <input hidden name="ImageDtos[@i].ImageId" value="@image.Id"/>
+                                        <input hidden name="ImageDtos[@i].Order" value="@image.Number" />
+                                        <input hidden name="ImageDtos[@i].Delete" value="false" />
                                         <button type="button" class="image-delete-btn position-absolute end-0 top-0 btn btn-danger px-2 py-1 d-flex justify-content-center align-items-center rounded-5">
                                             <i class="bi bi-trash"></i>
                                         </button>
@@ -64,7 +61,9 @@
                                     @foreach (BookEdition edition in Model.BookEditions)
                                     {
                                         <option value="@edition.Id" selected="@(edition.Id == Model.Book.BookEditionId)">
-                                            @edition.Title (@edition.Publisher?.Name)
+                                            "@edition.BookBase.Title" by @edition.BookBase.Authors.FirstOrDefault()?.Name
+                                            ("@edition.Title": @edition.Publisher?.Name (publisher)
+                                            - @edition.Translators.FirstOrDefault()?.Name (translator))
                                         </option>
                                     }
                                 </select>
@@ -172,8 +171,8 @@
                             <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Cover type</span>
                                 <select name="CoverType" class="form-select admin-input-container py-0">
-                                    <option value="@CoverType.Hardcover">Hard cover</option>
-                                    <option value="@CoverType.Paperback">Paperback</option>
+                                    <option value="@CoverType.Hardcover" selected="@(Model.Book.CoverType == CoverType.Hardcover)">Hard cover</option>
+                                    <option value="@CoverType.Paperback" selected="@(Model.Book.CoverType == CoverType.Paperback)">Paperback</option>
                                 </select>
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-2">
@@ -283,23 +282,32 @@
                         <input name="ScheduledAt" type="datetime-local" class="form-control" id="scheduledAt" disabled />
                     </div>
                 </div>
-                <div class="bg-white rounded-4 p-3 mt-4">
+                @* <div class="bg-white rounded-4 p-3 mt-4">
                     <h5>Tags</h5>
                     <div class="d-flex flex-wrap gap-2 mt-3">
-                        @for (int i = 0; i < 6; i++)
-                        {
-                            <div class="bg-secondary-subtle d-flex align-items-center px-2 py-1 rounded-5">
-                                <span class="me-1">Tag name</span>
-                                <button type="button" class="admin-tag-button btn btn-outline-secondary d-flex justify-content-center align-items-center p-0 rounded-5">
-                                    <i class="bi bi-x"></i>
-                                </button>
-                            </div>
+                        @{
+                            var tags = Model.Book.BookEdition.BookBase.Tags.ToList();
+                            for(int i = 0; i < tags.Count; i++)
+                            {
+                                var tag = tags[i];
+                                <div class="bg-secondary-subtle d-flex align-items-center px-2 py-1 rounded-5">
+                                    <div class="tag-item">
+                                        <span class="me-1">@tag.Name</span>
+                                        <input hidden name="TagDtos[@i].TagId" value="@tag.Id"/>
+                                        <input hidden name="TagDtos[@i].Delete" value="false"/>
+                                        <input hidden name="TagDtos[@i].Add" value="false"/>
+                                        <button type="button" class="tag-delete-btn btn btn-outline-secondary d-flex justify-content-center align-items-center p-0 rounded-5">
+                                            <i class="bi bi-x"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
                         }
                         <button type="button" class="btn btn-outline-primary d-flex justify-content-center align-items-center rounded-5">
                             <i class="bi bi-plus-lg"></i>
                         </button>
                     </div>
-                </div>
+                </div> *@
                 <div class="bg-white rounded-4 p-3 mt-4">
                     <h5>Description Addition</h5>
                     <textarea name="DescriptionAddition" class="form-control mt-2" rows="20">@Model.Book.DescriptionAddition</textarea>
@@ -340,8 +348,8 @@
     document.querySelectorAll(".image-delete-btn").forEach(btn => {
         btn.addEventListener("click", (e) => {
             const item = e.target.closest(".image-item");
-            const itemDelete = item.querySelector('input[name$=".Delete"]');
-            itemDelete.value = "true";
+            const deleteInput = item.querySelector('input[name$=".Delete"]');
+            deleteInput.value = "true";
             item.style.display = "none";
             updateOrderNumbers();
         });
@@ -352,10 +360,21 @@
         let visibleIndex = 0;
         items.forEach(item => {
             const order = item.querySelector('input[name$=".Order"]');
-            const deletion = item.querySelector('input[name$=".Delete"]');
-            if(deletion.value == "false"){
+            const deleteInput = item.querySelector('input[name$=".Delete"]');
+            if(deleteInput.value == "false"){
                 order.value = visibleIndex++;
             }
         });
     }
 </script>
+
+@* <script>
+    document.querySelectorAll(".tag-delete-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const item = e.target.closest(".tag-item");
+            const deleteInput = item.querySelector('input[name$=".Delete"]');
+            deleteInput.value = "true";
+            item.style.display = "none";
+        });
+    };
+</script> *@

@@ -1,19 +1,8 @@
-﻿@model List<PhysicalBook>
+﻿@model PhysicalBookIndexViewModel
 
 @{
     ViewData["Title"] = "Books";
-}
-
-@{
-    var routeValues = new Dictionary<string, string>();
-    foreach (var key in Context.Request.Query.Keys)
-    {
-        routeValues[key] = Context.Request.Query[key].ToString();
-    }
-}
-
-@{
-    int page = 5;
+    var currentSort = Model.CurrentSort;
 }
 
 <div class="d-flex">
@@ -31,36 +20,27 @@
         <div class="mt-2 d-flex justify-content-start">
             <div>
                 <div class="mb-2">
-                    Showing 1-@Model.Count() of @Model.Count() books
+                    Showing 1-10 of 100 books
                 </div>
                 <nav>
                     <ul class="pagination">
                         <li class="page-item">
-                            @{
-                                routeValues["page"] = (page - 1).ToString();
-                            }
-                            <a class="page-link" asp-all-route-data="routeValues">
+                            <a class="page-link">
                                 <i class="bi bi-chevron-left"></i>
                             </a>
                         </li>
                         <li class="page-item">
-                            @{
-                                routeValues["page"] = "1";
-                            }
-                            <a class="page-link" asp-all-route-data="routeValues">
+                            <a class="page-link" >
                                 1
                             </a>
                         </li>
                         <li class="page-item disabled">
                             <span class="page-link">...</span>
                         </li>
-                        @for (int i = page - 1; i < page + 2; i++)
+                        @for (int i = 5 - 1; i < 5 + 2; i++) // page = 5
                         {
                             <li class="page-item @(i == 5 ? "active" : "")">
-                                @{
-                                    routeValues["page"] = (i).ToString();
-                                }
-                                <a class="page-link" asp-all-route-data="routeValues">
+                                <a class="page-link">
                                     @i
                                 </a>
                             </li>
@@ -69,18 +49,12 @@
                             <span class="page-link">...</span>
                         </li>
                         <li class="page-item">
-                            @{
-                                routeValues["page"] = "40";
-                            }
-                            <a class="page-link" asp-all-route-data="routeValues">
+                            <a class="page-link">
                                 40
                             </a>
                         </li>
                         <li class="page-item">
-                            @{
-                                routeValues["page"] = (page + 1).ToString();
-                            }
-                            <a class="page-link" asp-all-route-data="routeValues">
+                            <a class="page-link">
                                 <i class="bi bi-chevron-right"></i>
                             </a>
                         </li>
@@ -90,100 +64,73 @@
         </div>
 
         <!-- Table -->
-        @{
-            routeValues["page"] = "";
-        }
         <div class="bg-white rounded-4 overflow-auto">
             <table class="table admin-table align-middle mt-3">
                 <thead>
                     <tr>
                         <th></th>
                         <th>
-                            @{
-                                routeValues["sort"] = Context.Request.Query["sort"] == "idAsc" ? "idDesc" : "idAsc";
-                            }
-                            <a asp-all-route-data="routeValues">
+                            <a asp-action="Index" asp-route-sort="@Model.IdSort">
                                 ID
-                                <i class="bi @(Context.Request.Query["sort"] == "idAsc" ? "bi-caret-down-fill"
-                                    : (Context.Request.Query["sort"] == "idDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                <i class="bi @(currentSort == PhysicalBookSortState.IdAsc ? "bi-caret-down-fill"
+                                    : currentSort == PhysicalBookSortState.IdDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>Image</th>
                         <th>
-                            @{
-                                routeValues["sort"] = Context.Request.Query["sort"] == "nameAsc" ? "nameDesc" : "nameAsc";
-                            }
-                            <a asp-all-route-data="routeValues">
+                            <a asp-action="Index" asp-route-sort="@Model.TitleSort">
                                 Title
-                                <i class="bi @(Context.Request.Query["sort"] == "nameAsc" ? "bi-caret-down-fill"
-                                    : (Context.Request.Query["sort"] == "nameDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                <i class="bi @(currentSort == PhysicalBookSortState.TitleAsc ? "bi-caret-down-fill"
+                                    : currentSort == PhysicalBookSortState.TitleDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
-                            @{
-                                routeValues["sort"] = Context.Request.Query["sort"] == "typeAsc" ? "typeDesc" : "typeAsc";
-                            }
-                            <a asp-all-route-data="routeValues">
+                            <a asp-action="Index" asp-route-sort="@Model.CoverSort">
                                 Cover
-                                <i class="bi @(Context.Request.Query["sort"] == "typeAsc" ? "bi-caret-down-fill"
-                                    : (Context.Request.Query["sort"] == "typeDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                <i class="bi @(currentSort == PhysicalBookSortState.CoverAsc ? "bi-caret-down-fill"
+                                    : currentSort == PhysicalBookSortState.CoverDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
-                            @{
-                                routeValues["sort"] = Context.Request.Query["sort"] == "isbnAsc" ? "isbnDesc" : "isbnAsc";
-                            }
-                            <a asp-all-route-data="routeValues">
+                            <a asp-action="Index" asp-route-sort="@Model.IsbnSort">
                                 ISBN
-                                <i class="bi @(Context.Request.Query["sort"] == "isbnAsc" ? "bi-caret-down-fill"
-                                    : (Context.Request.Query["sort"] == "isbnDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                <i class="bi @(currentSort == PhysicalBookSortState.IsbnAsc ? "bi-caret-down-fill"
+                                    : currentSort == PhysicalBookSortState.IsbnDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
-                            @{
-                                routeValues["sort"] = Context.Request.Query["sort"] == "priceAsc" ? "priceDesc" : "priceAsc";
-                            }
-                            <a asp-all-route-data="routeValues">
+                            <a asp-action="Index" asp-route-sort="@Model.PriceSort">
                                 Price
-                                <i class="bi @(Context.Request.Query["sort"] == "priceAsc" ? "bi-caret-down-fill"
-                                    : (Context.Request.Query["sort"] == "priceDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                <i class="bi @(currentSort == PhysicalBookSortState.PriceAsc ? "bi-caret-down-fill"
+                                    : currentSort == PhysicalBookSortState.PriceDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
-                            @{
-                                routeValues["sort"] = Context.Request.Query["sort"] == "discountAsc" ? "discountDesc" : "discountAsc";
-                            }
-                            <a asp-all-route-data="routeValues">
+                            <a asp-action="Index" asp-route-sort="@Model.DiscountSort">
                                 Discount
-                                <i class="bi @(Context.Request.Query["sort"] == "discountAsc" ? "bi-caret-down-fill"
-                                    : (Context.Request.Query["sort"] == "discountDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                <i class="bi @(currentSort == PhysicalBookSortState.DiscountAsc ? "bi-caret-down-fill"
+                                    : currentSort == PhysicalBookSortState.DiscountDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
-                            @{
-                                routeValues["sort"] = Context.Request.Query["sort"] == "finalAsc" ? "finalDesc" : "finalAsc";
-                            }
-                            <a asp-all-route-data="routeValues">
+                            <a asp-action="Index" asp-route-sort="@Model.FinalPriceSort">
                                 Final
-                                <i class="bi @(Context.Request.Query["sort"] == "finalAsc" ? "bi-caret-down-fill"
-                                    : (Context.Request.Query["sort"] == "finalDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                <i class="bi @(currentSort == PhysicalBookSortState.FinalPriceAsc ? "bi-caret-down-fill"
+                                    : currentSort == PhysicalBookSortState.FinalPriceDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
-                            @{
-                                routeValues["sort"] = Context.Request.Query["sort"] == "stockAsc" ? "stockDesc" : "stockAsc";
-                            }
-                            <a asp-all-route-data="routeValues">
+                            <a asp-action="Index" asp-route-sort="@Model.StockSort">
                                 Stock
-                                <i class="bi @(Context.Request.Query["sort"] == "stockAsc" ? "bi-caret-down-fill"
-                                    : (Context.Request.Query["sort"] == "stockDesc" ? "bi-caret-up-fill" : "")) "></i>
+                                <i class="bi @(currentSort == PhysicalBookSortState.StockAsc ? "bi-caret-down-fill"
+                                    : currentSort == PhysicalBookSortState.StockDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var book in Model)
+                    @foreach(var book in Model.Books)
                     {
                         <tr>
                             <td class="admin-table-status">
@@ -204,7 +151,7 @@
                             <td>
                                 @if (book.Images.Count > 0)
                                 {
-                                    <img src="~/images/productImages/@book.Images.FirstOrDefault()?.Url" class="admin-image" />
+                                    <img src="~/images/productImages/@book.OrderedImages.FirstOrDefault()?.Url" class="admin-image" />
                                 }
                                 else
                                 {
@@ -267,68 +214,6 @@
                     }
                 </tbody>
             </table>
-        </div>
-
-        <!-- Pagination bottom -->
-        <div class="mt-2 d-flex justify-content-start">
-            <div>
-                <div class="mb-2">
-                    Showing 1-20 of 800 books
-                </div>
-                <nav>
-                    <ul class="pagination">
-                        <li class="page-item">
-                            @{
-                                routeValues["page"] = (page - 1).ToString();
-                            }
-                            <a class="page-link" asp-all-route-data="routeValues">
-                                <i class="bi bi-chevron-left"></i>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            @{
-                                routeValues["page"] = "1";
-                            }
-                            <a class="page-link" asp-all-route-data="routeValues">
-                                1
-                            </a>
-                        </li>
-                        <li class="page-item disabled">
-                            <span class="page-link">...</span>
-                        </li>
-                        @for (int i = page - 1; i < page + 2; i++)
-                        {
-                            <li class="page-item @(i == 5 ? "active" : "")">
-                                @{
-                                    routeValues["page"] = (i).ToString();
-                                }
-                                <a class="page-link" asp-all-route-data="routeValues">
-                                    @i
-                                </a>
-                            </li>
-                        }
-                        <li class="page-item disabled">
-                            <span class="page-link">...</span>
-                        </li>
-                        <li class="page-item">
-                            @{
-                                routeValues["page"] = "40";
-                            }
-                            <a class="page-link" asp-all-route-data="routeValues">
-                                40
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            @{
-                                routeValues["page"] = (page + 1).ToString();
-                            }
-                            <a class="page-link" asp-all-route-data="routeValues">
-                                <i class="bi bi-chevron-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
         </div>
     </div>
 

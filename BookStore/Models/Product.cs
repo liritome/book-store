@@ -1,6 +1,4 @@
-﻿using BookStore.Services;
-using Microsoft.EntityFrameworkCore.Query;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Models

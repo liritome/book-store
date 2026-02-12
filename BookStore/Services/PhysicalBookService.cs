@@ -17,16 +17,36 @@ namespace BookStore.Services
             this.productImageService = productImageService;
         }
 
-        public async Task<List<PhysicalBook>> GetAllBooksAsync()
+        public async Task<List<PhysicalBook>> GetAllBooksAsync(PhysicalBookSortState sort)
         {
-            return await dbContext.PhysicalBooks
+            var books = dbContext.PhysicalBooks
                 .Include(b => b.BookEdition)
                     .ThenInclude(e => e.BookBase)
                 .Include(b => b.BookEdition)
                     .ThenInclude(e => e.BookBase)
                         .ThenInclude(bb => bb.Series)
-                .Include(b => b.Images)
-                .ToListAsync();
+                .Include(b => b.Images);
+
+            var booksOrdered = sort switch
+            {
+                PhysicalBookSortState.IdDesc => books.OrderByDescending(b => b.Id),
+                PhysicalBookSortState.TitleAsc => books.OrderBy(b => b.BookEdition.Title),
+                PhysicalBookSortState.TitleDesc => books.OrderByDescending(b => b.BookEdition.Title),
+                PhysicalBookSortState.CoverAsc => books.OrderBy(b => b.CoverType),
+                PhysicalBookSortState.CoverDesc => books.OrderByDescending(b => b.CoverType),
+                PhysicalBookSortState.IsbnAsc => books.OrderBy(b => b.Isbn),
+                PhysicalBookSortState.IsbnDesc => books.OrderByDescending(b => b.Isbn),
+                PhysicalBookSortState.PriceAsc => books.OrderBy(b => b.Price),
+                PhysicalBookSortState.PriceDesc => books.OrderByDescending(b => b.Price),
+                PhysicalBookSortState.DiscountAsc => books.OrderBy(b => b.DiscountId),
+                PhysicalBookSortState.DiscountDesc => books.OrderByDescending(b => b.DiscountId),
+                PhysicalBookSortState.FinalPriceAsc => books.OrderBy(b => b.FinalPrice),
+                PhysicalBookSortState.FinalPriceDesc => books.OrderByDescending(b => b.FinalPrice),
+                PhysicalBookSortState.StockAsc => books.OrderBy(b => b.Stock),
+                PhysicalBookSortState.StockDesc => books.OrderByDescending(b => b.Stock),
+                _ => books.OrderBy(b => b.Id)
+            };
+            return await booksOrdered.ToListAsync();
         }
 
         public async Task<PhysicalBook?> GetBookByIdAsync(int id)
@@ -47,6 +67,8 @@ namespace BookStore.Services
                     .ThenInclude(be => be.Publisher)
                 .Include(b => b.BookEdition)
                     .ThenInclude(be => be.Translators)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(be => be.PhysicalBooks)
                 .Include(b => b.Discount)
                 .Include(b => b.Images)
                 .Include(b => b.Reviews)

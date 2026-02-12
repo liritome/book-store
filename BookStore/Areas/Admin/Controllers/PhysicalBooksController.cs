@@ -3,7 +3,6 @@ using BookStore.Models;
 using BookStore.Services;
 using BookStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace BookStore.Areas.Admin.Controllers
 {
@@ -22,10 +21,40 @@ namespace BookStore.Areas.Admin.Controllers
             this.discountService = discountService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(PhysicalBookSortState sort = PhysicalBookSortState.IdAsc)
         {
-            List<PhysicalBook> books = await physicalBookService.GetAllBooksAsync();
-            return View(books);
+            var books = await physicalBookService.GetAllBooksAsync(sort);
+
+            var model = new PhysicalBookIndexViewModel
+            {
+                Books = books,
+                CurrentSort = sort,
+                IdSort = sort == PhysicalBookSortState.IdAsc
+                    ? PhysicalBookSortState.IdDesc : PhysicalBookSortState.IdAsc,
+
+                TitleSort = sort == PhysicalBookSortState.TitleAsc
+                    ? PhysicalBookSortState.TitleDesc : PhysicalBookSortState.TitleAsc,
+
+                CoverSort = sort == PhysicalBookSortState.CoverAsc
+                    ? PhysicalBookSortState.CoverDesc : PhysicalBookSortState.CoverAsc,
+
+                IsbnSort = sort == PhysicalBookSortState.IsbnAsc
+                    ? PhysicalBookSortState.IsbnDesc : PhysicalBookSortState.IsbnAsc,
+
+                PriceSort = sort == PhysicalBookSortState.PriceAsc
+                    ? PhysicalBookSortState.PriceDesc : PhysicalBookSortState.PriceAsc,
+
+                DiscountSort = sort == PhysicalBookSortState.DiscountAsc
+                    ? PhysicalBookSortState.DiscountDesc : PhysicalBookSortState.DiscountAsc,
+
+                FinalPriceSort = sort == PhysicalBookSortState.FinalPriceAsc
+                    ? PhysicalBookSortState.FinalPriceDesc : PhysicalBookSortState.FinalPriceAsc,
+
+                StockSort = sort == PhysicalBookSortState.StockAsc
+                    ? PhysicalBookSortState.StockDesc : PhysicalBookSortState.StockAsc
+            };
+
+            return View(model);
         }
 
         public async Task<IActionResult> Details(int id)
@@ -55,7 +84,7 @@ namespace BookStore.Areas.Admin.Controllers
         {
             int bookId = await physicalBookService.AddBookAsync(model);
             await physicalBookService.AttachImagesToBookAsync(bookId, model.Images);
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { Id = bookId });
         }
 
         [HttpGet]

@@ -712,7 +712,6 @@ namespace BookStore.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("DescriptionAddition")
-                        .IsRequired()
                         .HasMaxLength(3000)
                         .HasColumnType("nvarchar(3000)");
 
@@ -737,7 +736,6 @@ namespace BookStore.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TitleAddition")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

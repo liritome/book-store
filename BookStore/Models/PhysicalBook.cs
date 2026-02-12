@@ -11,13 +11,11 @@ namespace BookStore.Models
         [MaxLength(100)]
         public string Isbn { get; set; } = null!;
 
-        [Required]
         [MaxLength(100)]
-        public string TitleAddition { get; set; } = null!;
+        public string? TitleAddition { get; set; }
 
-        [Required]
         [MaxLength(3000)]
-        public string DescriptionAddition { get; set; } = null!;
+        public string? DescriptionAddition { get; set; }
 
         public CoverType CoverType { get; set; }
 
@@ -50,5 +48,25 @@ namespace BookStore.Models
     {
         Hardcover,
         Paperback
+    }
+
+    public enum PhysicalBookSortState
+    {
+        IdAsc,
+        IdDesc,
+        TitleAsc,
+        TitleDesc,
+        CoverAsc,
+        CoverDesc,
+        IsbnAsc,
+        IsbnDesc,
+        PriceAsc,
+        PriceDesc,
+        DiscountAsc,
+        DiscountDesc,
+        FinalPriceAsc,
+        FinalPriceDesc,
+        StockAsc,
+        StockDesc
     }
 }

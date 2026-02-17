@@ -1,25 +1,10 @@
 ﻿const form = document.querySelector("form");
-const scheduledRadio = document.getElementById("scheduledAtRadio");
-const scheduledAt = document.getElementById("scheduledAt");
 const priceInput = document.getElementById("priceInput");
 const discountSelect = document.getElementById("discountSelect");
 const finalPriceInput = document.getElementById("finalPriceInput");
 
-document.querySelectorAll('input[name="IsVisible"]').forEach(radio => {
-    radio.addEventListener("change", () => {
-        if (scheduledRadio.checked) {
-            scheduledAt.disabled = false;
-        }
-        else {
-            scheduledAt.value = "";
-            scheduledAt.disabled = true;
-        }
-    });
-});
-
 form.addEventListener("reset", function () {
     setTimeout(() => {
-        scheduledAt.disabled = !scheduledRadio.checked;
         discountSelect.disabled = isNaN(parseFloat(priceInput.value));
     }, 0);
 });

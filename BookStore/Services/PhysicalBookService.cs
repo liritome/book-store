@@ -17,17 +17,148 @@ namespace BookStore.Services
             this.productImageService = productImageService;
         }
 
-        public async Task<List<PhysicalBook>> GetAllBooksAsync(PhysicalBookSortState sort)
+        public async Task<List<PhysicalBook>> GetAllBooksAsync(PhysicalBookIndexInputModel input)
         {
-            var books = dbContext.PhysicalBooks
+            IQueryable<PhysicalBook> books = dbContext.PhysicalBooks
                 .Include(b => b.BookEdition)
-                    .ThenInclude(e => e.BookBase)
+                    .ThenInclude(be => be.BookBase)
+                        .ThenInclude(bb => bb.Authors)
                 .Include(b => b.BookEdition)
-                    .ThenInclude(e => e.BookBase)
+                    .ThenInclude(be => be.BookBase)
+                        .ThenInclude(bb => bb.Tags)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(be => be.BookBase)
                         .ThenInclude(bb => bb.Series)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(be => be.Language)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(be => be.Publisher)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(be => be.Translators)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(be => be.PhysicalBooks)
+                .Include(b => b.Discount)
                 .Include(b => b.Images);
 
-            var booksOrdered = sort switch
+            if (!string.IsNullOrWhiteSpace(input.Query))
+            {
+                string query = input.Query.Trim();
+                bool queryIsNumber = int.TryParse(query, out int number);
+                books = books
+                    .Where(b => b.BookEdition.Title.Contains(query)
+                        || (b.BookEdition.BookBase.Series != null && b.BookEdition.BookBase.Series.Name.Contains(query) == true)
+                        || b.Isbn.Contains(query)
+                        || (queryIsNumber && b.Id == number));
+            }
+
+            if (input.AuthorId != null)
+            {
+                books = books
+                    .Where(b => b.BookEdition.BookBase.Authors.Any(a => a.Id == input.AuthorId));
+            }
+
+            if (input.PublisherId != null)
+            {
+                books = books
+                    .Where(b => b.BookEdition.PublisherId == input.PublisherId);
+            }
+
+            if (input.TranslatorId != null)
+            {
+                books = books.
+                    Where(b => b.BookEdition.Translators.Any(t => t.Id == input.TranslatorId));
+            }
+
+            if (input.YearFrom != null)
+            {
+                books = books
+                    .Where(b => b.BookEdition.BookBase.Year >= input.YearFrom);
+            }
+
+            if (input.YearTo != null)
+            {
+                books = books
+                    .Where(b => b.BookEdition.BookBase.Year <= input.YearTo);
+            }
+
+            if (input.PagesFrom != null)
+            {
+                books = books
+                    .Where(b => b.Pages >= input.PagesFrom);
+            }
+
+            if (input.PagesTo != null)
+            {
+                books = books
+                    .Where(b => b.Pages <= input.PagesTo);
+            }
+
+            if (input.StockFrom != null)
+            {
+                books = books
+                    .Where(b => b.Stock >= input.StockFrom);
+            }
+
+            if (input.StockTo != null)
+            {
+                books = books
+                    .Where(b => b.Stock <= input.StockTo);
+            }
+
+            if (input.LanguageId != null)
+            {
+                books = books
+                    .Where(b => b.BookEdition.LanguageId == input.LanguageId);
+            }
+
+            if (!input.Visibility.IsNullOrEmpty())
+            {
+                books = books
+                    .Where(b => 
+                        (input.Visibility.Contains("visible") && b.IsVisible) ||
+                        (input.Visibility.Contains("hidden") && !b.IsVisible));
+            }
+
+            if (!input.CoverTypes.IsNullOrEmpty())
+            {
+                books = books
+                    .Where(b => input.CoverTypes.Contains(b.CoverType));
+            }
+
+            if (input.PriceFrom != null)
+            {
+                books = books
+                    .Where(b => b.Price >= input.PriceFrom);
+            }
+
+            if (input.PriceTo != null)
+            {
+                books = books
+                    .Where(b => b.Price <= input.PriceTo);
+            }
+
+            if (input.DiscountId != null)
+            {
+                books = input.DiscountId switch {
+                    -2 => books.Where(b => b.DiscountId != null),
+                    -1 => books.Where(b => b.DiscountId == null),
+                    _ => books.Where(b => b.DiscountId == input.DiscountId)
+                };
+            }
+
+            if (input.FinalFrom != null)
+            {
+                books = books
+                    .Where(b => b.FinalPrice >= input.FinalFrom);
+            }
+
+            if (input.FinalTo != null)
+            {
+                books = books
+                    .Where(b => b.FinalPrice <= input.FinalTo);
+            }
+
+            var booksOrdered = input.Sort switch
             {
                 PhysicalBookSortState.IdDesc => books.OrderByDescending(b => b.Id),
                 PhysicalBookSortState.TitleAsc => books.OrderBy(b => b.BookEdition.Title),

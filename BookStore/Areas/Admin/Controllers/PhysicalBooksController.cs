@@ -12,46 +12,37 @@ namespace BookStore.Areas.Admin.Controllers
         private readonly PhysicalBookService physicalBookService;
         private readonly BookEditionService bookEditionService;
         private readonly DiscountService discountService;
+        private readonly AuthorService authorService;
+        private readonly TranslatorService translatorService;
+        private readonly PublisherService publisherService;
+        private readonly LanguageService languageService;
 
         public PhysicalBooksController(PhysicalBookService physicalBookService, DiscountService discountService,
-                BookEditionService bookEditionService)
+                BookEditionService bookEditionService, AuthorService authorService, TranslatorService translatorService,
+                PublisherService publisherService, LanguageService languageService)
         {
             this.physicalBookService = physicalBookService;
             this.bookEditionService = bookEditionService;
             this.discountService = discountService;
+            this.authorService = authorService;
+            this.translatorService = translatorService;
+            this.publisherService = publisherService;
+            this.languageService = languageService;
         }
 
-        public async Task<IActionResult> Index(PhysicalBookSortState sort = PhysicalBookSortState.IdAsc)
+        public async Task<IActionResult> Index(PhysicalBookIndexInputModel input)
         {
-            var books = await physicalBookService.GetAllBooksAsync(sort);
+            var books = await physicalBookService.GetAllBooksAsync(input);
 
             var model = new PhysicalBookIndexViewModel
             {
                 Books = books,
-                CurrentSort = sort,
-                IdSort = sort == PhysicalBookSortState.IdAsc
-                    ? PhysicalBookSortState.IdDesc : PhysicalBookSortState.IdAsc,
-
-                TitleSort = sort == PhysicalBookSortState.TitleAsc
-                    ? PhysicalBookSortState.TitleDesc : PhysicalBookSortState.TitleAsc,
-
-                CoverSort = sort == PhysicalBookSortState.CoverAsc
-                    ? PhysicalBookSortState.CoverDesc : PhysicalBookSortState.CoverAsc,
-
-                IsbnSort = sort == PhysicalBookSortState.IsbnAsc
-                    ? PhysicalBookSortState.IsbnDesc : PhysicalBookSortState.IsbnAsc,
-
-                PriceSort = sort == PhysicalBookSortState.PriceAsc
-                    ? PhysicalBookSortState.PriceDesc : PhysicalBookSortState.PriceAsc,
-
-                DiscountSort = sort == PhysicalBookSortState.DiscountAsc
-                    ? PhysicalBookSortState.DiscountDesc : PhysicalBookSortState.DiscountAsc,
-
-                FinalPriceSort = sort == PhysicalBookSortState.FinalPriceAsc
-                    ? PhysicalBookSortState.FinalPriceDesc : PhysicalBookSortState.FinalPriceAsc,
-
-                StockSort = sort == PhysicalBookSortState.StockAsc
-                    ? PhysicalBookSortState.StockDesc : PhysicalBookSortState.StockAsc
+                Authors = await authorService.GetAllAuthorsAsync(),
+                Publishers = await publisherService.GetAllPublishersAsync(),
+                Translators = await translatorService.GetAllTranslatorsAsync(),
+                Languages = await languageService.GetAllLanguagesAsync(),
+                Discounts = await discountService.GetAllDiscountsAsync(),
+                Input = input
             };
 
             return View(model);

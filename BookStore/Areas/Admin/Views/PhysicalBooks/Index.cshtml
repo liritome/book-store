@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Books";
-    var currentSort = Model.CurrentSort;
+    var currentSort = Model.Input.Sort;
 }
 
 <div class="d-flex">
@@ -30,7 +30,7 @@
                             </a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" >
+                            <a class="page-link">
                                 1
                             </a>
                         </li>
@@ -73,7 +73,7 @@
                             <a asp-action="Index" asp-route-sort="@Model.IdSort">
                                 ID
                                 <i class="bi @(currentSort == PhysicalBookSortState.IdAsc ? "bi-caret-down-fill"
-                                    : currentSort == PhysicalBookSortState.IdDesc ? "bi-caret-up-fill" : "")"></i>
+                                                                       : currentSort == PhysicalBookSortState.IdDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>Image</th>
@@ -81,56 +81,56 @@
                             <a asp-action="Index" asp-route-sort="@Model.TitleSort">
                                 Title
                                 <i class="bi @(currentSort == PhysicalBookSortState.TitleAsc ? "bi-caret-down-fill"
-                                    : currentSort == PhysicalBookSortState.TitleDesc ? "bi-caret-up-fill" : "")"></i>
+                                                                       : currentSort == PhysicalBookSortState.TitleDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.CoverSort">
                                 Cover
                                 <i class="bi @(currentSort == PhysicalBookSortState.CoverAsc ? "bi-caret-down-fill"
-                                    : currentSort == PhysicalBookSortState.CoverDesc ? "bi-caret-up-fill" : "")"></i>
+                                                                       : currentSort == PhysicalBookSortState.CoverDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.IsbnSort">
                                 ISBN
                                 <i class="bi @(currentSort == PhysicalBookSortState.IsbnAsc ? "bi-caret-down-fill"
-                                    : currentSort == PhysicalBookSortState.IsbnDesc ? "bi-caret-up-fill" : "")"></i>
+                                                                       : currentSort == PhysicalBookSortState.IsbnDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.PriceSort">
                                 Price
                                 <i class="bi @(currentSort == PhysicalBookSortState.PriceAsc ? "bi-caret-down-fill"
-                                    : currentSort == PhysicalBookSortState.PriceDesc ? "bi-caret-up-fill" : "")"></i>
+                                                                       : currentSort == PhysicalBookSortState.PriceDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.DiscountSort">
                                 Discount
                                 <i class="bi @(currentSort == PhysicalBookSortState.DiscountAsc ? "bi-caret-down-fill"
-                                    : currentSort == PhysicalBookSortState.DiscountDesc ? "bi-caret-up-fill" : "")"></i>
+                                                                       : currentSort == PhysicalBookSortState.DiscountDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.FinalPriceSort">
                                 Final
                                 <i class="bi @(currentSort == PhysicalBookSortState.FinalPriceAsc ? "bi-caret-down-fill"
-                                    : currentSort == PhysicalBookSortState.FinalPriceDesc ? "bi-caret-up-fill" : "")"></i>
+                                                                       : currentSort == PhysicalBookSortState.FinalPriceDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.StockSort">
                                 Stock
                                 <i class="bi @(currentSort == PhysicalBookSortState.StockAsc ? "bi-caret-down-fill"
-                                    : currentSort == PhysicalBookSortState.StockDesc ? "bi-caret-up-fill" : "")"></i>
+                                                                       : currentSort == PhysicalBookSortState.StockDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var book in Model.Books)
+                    @foreach (var book in Model.Books)
                     {
                         <tr>
                             <td class="admin-table-status">
@@ -224,85 +224,101 @@
                 <div class="admin-table-filter-scrollable d-flex flex-column overflow-y-auto">
                     <div>
                         <label class="form-label">Book</label>
-                        <input name="q" type="text" class="form-control" placeholder="Title, ID or ISBN"
-                               value="@Context.Request.Query["q"]">
+                        <input name="Query" type="text" class="form-control" placeholder="Title, ID or ISBN"
+                               value="@Model.Input.Query">
                     </div>
                     <div>
                         <label class="form-label">Author</label>
-                        <input name="author" type="text" class="form-control" placeholder="Name"
-                               value="@Context.Request.Query["author"]">
-                    </div>
-                    <div>
-                        <label class="form-label">Translator</label>
-                        <input name="translator" type="text" class="form-control" placeholder="Name"
-                               value="@Context.Request.Query["translator"]">
+                        <select name="AuthorId" class="form-select">
+                            <option value="" selected="@(Model.Input.AuthorId == null ? "selected" : "")">-</option>
+                            @foreach (var author in Model.Authors)
+                            {
+                                <option value="@author.Id" selected="@(author.Id == Model.Input.AuthorId)">
+                                    @author.Name
+                                </option>
+                            }
+                        </select>
+                        @* <input class="form-control" type="text" id="authorInput" palceholder="Name" autocomplete="off"/>
+                        <input type="hidden" id="authorId" name="AuthorId"/>
+                        <div></div> *@
                     </div>
                     <div>
                         <label class="form-label">Publisher</label>
-                        <input name="publisher" type="text" class="form-control" placeholder="Name"
-                               value="@Context.Request.Query["publisher"]">
+                        <select name="PublisherId" class="form-select">
+                            <option value="" selected="@(Model.Input.PublisherId == null)">-</option>
+                            @foreach (var publisher in Model.Publishers)
+                            {
+                                <option value="@publisher.Id" selected="@(publisher.Id == Model.Input.PublisherId)">
+                                    @publisher.Name
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Translator</label>
+                        <select name="TranslatorId" class="form-select">
+                            <option value="" selected="@(Model.Input.TranslatorId == null)">-</option>
+                            @foreach (var translator in Model.Translators)
+                            {
+                                <option value="@translator.Id" selected="@(translator.Id == Model.Input.TranslatorId)">
+                                    @translator.Name
+                                </option>
+                            }
+                        </select>
                     </div>
                     <div>
                         <label class="form-label">Year</label>
                         <div class="d-flex align-items-center">
-                            <input name="yearFrom" type="number" min="0" class="form-control" placeholder="From"
-                                   value="@Context.Request.Query["yearFrom"]">
+                            <input name="YearFrom" type="number" min="0" class="form-control" placeholder="From"
+                                   value="@Model.Input.YearFrom">
                             <span class="px-1">–</span>
-                            <input name="yearTo" type="number" min="0" class="form-control" placeholder="To"
-                                   value="@Context.Request.Query["yearTo"]">
+                            <input name="YearTo" type="number" min="0" class="form-control" placeholder="To"
+                                   value="@Model.Input.YearTo">
                         </div>
                     </div>
                     <div>
                         <label class="form-label">Pages</label>
                         <div class="d-flex align-items-center">
-                            <input name="pagesFrom" type="number" min="1" class="form-control" placeholder="From"
-                                   value="@Context.Request.Query["pagesFrom"]">
+                            <input name="PagesFrom" type="number" min="0" class="form-control" placeholder="From"
+                                   value="@Model.Input.PagesFrom">
                             <span class="px-1">–</span>
-                            <input name="pagesTo" type="number" min="1" class="form-control" placeholder="To"
-                                   value="@Context.Request.Query["pagesTo"]">
+                            <input name="PagesTo" type="number" min="0" class="form-control" placeholder="To"
+                                   value="@Model.Input.PagesTo">
                         </div>
                     </div>
                     <div>
                         <label class="form-label">Stock</label>
                         <div class="d-flex align-items-center">
-                            <input name="stockFrom" type="number" min="0" class="form-control" placeholder="From"
-                                   value="@Context.Request.Query["stockFrom"]">
+                            <input name="StockFrom" type="number" min="0" class="form-control" placeholder="From"
+                                   value="@Model.Input.StockFrom">
                             <span class="px-1">–</span>
-                            <input name="stockTo" type="number" min="0" class="form-control" placeholder="To"
-                                   value="@Context.Request.Query["stockTo"]">
+                            <input name="StockTo" type="number" min="0" class="form-control" placeholder="To"
+                                   value="@Model.Input.StockTo">
                         </div>
                     </div>
                     <div>
-                        <label class="form-label d-block">Language</label>
-                        <div class="d-flex flex-wrap row-gap-1">
-                            <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="language" value="ua"
-                                       @(Context.Request.Query["language"].ToString().Contains("ua") ? "checked" : "")>
-                                <span>Ukrainian</span>
-                            </label>
-                            <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="language" value="en"
-                                       @(Context.Request.Query["language"].ToString().Contains("en") ? "checked" : "")>
-                                <span>English</span>
-                            </label>
-                        </div>
+                        <label class="form-label">Language</label>
+                        <select name="LanguageId" class="form-select">
+                            <option value="" selected="@(Model.Input.LanguageId == null)">-</option>
+                            @foreach (var language in Model.Languages)
+                            {
+                                <option value="@language.Id" selected="@(language.Id == Model.Input.LanguageId)">
+                                    @language.Name
+                                </option>
+                            }
+                        </select>
                     </div>
                     <div>
-                        <label class="form-label d-block">Status</label>
+                        <label class="form-label d-block">Visibility</label>
                         <div class="d-flex flex-wrap row-gap-1">
                             <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="status" value="visible"
-                                       @(Context.Request.Query["status"].ToString().Contains("visible") ? "checked" : "")>
+                                <input class="form-check-input" type="checkbox" name="Visibility" value="visible"
+                                       @(Model.Input.Visibility.Contains("visible") ? "checked" : "")>
                                 <span>Visible</span>
                             </label>
                             <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="status" value="scheduled"
-                                       @(Context.Request.Query["status"].ToString().Contains("scheduled") ? "checked" : "")>
-                                <span>Scheduled</span>
-                            </label>
-                            <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="status" value="hidden"
-                                       @(Context.Request.Query["status"].ToString().Contains("hidden") ? "checked" : "")>
+                                <input class="form-check-input" type="checkbox" name="Visibility" value="hidden"
+                                       @(Model.Input.Visibility.Contains("hidden") ? "checked" : "")>
                                 <span>Hidden</span>
                             </label>
                         </div>
@@ -310,51 +326,50 @@
                     <div>
                         <label class="form-label d-block">Cover</label>
                         <div class="d-flex flex-wrap row-gap-1">
-                            <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="cover" value="@CoverType.Hardcover"
-                                       @(Context.Request.Query["cover"].Contains(CoverType.Hardcover.ToString()) ? "checked" : "") >
-                                <span>Hardcover</span>
-                            </label>
-                            <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="cover" value="@CoverType.Paperback"
-                                       @(Context.Request.Query["cover"].Contains(CoverType.Paperback.ToString()) ? "checked" : "") >
-                                <span>Paperback</span>
-                            </label>
+                            @foreach(var type in Enum.GetValues(typeof(CoverType)).Cast<CoverType>())
+                            {
+                                <label class="form-check-label w-50">
+                                    <input class="form-check-input" type="checkbox" name="CoverTypes" value="@type"
+                                           @(Model.Input.CoverTypes.Contains(type) ? "checked" : "")>
+                                    <span>@type</span>
+                                </label>
+                            }
                         </div>
                     </div>
                     <div>
                         <label class="form-label">Price</label>
                         <div class="d-flex align-items-center">
-                            <input name="priceFrom" type="number" min="0" class="form-control" placeholder="From"
-                                   value="@Context.Request.Query["priceFrom"]">
+                            <input name="PriceFrom" type="number" min="1" class="form-control" placeholder="From"
+                                   value="@Model.Input.PriceFrom">
                             <span class="px-1">–</span>
-                            <input name="priceTo" type="number" min="0" class="form-control" placeholder="To"
-                                   value="@Context.Request.Query["priceTo"]">
+                            <input name="PriceTo" type="number" min="1" class="form-control" placeholder="To"
+                                   value="@Model.Input.PriceTo">
                         </div>
                     </div>
                     <div>
                         <label class="form-label d-block">Discount</label>
-                        <div class="d-flex flex-wrap row-gap-1">
-                            <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="discount" value="yes"
-                                       @(Context.Request.Query["discount"] == "yes" ? "checked" : "")>
-                                <span>Yes</span>
-                            </label>
-                            <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="discount" value="no"
-                                       @(Context.Request.Query["discount"] == "no" ? "checked" : "")>
-                                <span>No</span>
-                            </label>
-                        </div>
+                        <select name="DiscountId" class="form-select">
+                            <option value="" selected="@(Model.Input.DiscountId == null)">-</option>
+                            <option value="-2" selected="@(Model.Input.DiscountId == -2)">Any</option>
+                            <option value="-1" selected="@(Model.Input.DiscountId == -1)">None</option>
+                            <optgroup label="Discounts">
+                                @foreach (var discount in Model.Discounts)
+                                {
+                                    <option value="@discount.Id" selected="@(discount.Id == Model.Input.DiscountId)">
+                                        @discount.Name
+                                    </option>
+                                }
+                            </optgroup>
+                        </select>
                     </div>
                     <div>
                         <label class="form-label">Final price</label>
                         <div class="d-flex align-items-center">
-                            <input name="finalFrom" type="number" min="0" class="form-control" placeholder="From"
-                                   value="@Context.Request.Query["finalFrom"]">
+                            <input name="FinalFrom" type="number" min="1" class="form-control" placeholder="From"
+                                   value="@Model.Input.FinalFrom">
                             <span class="px-1">–</span>
-                            <input name="finalTo" type="number" min="0" class="form-control" placeholder="To"
-                                   value="@Context.Request.Query["finalTo"]">
+                            <input name="FinalTo" type="number" min="1" class="form-control" placeholder="To"
+                                   value="@Model.Input.FinalTo">
                         </div>
                     </div>
                 </div>

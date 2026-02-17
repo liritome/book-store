@@ -273,13 +273,6 @@
                             <input @(Model.Book.IsVisible == true ? "" : "checked") class="form-check-input" type="radio" value="Hidden" name="IsVisible" id="hiddenRadio" />
                             <label class="form-check-label" for="hiddenRadio">Hidden</label>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" value="Scheduled" name="IsVisible" id="scheduledAtRadio" />
-                            <label class="form-check-label" for="scheduledAtRadio">Scheduled</label>
-                        </div>
-                    </div>
-                    <div class="mt-2 w-50">
-                        <input name="ScheduledAt" type="datetime-local" class="form-control" id="scheduledAt" disabled />
                     </div>
                 </div>
                 @* <div class="bg-white rounded-4 p-3 mt-4">

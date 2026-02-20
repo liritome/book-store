@@ -17,7 +17,7 @@ namespace BookStore.Services
             this.productImageService = productImageService;
         }
 
-        public async Task<List<PhysicalBook>> GetAllBooksAsync(PhysicalBookIndexInputModel input)
+        public async Task<List<PhysicalBook>> GetAllBooksAsync(PhysicalBookFilter filter)
         {
             IQueryable<PhysicalBook> books = dbContext.PhysicalBooks
                 .Include(b => b.BookEdition)
@@ -40,9 +40,9 @@ namespace BookStore.Services
                 .Include(b => b.Discount)
                 .Include(b => b.Images);
 
-            if (!string.IsNullOrWhiteSpace(input.Query))
+            if (!string.IsNullOrWhiteSpace(filter.Query))
             {
-                string query = input.Query.Trim();
+                string query = filter.Query.Trim();
                 bool queryIsNumber = int.TryParse(query, out int number);
                 books = books
                     .Where(b => b.BookEdition.Title.Contains(query)
@@ -51,114 +51,114 @@ namespace BookStore.Services
                         || (queryIsNumber && b.Id == number));
             }
 
-            if (input.AuthorId != null)
+            if (!filter.AuthorIds.IsNullOrEmpty())
             {
                 books = books
-                    .Where(b => b.BookEdition.BookBase.Authors.Any(a => a.Id == input.AuthorId));
+                    .Where(b => b.BookEdition.BookBase.Authors.Any(a => filter.AuthorIds.Contains(a.Id)));
             }
 
-            if (input.PublisherId != null)
+            if (!filter.PublisherIds.IsNullOrEmpty())
             {
                 books = books
-                    .Where(b => b.BookEdition.PublisherId == input.PublisherId);
+                    .Where(b => filter.PublisherIds.Contains(b.BookEdition.PublisherId));
             }
 
-            if (input.TranslatorId != null)
+            if (!filter.TranslatorIds.IsNullOrEmpty())
             {
                 books = books.
-                    Where(b => b.BookEdition.Translators.Any(t => t.Id == input.TranslatorId));
+                    Where(b => b.BookEdition.Translators.Any(t => filter.TranslatorIds.Contains(t.Id)));
             }
 
-            if (input.YearFrom != null)
+            if (filter.YearFrom != null)
             {
                 books = books
-                    .Where(b => b.BookEdition.BookBase.Year >= input.YearFrom);
+                    .Where(b => b.BookEdition.BookBase.Year >= filter.YearFrom);
             }
 
-            if (input.YearTo != null)
+            if (filter.YearTo != null)
             {
                 books = books
-                    .Where(b => b.BookEdition.BookBase.Year <= input.YearTo);
+                    .Where(b => b.BookEdition.BookBase.Year <= filter.YearTo);
             }
 
-            if (input.PagesFrom != null)
+            if (filter.PagesFrom != null)
             {
                 books = books
-                    .Where(b => b.Pages >= input.PagesFrom);
+                    .Where(b => b.Pages >= filter.PagesFrom);
             }
 
-            if (input.PagesTo != null)
+            if (filter.PagesTo != null)
             {
                 books = books
-                    .Where(b => b.Pages <= input.PagesTo);
+                    .Where(b => b.Pages <= filter.PagesTo);
             }
 
-            if (input.StockFrom != null)
+            if (filter.StockFrom != null)
             {
                 books = books
-                    .Where(b => b.Stock >= input.StockFrom);
+                    .Where(b => b.Stock >= filter.StockFrom);
             }
 
-            if (input.StockTo != null)
+            if (filter.StockTo != null)
             {
                 books = books
-                    .Where(b => b.Stock <= input.StockTo);
+                    .Where(b => b.Stock <= filter.StockTo);
             }
 
-            if (input.LanguageId != null)
+            if (!filter.LanguageIds.IsNullOrEmpty())
             {
                 books = books
-                    .Where(b => b.BookEdition.LanguageId == input.LanguageId);
+                    .Where(b => filter.LanguageIds.Contains(b.BookEdition.LanguageId));
             }
 
-            if (!input.Visibility.IsNullOrEmpty())
+            if (!filter.Visibility.IsNullOrEmpty())
             {
                 books = books
                     .Where(b => 
-                        (input.Visibility.Contains("visible") && b.IsVisible) ||
-                        (input.Visibility.Contains("hidden") && !b.IsVisible));
+                        (filter.Visibility.Contains("visible") && b.IsVisible) ||
+                        (filter.Visibility.Contains("hidden") && !b.IsVisible));
             }
 
-            if (!input.CoverTypes.IsNullOrEmpty())
+            if (!filter.CoverTypes.IsNullOrEmpty())
             {
                 books = books
-                    .Where(b => input.CoverTypes.Contains(b.CoverType));
+                    .Where(b => filter.CoverTypes.Contains(b.CoverType));
             }
 
-            if (input.PriceFrom != null)
+            if (filter.PriceFrom != null)
             {
                 books = books
-                    .Where(b => b.Price >= input.PriceFrom);
+                    .Where(b => b.Price >= filter.PriceFrom);
             }
 
-            if (input.PriceTo != null)
+            if (filter.PriceTo != null)
             {
                 books = books
-                    .Where(b => b.Price <= input.PriceTo);
+                    .Where(b => b.Price <= filter.PriceTo);
             }
 
-            if (input.DiscountId != null)
+            if (filter.DiscountId != null)
             {
-                books = input.DiscountId switch {
+                books = filter.DiscountId switch {
                     -2 => books.Where(b => b.DiscountId != null),
                     -1 => books.Where(b => b.DiscountId == null),
-                    _ => books.Where(b => b.DiscountId == input.DiscountId)
+                    _ => books.Where(b => b.DiscountId == filter.DiscountId)
                 };
             }
 
-            if (input.FinalFrom != null)
+            if (filter.FinalFrom != null)
             {
                 books = books
-                    .Where(b => b.FinalPrice >= input.FinalFrom);
+                    .Where(b => b.FinalPrice >= filter.FinalFrom);
             }
 
-            if (input.FinalTo != null)
+            if (filter.FinalTo != null)
             {
                 books = books
-                    .Where(b => b.FinalPrice <= input.FinalTo);
+                    .Where(b => b.FinalPrice <= filter.FinalTo);
             }
 
-            var booksOrdered = input.Sort switch
+            var booksOrdered = filter.Sort switch
             {
                 PhysicalBookSortState.IdDesc => books.OrderByDescending(b => b.Id),
                 PhysicalBookSortState.TitleAsc => books.OrderBy(b => b.BookEdition.Title),

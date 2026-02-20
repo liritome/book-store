@@ -17,11 +17,11 @@ namespace BookStore.Models
         [MaxLength(3000)]
         public string Description { get; set; } = null!;
 
-        public int? LanguageId { get; set; }
-        public virtual Language? Language { get; set; } = null!;
+        public int LanguageId { get; set; }
+        public virtual Language Language { get; set; } = null!;
 
-        public int? PublisherId { get; set; }
-        public virtual Publisher? Publisher { get; set; } = null!;
+        public int PublisherId { get; set; }
+        public virtual Publisher Publisher { get; set; } = null!;
 
         public virtual ICollection<Translator> Translators { get; set; } = new List<Translator>();
 

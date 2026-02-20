@@ -192,10 +192,10 @@ namespace BookStore.Migrations
                         .HasMaxLength(3000)
                         .HasColumnType("nvarchar(3000)");
 
-                    b.Property<int?>("LanguageId")
+                    b.Property<int>("LanguageId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PublisherId")
+                    b.Property<int>("PublisherId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -859,11 +859,15 @@ namespace BookStore.Migrations
 
                     b.HasOne("BookStore.Models.Language", "Language")
                         .WithMany("BookEditions")
-                        .HasForeignKey("LanguageId");
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BookStore.Models.Publisher", "Publisher")
                         .WithMany("BookEditions")
-                        .HasForeignKey("PublisherId");
+                        .HasForeignKey("PublisherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("BookBase");
 

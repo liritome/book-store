@@ -38,7 +38,7 @@
                                     {
                                         <option value="@edition.Id">
                                             "@edition.BookBase.Title" by @edition.BookBase.Authors.FirstOrDefault()?.Name
-                                            ("@edition.Title": @edition.Publisher?.Name (publisher) 
+                                            ("@edition.Title": @edition.Publisher.Name (publisher) 
                                             - @edition.Translators.FirstOrDefault()?.Name (translator))
                                         </option>
                                     }
@@ -246,4 +246,4 @@
     </div>
 </form>
 
-<script src="~/js/admin-book.js"></script>
+<script src="~/js/admin/book-form.js"></script>

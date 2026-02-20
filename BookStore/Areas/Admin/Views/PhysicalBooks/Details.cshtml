@@ -128,7 +128,7 @@
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Publisher</span>
                             <a class="text-muted border-bottom border-dark border-1" asp-area="Admin" asp-controller="Publishers" asp-action="Details" asp-route-slug="publisher-name">
-                                @Model.BookEdition.Publisher?.Name
+                                @Model.BookEdition.Publisher.Name
                             </a>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">
@@ -140,7 +140,7 @@
                         <div class="list-group-item d-flex justify-content-between gap-3">
                             <span>Language</span>
                             <span class="text-muted">
-                                @Model.BookEdition.Language?.Name
+                                @Model.BookEdition.Language.Name
                             </span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between gap-3">

@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Books";
-    var currentSort = Model.Input.Sort;
+    var currentSort = Model.Filter.Sort;
 }
 
 <div class="d-flex">
@@ -179,7 +179,7 @@
                                 }
                                 else
                                 {
-                                    <i class="admin-book-discount-icon bi bi-check text-success"></i>
+                                    <span class="text-success">@book.Discount?.Display()</span>
                                 }
                             </td>
                             <td>@book.FinalPrice ₴</td>
@@ -225,100 +225,97 @@
                     <div>
                         <label class="form-label">Book</label>
                         <input name="Query" type="text" class="form-control" placeholder="Title, ID or ISBN"
-                               value="@Model.Input.Query">
+                               value="@Model.Filter.Query">
                     </div>
                     <div>
-                        <label class="form-label">Author</label>
-                        <select name="AuthorId" class="form-select">
-                            <option value="" selected="@(Model.Input.AuthorId == null ? "selected" : "")">-</option>
-                            @foreach (var author in Model.Authors)
+                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
                             {
-                                <option value="@author.Id" selected="@(author.Id == Model.Input.AuthorId)">
-                                    @author.Name
-                                </option>
-                            }
-                        </select>
-                        @* <input class="form-control" type="text" id="authorInput" palceholder="Name" autocomplete="off"/>
-                        <input type="hidden" id="authorId" name="AuthorId"/>
-                        <div></div> *@
+                                EntityName = "author",
+                                FieldName = "AuthorIds",
+                                Header = "Author",
+                                InputContainerPlaceholder = "Name",
+                                SelectedIds = Model.Filter.AuthorIds,
+                                SearchByQueryUrl = Url.Action("SearchAuthorsJson", "Authors", new { area = "Admin" }) ?? "",
+                                SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? ""
+                            })
                     </div>
                     <div>
-                        <label class="form-label">Publisher</label>
-                        <select name="PublisherId" class="form-select">
-                            <option value="" selected="@(Model.Input.PublisherId == null)">-</option>
-                            @foreach (var publisher in Model.Publishers)
+                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
                             {
-                                <option value="@publisher.Id" selected="@(publisher.Id == Model.Input.PublisherId)">
-                                    @publisher.Name
-                                </option>
-                            }
-                        </select>
+                                EntityName = "publisher",
+                                FieldName = "PublisherIds",
+                                Header = "Publisher",
+                                InputContainerPlaceholder = "Name",
+                                SelectedIds = Model.Filter.PublisherIds,
+                                SearchByQueryUrl = Url.Action("SearchPublishersJson", "Publishers", new { area = "Admin" }) ?? "",
+                                SearchByIdUrl = Url.Action("SearchPublisherByIdJson", "Publishers", new { area = "Admin" }) ?? ""
+                            })
                     </div>
                     <div>
-                        <label class="form-label">Translator</label>
-                        <select name="TranslatorId" class="form-select">
-                            <option value="" selected="@(Model.Input.TranslatorId == null)">-</option>
-                            @foreach (var translator in Model.Translators)
+                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
                             {
-                                <option value="@translator.Id" selected="@(translator.Id == Model.Input.TranslatorId)">
-                                    @translator.Name
-                                </option>
-                            }
-                        </select>
+                                EntityName = "translator",
+                                FieldName = "TranslatorIds",
+                                Header = "Translator",
+                                InputContainerPlaceholder = "Name",
+                                SelectedIds = Model.Filter.TranslatorIds,
+                                SearchByQueryUrl = Url.Action("SearchTranslatorsJson", "Translators", new { area = "Admin" }) ?? "",
+                                SearchByIdUrl = Url.Action("SearchTranslatorByIdJson", "Translators", new { area = "Admin" }) ?? ""
+                            })
                     </div>
                     <div>
                         <label class="form-label">Year</label>
                         <div class="d-flex align-items-center">
                             <input name="YearFrom" type="number" min="0" class="form-control" placeholder="From"
-                                   value="@Model.Input.YearFrom">
+                                   value="@Model.Filter.YearFrom">
                             <span class="px-1">–</span>
                             <input name="YearTo" type="number" min="0" class="form-control" placeholder="To"
-                                   value="@Model.Input.YearTo">
+                                   value="@Model.Filter.YearTo">
                         </div>
                     </div>
                     <div>
                         <label class="form-label">Pages</label>
                         <div class="d-flex align-items-center">
                             <input name="PagesFrom" type="number" min="0" class="form-control" placeholder="From"
-                                   value="@Model.Input.PagesFrom">
+                                   value="@Model.Filter.PagesFrom">
                             <span class="px-1">–</span>
                             <input name="PagesTo" type="number" min="0" class="form-control" placeholder="To"
-                                   value="@Model.Input.PagesTo">
+                                   value="@Model.Filter.PagesTo">
                         </div>
                     </div>
                     <div>
                         <label class="form-label">Stock</label>
                         <div class="d-flex align-items-center">
                             <input name="StockFrom" type="number" min="0" class="form-control" placeholder="From"
-                                   value="@Model.Input.StockFrom">
+                                   value="@Model.Filter.StockFrom">
                             <span class="px-1">–</span>
                             <input name="StockTo" type="number" min="0" class="form-control" placeholder="To"
-                                   value="@Model.Input.StockTo">
+                                   value="@Model.Filter.StockTo">
                         </div>
                     </div>
                     <div>
-                        <label class="form-label">Language</label>
-                        <select name="LanguageId" class="form-select">
-                            <option value="" selected="@(Model.Input.LanguageId == null)">-</option>
-                            @foreach (var language in Model.Languages)
+                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
                             {
-                                <option value="@language.Id" selected="@(language.Id == Model.Input.LanguageId)">
-                                    @language.Name
-                                </option>
-                            }
-                        </select>
+                                EntityName = "language",
+                                FieldName = "LanguageIds",
+                                Header = "Language",
+                                InputContainerPlaceholder = "",
+                                SelectedIds = Model.Filter.LanguageIds,
+                                SearchByQueryUrl = Url.Action("SearchLanguagesJson", "Languages", new { area = "Admin" }) ?? "",
+                                SearchByIdUrl = Url.Action("SearchLanguageByIdJson", "Languages", new { area = "Admin" }) ?? ""
+                            })
                     </div>
                     <div>
                         <label class="form-label d-block">Visibility</label>
                         <div class="d-flex flex-wrap row-gap-1">
                             <label class="form-check-label w-50">
                                 <input class="form-check-input" type="checkbox" name="Visibility" value="visible"
-                                       @(Model.Input.Visibility.Contains("visible") ? "checked" : "")>
+                                       @(Model.Filter.Visibility.Contains("visible") ? "checked" : "")>
                                 <span>Visible</span>
                             </label>
                             <label class="form-check-label w-50">
                                 <input class="form-check-input" type="checkbox" name="Visibility" value="hidden"
-                                       @(Model.Input.Visibility.Contains("hidden") ? "checked" : "")>
+                                       @(Model.Filter.Visibility.Contains("hidden") ? "checked" : "")>
                                 <span>Hidden</span>
                             </label>
                         </div>
@@ -326,11 +323,11 @@
                     <div>
                         <label class="form-label d-block">Cover</label>
                         <div class="d-flex flex-wrap row-gap-1">
-                            @foreach(var type in Enum.GetValues(typeof(CoverType)).Cast<CoverType>())
+                            @foreach (var type in Enum.GetValues(typeof(CoverType)).Cast<CoverType>())
                             {
                                 <label class="form-check-label w-50">
                                     <input class="form-check-input" type="checkbox" name="CoverTypes" value="@type"
-                                           @(Model.Input.CoverTypes.Contains(type) ? "checked" : "")>
+                                           @(Model.Filter.CoverTypes.Contains(type) ? "checked" : "")>
                                     <span>@type</span>
                                 </label>
                             }
@@ -340,22 +337,22 @@
                         <label class="form-label">Price</label>
                         <div class="d-flex align-items-center">
                             <input name="PriceFrom" type="number" min="1" class="form-control" placeholder="From"
-                                   value="@Model.Input.PriceFrom">
+                                   value="@Model.Filter.PriceFrom">
                             <span class="px-1">–</span>
                             <input name="PriceTo" type="number" min="1" class="form-control" placeholder="To"
-                                   value="@Model.Input.PriceTo">
+                                   value="@Model.Filter.PriceTo">
                         </div>
                     </div>
                     <div>
                         <label class="form-label d-block">Discount</label>
                         <select name="DiscountId" class="form-select">
-                            <option value="" selected="@(Model.Input.DiscountId == null)">-</option>
-                            <option value="-2" selected="@(Model.Input.DiscountId == -2)">Any</option>
-                            <option value="-1" selected="@(Model.Input.DiscountId == -1)">None</option>
+                            <option value="" selected="@(Model.Filter.DiscountId == null)">-</option>
+                            <option value="-2" selected="@(Model.Filter.DiscountId == -2)">Any</option>
+                            <option value="-1" selected="@(Model.Filter.DiscountId == -1)">None</option>
                             <optgroup label="Discounts">
                                 @foreach (var discount in Model.Discounts)
                                 {
-                                    <option value="@discount.Id" selected="@(discount.Id == Model.Input.DiscountId)">
+                                    <option value="@discount.Id" selected="@(discount.Id == Model.Filter.DiscountId)">
                                         @discount.Name
                                     </option>
                                 }
@@ -366,10 +363,10 @@
                         <label class="form-label">Final price</label>
                         <div class="d-flex align-items-center">
                             <input name="FinalFrom" type="number" min="1" class="form-control" placeholder="From"
-                                   value="@Model.Input.FinalFrom">
+                                   value="@Model.Filter.FinalFrom">
                             <span class="px-1">–</span>
                             <input name="FinalTo" type="number" min="1" class="form-control" placeholder="To"
-                                   value="@Model.Input.FinalTo">
+                                   value="@Model.Filter.FinalTo">
                         </div>
                     </div>
                 </div>
@@ -389,17 +386,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const rightPanel = document.querySelector('.admin-table-right');
-        const rightScroll = document.querySelector('.admin-table-filter-scrollable');
-
-        rightPanel.addEventListener('wheel', function (e) {
-            const atTop = rightScroll.scrollTop === 0;
-            const atBottom = rightScroll.scrollTop + rightScroll.clientHeight >= rightScroll.scrollHeight - 1;
-            if (atTop && e.deltaY < 0) e.preventDefault();
-            if (atBottom && e.deltaY > 0) e.preventDefault();
-        }, { passive: false });
-    });
-</script>

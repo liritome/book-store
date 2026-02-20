@@ -2,20 +2,20 @@
 
 namespace BookStore.InputModels
 {
-    public class PhysicalBookIndexInputModel
+    public class PhysicalBookFilter
     {
         public PhysicalBookSortState Sort { get; set; } = PhysicalBookSortState.IdAsc;
         public string? Query { get; set; }
-        public int? AuthorId { get; set; }
-        public int? PublisherId { get; set; }
-        public int? TranslatorId { get; set; }
+        public List<int> AuthorIds { get; set; } = new();
+        public List<int> PublisherIds { get; set; } = new();
+        public List<int> TranslatorIds { get; set; } = new();
         public int? YearFrom { get; set; }
         public int? YearTo { get; set; }
         public int? PagesFrom { get; set; }
         public int? PagesTo { get; set; }
         public int? StockFrom { get; set; }
         public int? StockTo { get; set; }
-        public int? LanguageId { get; set; }
+        public List<int> LanguageIds { get; set; } = new();
         public List<string> Visibility { get; set; } = new();
         public List<CoverType> CoverTypes { get; set; } = new();
         public int? PriceFrom { get; set; }

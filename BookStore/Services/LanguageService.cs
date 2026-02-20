@@ -18,6 +18,21 @@ namespace BookStore.Services
             return await dbContext.Languages.ToListAsync();
         }
 
+        public async Task<List<Language>> SearchLanguagesAsync(string query)
+        {
+            var result = dbContext.Languages.AsQueryable();
+            if (!string.IsNullOrEmpty(query))
+            {
+                query = query.Trim();
+                result = result
+                    .Where(a => a.Name.Contains(query));
+            }
+            return await result
+                .OrderBy(a => a.Name)
+                .Take(10)
+                .ToListAsync();
+        }
+
         public async Task<Language?> GetLanguageByIdAsync(int id)
         {
             return await dbContext.Languages.FindAsync(id);

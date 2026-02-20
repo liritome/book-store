@@ -1,0 +1,30 @@
+﻿@model MultiSelectFilterViewModel
+
+<label class="form-label">@Model.Header</label>
+<div id="@($"{Model.EntityName}Ids")">
+    @foreach (var id in Model.SelectedIds)
+    {
+        <input type="hidden" value="@id" />
+    }
+</div>
+<div class="input-group">
+    <input class="form-control" type="text" id="@($"{Model.EntityName}Input")" placeholder="@Model.InputContainerPlaceholder" autocomplete="off" />
+    <button type="button" id="@($"{Model.EntityName}SearchBtn")" class="btn btn-outline-secondary">
+        <i class="bi bi-search"></i>
+    </button>
+</div>
+<div class="mt-2">
+    <div class="list-group" id="@($"{Model.EntityName}Selected")"></div>
+    <div class="list-group" id="@($"{Model.EntityName}SearchResults")"></div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        initMultiSelectFilter({
+            entityName: "@Model.EntityName",
+            fieldName: "@Model.FieldName",
+            searchByQueryUrl: "@Model.SearchByQueryUrl",
+            searchByIdUrl: "@Model.SearchByIdUrl"
+        });
+    });
+</script>

@@ -30,17 +30,16 @@ namespace BookStore.Areas.Admin.Controllers
             this.languageService = languageService;
         }
 
-        public async Task<IActionResult> Index(PhysicalBookFilter filter)
+        public async Task<IActionResult> Index(PhysicalBookFilter filter, PhysicalBookSortState sort = PhysicalBookSortState.IdAsc)
         {
-            var books = await physicalBookService.GetAllBooksAsync(filter);
+            var books = await physicalBookService.GetAllBooksAsync(filter, sort);
 
             var model = new PhysicalBookIndexViewModel
             {
                 Books = books,
-                Translators = await translatorService.GetAllTranslatorsAsync(),
-                Languages = await languageService.GetAllLanguagesAsync(),
-                Discounts = await discountService.GetAllDiscountsAsync(),
-                Filter = filter
+                Discounts = await discountService.GetActiveAndScheduledDiscountsAsync(),
+                Filter = filter,
+                Sort = sort
             };
 
             return View(model);

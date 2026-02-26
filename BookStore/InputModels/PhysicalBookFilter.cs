@@ -4,7 +4,6 @@ namespace BookStore.InputModels
 {
     public class PhysicalBookFilter
     {
-        public PhysicalBookSortState Sort { get; set; } = PhysicalBookSortState.IdAsc;
         public string? Query { get; set; }
         public List<int> AuthorIds { get; set; } = new();
         public List<int> PublisherIds { get; set; } = new();

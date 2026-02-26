@@ -17,7 +17,7 @@ namespace BookStore.Services
             this.productImageService = productImageService;
         }
 
-        public async Task<List<PhysicalBook>> GetAllBooksAsync(PhysicalBookFilter filter)
+        public async Task<List<PhysicalBook>> GetAllBooksAsync(PhysicalBookFilter filter, PhysicalBookSortState sort)
         {
             IQueryable<PhysicalBook> books = dbContext.PhysicalBooks
                 .Include(b => b.BookEdition)
@@ -54,7 +54,7 @@ namespace BookStore.Services
             if (!filter.AuthorIds.IsNullOrEmpty())
             {
                 books = books
-                    .Where(b => b.BookEdition.BookBase.Authors.Any(a => filter.AuthorIds.Contains(a.Id)));
+                    .Where(b => filter.AuthorIds.All(id => b.BookEdition.BookBase.Authors.Any(a => a.Id == id)));
             }
 
             if (!filter.PublisherIds.IsNullOrEmpty())
@@ -66,7 +66,7 @@ namespace BookStore.Services
             if (!filter.TranslatorIds.IsNullOrEmpty())
             {
                 books = books.
-                    Where(b => b.BookEdition.Translators.Any(t => filter.TranslatorIds.Contains(t.Id)));
+                    Where(b => filter.TranslatorIds.All(id => b.BookEdition.Translators.Any(t => t.Id == id)));
             }
 
             if (filter.YearFrom != null)
@@ -158,7 +158,7 @@ namespace BookStore.Services
                     .Where(b => b.FinalPrice <= filter.FinalTo);
             }
 
-            var booksOrdered = filter.Sort switch
+            var booksOrdered = sort switch
             {
                 PhysicalBookSortState.IdDesc => books.OrderByDescending(b => b.Id),
                 PhysicalBookSortState.TitleAsc => books.OrderBy(b => b.BookEdition.Title),

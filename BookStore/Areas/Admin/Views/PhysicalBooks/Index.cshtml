@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Books";
-    var currentSort = Model.Filter.Sort;
+    var currentSort = Model.Sort;
 }
 
 <div class="d-flex">
@@ -70,60 +70,65 @@
                     <tr>
                         <th></th>
                         <th>
-                            <a asp-action="Index" asp-route-sort="@Model.IdSort">
-                                ID
-                                <i class="bi @(currentSort == PhysicalBookSortState.IdAsc ? "bi-caret-down-fill"
-                                                                       : currentSort == PhysicalBookSortState.IdDesc ? "bi-caret-up-fill" : "")"></i>
-                            </a>
+                            <sortable-header
+                                display-name="ID"
+                                sort-by="@Model.IdSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@PhysicalBookSortState.IdAsc"
+                                sort-desc="@PhysicalBookSortState.IdDesc"
+                                filter="@Model.Filter"
+                                controller="PhysicalBooks"
+                                action="Index">
+                            </sortable-header>
                         </th>
                         <th>Image</th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.TitleSort">
                                 Title
                                 <i class="bi @(currentSort == PhysicalBookSortState.TitleAsc ? "bi-caret-down-fill"
-                                                                       : currentSort == PhysicalBookSortState.TitleDesc ? "bi-caret-up-fill" : "")"></i>
+                                                : currentSort == PhysicalBookSortState.TitleDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.CoverSort">
                                 Cover
                                 <i class="bi @(currentSort == PhysicalBookSortState.CoverAsc ? "bi-caret-down-fill"
-                                                                       : currentSort == PhysicalBookSortState.CoverDesc ? "bi-caret-up-fill" : "")"></i>
+                                                : currentSort == PhysicalBookSortState.CoverDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.IsbnSort">
                                 ISBN
                                 <i class="bi @(currentSort == PhysicalBookSortState.IsbnAsc ? "bi-caret-down-fill"
-                                                                       : currentSort == PhysicalBookSortState.IsbnDesc ? "bi-caret-up-fill" : "")"></i>
+                                                : currentSort == PhysicalBookSortState.IsbnDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.PriceSort">
                                 Price
                                 <i class="bi @(currentSort == PhysicalBookSortState.PriceAsc ? "bi-caret-down-fill"
-                                                                       : currentSort == PhysicalBookSortState.PriceDesc ? "bi-caret-up-fill" : "")"></i>
+                                                : currentSort == PhysicalBookSortState.PriceDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.DiscountSort">
                                 Discount
                                 <i class="bi @(currentSort == PhysicalBookSortState.DiscountAsc ? "bi-caret-down-fill"
-                                                                       : currentSort == PhysicalBookSortState.DiscountDesc ? "bi-caret-up-fill" : "")"></i>
+                                                : currentSort == PhysicalBookSortState.DiscountDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.FinalPriceSort">
                                 Final
                                 <i class="bi @(currentSort == PhysicalBookSortState.FinalPriceAsc ? "bi-caret-down-fill"
-                                                                       : currentSort == PhysicalBookSortState.FinalPriceDesc ? "bi-caret-up-fill" : "")"></i>
+                                                : currentSort == PhysicalBookSortState.FinalPriceDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th>
                             <a asp-action="Index" asp-route-sort="@Model.StockSort">
                                 Stock
                                 <i class="bi @(currentSort == PhysicalBookSortState.StockAsc ? "bi-caret-down-fill"
-                                                                       : currentSort == PhysicalBookSortState.StockDesc ? "bi-caret-up-fill" : "")"></i>
+                                                : currentSort == PhysicalBookSortState.StockDesc ? "bi-caret-up-fill" : "")"></i>
                             </a>
                         </th>
                         <th></th>

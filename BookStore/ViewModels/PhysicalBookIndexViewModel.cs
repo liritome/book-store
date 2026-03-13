@@ -10,6 +10,8 @@ namespace BookStore.ViewModels
 
         public PhysicalBookFilter Filter { get; set; } = new();
 
+        public PageViewModel PageViewMode { get; set; } = null!;
+
         public PhysicalBookSortState Sort { get; set; }
 
         public PhysicalBookSortState IdSort => Sort == PhysicalBookSortState.IdAsc

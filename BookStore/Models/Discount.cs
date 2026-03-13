@@ -17,6 +17,24 @@ namespace BookStore.Models
         public abstract int Apply(int basePrice);
 
         public abstract string Display();
+
+        public bool IsActive()
+        {
+            var now = DateTime.UtcNow;
+            return ValidFrom <= now && ValidTo >= now;
+        }
+
+        public bool IsScheduled()
+        {
+            var now = DateTime.UtcNow;
+            return ValidFrom > now;
+        }
+
+        public bool IsArchived()
+        {
+            var now = DateTime.UtcNow;
+            return ValidTo < now;
+        }
     }
 
     public class PercentageDiscount : Discount

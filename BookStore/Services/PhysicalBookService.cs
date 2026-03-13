@@ -17,28 +17,9 @@ namespace BookStore.Services
             this.productImageService = productImageService;
         }
 
-        public async Task<List<PhysicalBook>> GetAllBooksAsync(PhysicalBookFilter filter, PhysicalBookSortState sort)
+        public IQueryable<PhysicalBook> GetAllBooksQuery(PhysicalBookFilter filter, PhysicalBookSortState sort)
         {
-            IQueryable<PhysicalBook> books = dbContext.PhysicalBooks
-                .Include(b => b.BookEdition)
-                    .ThenInclude(be => be.BookBase)
-                        .ThenInclude(bb => bb.Authors)
-                .Include(b => b.BookEdition)
-                    .ThenInclude(be => be.BookBase)
-                        .ThenInclude(bb => bb.Tags)
-                .Include(b => b.BookEdition)
-                    .ThenInclude(be => be.BookBase)
-                        .ThenInclude(bb => bb.Series)
-                .Include(b => b.BookEdition)
-                    .ThenInclude(be => be.Language)
-                .Include(b => b.BookEdition)
-                    .ThenInclude(be => be.Publisher)
-                .Include(b => b.BookEdition)
-                    .ThenInclude(be => be.Translators)
-                .Include(b => b.BookEdition)
-                    .ThenInclude(be => be.PhysicalBooks)
-                .Include(b => b.Discount)
-                .Include(b => b.Images);
+            IQueryable<PhysicalBook> books = dbContext.PhysicalBooks.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(filter.Query))
             {
@@ -177,7 +158,27 @@ namespace BookStore.Services
                 PhysicalBookSortState.StockDesc => books.OrderByDescending(b => b.Stock),
                 _ => books.OrderBy(b => b.Id)
             };
-            return await booksOrdered.ToListAsync();
+
+            var booksIncluded = booksOrdered
+                .Include(b => b.BookEdition)
+                    .ThenInclude(be => be.BookBase)
+                        .ThenInclude(bb => bb.Authors)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(be => be.BookBase)
+                        .ThenInclude(bb => bb.Series)
+                .Include(b => b.Discount)
+                .Include(b => b.Images);
+
+            return booksIncluded;
+        }
+
+        public async Task<List<PhysicalBook>> GetBooksPageAsync(IQueryable<PhysicalBook> books, int page, int pageSize)
+        {
+            var result = books
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
+
+            return await result.ToListAsync();
         }
 
         public async Task<PhysicalBook?> GetBookByIdAsync(int id)

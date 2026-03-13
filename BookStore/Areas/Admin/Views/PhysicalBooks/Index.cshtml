@@ -2,15 +2,14 @@
 
 @{
     ViewData["Title"] = "Books";
-    var currentSort = Model.Sort;
 }
 
 <div class="d-flex">
     <div class="admin-table-left">
 
-        <!-- Add button -->
+        <!-- Add new book button -->
         <div class="d-flex gap-2">
-            <a class="btn btn-primary d-flex align-items-center gap-2" asp-action="Add">
+            <a asp-action="Add" class="btn btn-primary d-flex align-items-center gap-2">
                 <i class="bi bi-plus-circle"></i>
                 <span>Add Book</span>
             </a>
@@ -20,44 +19,62 @@
         <div class="mt-2 d-flex justify-content-start">
             <div>
                 <div class="mb-2">
-                    Showing 1-10 of 100 books
+                    Showing @Model.PageViewMode.GetLowerPageRange-@Model.PageViewMode.GetUpperPageRange of @Model.PageViewMode.TotalItems books
                 </div>
                 <nav>
                     <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link">
-                                <i class="bi bi-chevron-left"></i>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link">
-                                1
-                            </a>
-                        </li>
-                        <li class="page-item disabled">
-                            <span class="page-link">...</span>
-                        </li>
-                        @for (int i = 5 - 1; i < 5 + 2; i++) // page = 5
-                        {
-                            <li class="page-item @(i == 5 ? "active" : "")">
-                                <a class="page-link">
-                                    @i
+                        @{
+                            int pageNumber = Model.PageViewMode.PageNumber;
+                            int totalPages = Model.PageViewMode.TotalPages;
+                            int pagesAroundActive = 2;
+
+                            <li class="page-item">
+                                <a asp-action="Index" asp-route-page="@(pageNumber - 1)" class="page-link @(Model.PageViewMode.HasPrevPage ? "" : "disabled")">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </li>
+                            if (pageNumber > 1 + pagesAroundActive)
+                            {
+                                <li class="page-item">
+                                    <a asp-action="Index" asp-route-page="1" class="page-link">
+                                        1
+                                    </a>
+                                </li>
+                                if (pageNumber - pagesAroundActive - 1 > 1)
+                                {
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+                            }
+                            for (int i = Math.Max(pageNumber - pagesAroundActive, 1); i <= Math.Min(pageNumber + pagesAroundActive, totalPages); i++)
+                            {
+                                <li class="page-item @(pageNumber == i ? "active" : "")">
+                                    <a asp-action="Index" asp-route-page="@i" class="page-link">
+                                        @i
+                                    </a>
+                                </li>
+                            }
+                            if (pageNumber < totalPages - pagesAroundActive)
+                            {
+                                if (totalPages - pageNumber - pagesAroundActive > 1)
+                                {
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+                                <li class="page-item">
+                                    <a asp-action="Index" asp-route-page="@totalPages" class="page-link">
+                                        @totalPages
+                                    </a>
+                                </li>
+                            }
+                            <li class="page-item">
+                                <a asp-action="Index" asp-route-page="@(pageNumber + 1)" class="page-link @(Model.PageViewMode.HasNextPage ? "" : "disabled")">
+                                    <i class="bi bi-chevron-right"></i>
                                 </a>
                             </li>
                         }
-                        <li class="page-item disabled">
-                            <span class="page-link">...</span>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link">
-                                40
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link">
-                                <i class="bi bi-chevron-right"></i>
-                            </a>
-                        </li>
                     </ul>
                 </nav>
             </div>
@@ -83,53 +100,88 @@
                         </th>
                         <th>Image</th>
                         <th>
-                            <a asp-action="Index" asp-route-sort="@Model.TitleSort">
-                                Title
-                                <i class="bi @(currentSort == PhysicalBookSortState.TitleAsc ? "bi-caret-down-fill"
-                                                : currentSort == PhysicalBookSortState.TitleDesc ? "bi-caret-up-fill" : "")"></i>
-                            </a>
+                            <sortable-header
+                                display-name="Title"
+                                sort-by="@Model.TitleSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@PhysicalBookSortState.TitleAsc"
+                                sort-desc="@PhysicalBookSortState.TitleDesc"
+                                filter="@Model.Filter"
+                                controller="PhysicalBooks"
+                                action="Index">
+                            </sortable-header>
                         </th>
                         <th>
-                            <a asp-action="Index" asp-route-sort="@Model.CoverSort">
-                                Cover
-                                <i class="bi @(currentSort == PhysicalBookSortState.CoverAsc ? "bi-caret-down-fill"
-                                                : currentSort == PhysicalBookSortState.CoverDesc ? "bi-caret-up-fill" : "")"></i>
-                            </a>
+                            <sortable-header
+                                display-name="Cover"
+                                sort-by="@Model.CoverSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@PhysicalBookSortState.CoverAsc"
+                                sort-desc="@PhysicalBookSortState.CoverDesc"
+                                filter="@Model.Filter"
+                                controller="PhysicalBooks"
+                                action="Index">
+                            </sortable-header>
                         </th>
                         <th>
-                            <a asp-action="Index" asp-route-sort="@Model.IsbnSort">
-                                ISBN
-                                <i class="bi @(currentSort == PhysicalBookSortState.IsbnAsc ? "bi-caret-down-fill"
-                                                : currentSort == PhysicalBookSortState.IsbnDesc ? "bi-caret-up-fill" : "")"></i>
-                            </a>
+                            <sortable-header 
+                                display-name="ISBN"
+                                sort-by="@Model.IsbnSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@PhysicalBookSortState.IsbnAsc"
+                                sort-desc="@PhysicalBookSortState.IsbnDesc"
+                                filter="@Model.Filter"
+                                controller="PhysicalBooks"
+                                action="Index">
+                            </sortable-header>
                         </th>
                         <th>
-                            <a asp-action="Index" asp-route-sort="@Model.PriceSort">
-                                Price
-                                <i class="bi @(currentSort == PhysicalBookSortState.PriceAsc ? "bi-caret-down-fill"
-                                                : currentSort == PhysicalBookSortState.PriceDesc ? "bi-caret-up-fill" : "")"></i>
-                            </a>
+                            <sortable-header 
+                                display-name="Price"
+                                sort-by="@Model.PriceSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@PhysicalBookSortState.PriceAsc"
+                                sort-desc="@PhysicalBookSortState.PriceDesc"
+                                filter="@Model.Filter"
+                                controller="PhysicalBooks"
+                                action="Index">
+                            </sortable-header>
                         </th>
                         <th>
-                            <a asp-action="Index" asp-route-sort="@Model.DiscountSort">
-                                Discount
-                                <i class="bi @(currentSort == PhysicalBookSortState.DiscountAsc ? "bi-caret-down-fill"
-                                                : currentSort == PhysicalBookSortState.DiscountDesc ? "bi-caret-up-fill" : "")"></i>
-                            </a>
+                            <sortable-header 
+                                display-name="Discount"
+                                sort-by="@Model.DiscountSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@PhysicalBookSortState.DiscountAsc"
+                                sort-desc="@PhysicalBookSortState.DiscountDesc"
+                                filter="@Model.Filter"
+                                controller="PhysicalBooks"
+                                action="Index">
+                            </sortable-header>
                         </th>
                         <th>
-                            <a asp-action="Index" asp-route-sort="@Model.FinalPriceSort">
-                                Final
-                                <i class="bi @(currentSort == PhysicalBookSortState.FinalPriceAsc ? "bi-caret-down-fill"
-                                                : currentSort == PhysicalBookSortState.FinalPriceDesc ? "bi-caret-up-fill" : "")"></i>
-                            </a>
+                            <sortable-header 
+                                display-name="Final"
+                                sort-by="@Model.FinalPriceSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@PhysicalBookSortState.FinalPriceAsc"
+                                sort-desc="@PhysicalBookSortState.FinalPriceDesc"
+                                filter="@Model.Filter"
+                                controller="PhysicalBooks"
+                                action="Index">
+                            </sortable-header>
                         </th>
                         <th>
-                            <a asp-action="Index" asp-route-sort="@Model.StockSort">
-                                Stock
-                                <i class="bi @(currentSort == PhysicalBookSortState.StockAsc ? "bi-caret-down-fill"
-                                                : currentSort == PhysicalBookSortState.StockDesc ? "bi-caret-up-fill" : "")"></i>
-                            </a>
+                            <sortable-header 
+                                display-name="Stock"
+                                sort-by="@Model.StockSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@PhysicalBookSortState.StockAsc"
+                                sort-desc="@PhysicalBookSortState.StockDesc"
+                                filter="@Model.Filter"
+                                controller="PhysicalBooks"
+                                action="Index">
+                            </sortable-header>
                         </th>
                         <th></th>
                     </tr>
@@ -149,7 +201,7 @@
                                 }
                             </td>
                             <td>
-                                <a class="text-primary" asp-area="Admin" asp-controller="PhysicalBooks" asp-action="Details" asp-route-id="@book.Id">
+                                <a asp-action="Details" asp-route-id="@book.Id" class="text-primary">
                                     @book.Id
                                 </a>
                             </td>
@@ -174,7 +226,9 @@
                                 </span>
                             </td>
                             <td>
-                                <span class="admin-book-table-isbn">@book.Isbn</span>
+                                <span class="admin-book-table-isbn">
+                                    @book.Isbn
+                                </span>
                             </td>
                             <td>@book.Price ₴</td>
                             <td class="text-center">
@@ -191,7 +245,7 @@
                             <td>@book.Stock</td>
                             <td>
                                 <div class="d-flex gap-1">
-                                    <a class="admin-table-btn btn btn-primary" asp-area="Admin" asp-controller="PhysicalBooks" asp-action="Edit" asp-route-id="@book.Id">
+                                    <a asp-action="Edit" asp-route-id="@book.Id" class="admin-table-btn btn btn-primary">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <form asp-action="ToggleVisibility" asp-route-id="@book.Id" method="post">
@@ -208,7 +262,8 @@
                                             </button>
                                         }
                                     </form>
-                                    <form asp-action="Delete" asp-route-id="@book.Id" method="post" onsubmit="return confirm('Delete @book.Name (ID: @book.Id)?')">
+                                    <form asp-action="Delete" asp-route-id="@book.Id" method="post"
+                                          onsubmit="return confirm('Delete @book.Name (ID: @book.Id)?')">
                                         <button type="submit" class="admin-table-btn btn btn-danger">
                                             <i class="bi bi-trash3"></i>
                                         </button>
@@ -314,12 +369,12 @@
                         <label class="form-label d-block">Visibility</label>
                         <div class="d-flex flex-wrap row-gap-1">
                             <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="Visibility" value="visible"
+                                <input type="checkbox" name="Visibility" value="visible" class="form-check-input"
                                        @(Model.Filter.Visibility.Contains("visible") ? "checked" : "")>
                                 <span>Visible</span>
                             </label>
                             <label class="form-check-label w-50">
-                                <input class="form-check-input" type="checkbox" name="Visibility" value="hidden"
+                                <input type="checkbox" name="Visibility" value="hidden" class="form-check-input"
                                        @(Model.Filter.Visibility.Contains("hidden") ? "checked" : "")>
                                 <span>Hidden</span>
                             </label>
@@ -331,7 +386,7 @@
                             @foreach (var type in Enum.GetValues(typeof(CoverType)).Cast<CoverType>())
                             {
                                 <label class="form-check-label w-50">
-                                    <input class="form-check-input" type="checkbox" name="CoverTypes" value="@type"
+                                    <input type="checkbox" name="CoverTypes" value="@type" class="form-check-input"
                                            @(Model.Filter.CoverTypes.Contains(type) ? "checked" : "")>
                                     <span>@type</span>
                                 </label>
@@ -354,12 +409,26 @@
                             <option value="" selected="@(Model.Filter.DiscountId == null)">-</option>
                             <option value="-2" selected="@(Model.Filter.DiscountId == -2)">Any</option>
                             <option value="-1" selected="@(Model.Filter.DiscountId == -1)">None</option>
-                            <optgroup label="Discounts">
+                            <optgroup label="Active">
                                 @foreach (var discount in Model.Discounts)
                                 {
-                                    <option value="@discount.Id" selected="@(discount.Id == Model.Filter.DiscountId)">
-                                        @discount.Name
-                                    </option>
+                                    if (discount.IsActive())
+                                    {
+                                        <option value="@discount.Id" selected="@(discount.Id == Model.Filter.DiscountId)">
+                                            @discount.Name (@discount.Display())
+                                        </option>
+                                    }
+                                }
+                            </optgroup>
+                            <optgroup label="Scheduled">
+                                @foreach (var discount in Model.Discounts)
+                                {
+                                    if (discount.IsScheduled())
+                                    {
+                                        <option value="@discount.Id" selected="@(discount.Id == Model.Filter.DiscountId)">
+                                            @discount.Name (@discount.Display())
+                                        </option>
+                                    }
                                 }
                             </optgroup>
                         </select>
@@ -380,10 +449,10 @@
                         <i class="bi bi-search"></i>
                         Search
                     </button>
-                    <button type="reset" class="admin-filter-button btn btn-secondary d-flex justify-content-center align-items-center" title="Reset form">
+                    @* <button type="reset" title="Reset form" class="admin-filter-button btn btn-secondary d-flex justify-content-center align-items-center">
                         <i class="bi bi-arrow-counterclockwise"></i>
-                    </button>
-                    <a class="admin-filter-button btn btn-danger d-flex justify-content-center align-items-center" asp-action="Index" title="Clear filters">
+                    </button> *@
+                    <a title="Clear filters" class="admin-filter-button btn btn-danger d-flex justify-content-center align-items-center" asp-action="Index">
                         <i class="bi bi-x-circle"></i>
                     </a>
                 </div>

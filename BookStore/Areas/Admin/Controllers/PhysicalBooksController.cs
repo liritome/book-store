@@ -32,7 +32,7 @@ namespace BookStore.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(PhysicalBookFilter filter, PhysicalBookSortState sort = PhysicalBookSortState.IdAsc, int page = 1)
         {
-            int pageSize = 1;
+            int pageSize = 10;
             var booksQuery = physicalBookService.GetAllBooksQuery(filter, sort);
             var books = await physicalBookService.GetBooksPageAsync(booksQuery, page, pageSize);
             int booksCount = booksQuery.Count();
@@ -42,7 +42,7 @@ namespace BookStore.Areas.Admin.Controllers
                 Books = books,
                 Discounts = await discountService.GetActiveAndScheduledDiscountsAsync(),
                 Filter = filter,
-                PageViewMode = new PageViewModel(page, booksCount, pageSize),
+                PageViewModel = new PageViewModel(page, booksCount, pageSize),
                 Sort = sort
             };
 

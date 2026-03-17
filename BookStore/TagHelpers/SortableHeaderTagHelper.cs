@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Collections;
-using System.Text;
 
 namespace BookStore.TagHelpers
 {
@@ -18,14 +17,14 @@ namespace BookStore.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "form";
+            output.TagName = "a";
             output.TagMode = TagMode.StartTagAndEndTag;
-            output.Attributes.SetAttribute("method", "get");
-            output.Attributes.SetAttribute("action", $"/Admin/{Controller}/{Action}");
 
-            var sb = new StringBuilder();
-            sb.Append($"<input type='hidden' name='Sort' value='{SortBy}'/>");
-
+            var queryParams = new List<string>();
+            if (SortBy != null)
+            {
+                queryParams.Add($"Sort={SortBy}");
+            }
             if (Filter != null)
             {
                 var props = Filter.GetType().GetProperties();
@@ -35,17 +34,25 @@ namespace BookStore.TagHelpers
                     if (value == null) continue;
                     if (value is IEnumerable enumerable && value is not string)
                     {
+                        var values = new List<string>();
                         foreach (var item in enumerable)
                         {
-                            sb.Append($"<input type='hidden' name='{prop.Name}' value='{item}'/>");
+                            if (item != null)
+                            {
+                                queryParams.Add($"{prop.Name}={item}");
+                            }
                         }
                     }
                     else
                     {
-                        sb.Append($"<input type='hidden' name='{prop.Name}' value='{value}'/>");
+                        queryParams.Add($"{prop.Name}={value}");
                     }
                 }
             }
+
+            var queryString = queryParams.Count > 0 ? "?" + string.Join('&', queryParams) : "";
+            var href = $"/Admin/{Controller}/{Action}{queryString}";
+            output.Attributes.SetAttribute("href", href);
 
             string icon = "";
             if (CurrentSort != null)
@@ -59,9 +66,8 @@ namespace BookStore.TagHelpers
                     icon = "<i class='bi bi-caret-up-fill'></i>";
                 }
             }
-            sb.Append($"<button type='submit' class='btn fw-bold p-0'>{DisplayName}{icon}</button>");
 
-            output.Content.SetHtmlContent(sb.ToString());
+            output.Content.SetHtmlContent($"{DisplayName}{icon}");
         }
     }
 }

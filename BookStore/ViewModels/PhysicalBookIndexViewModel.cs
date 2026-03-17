@@ -10,7 +10,7 @@ namespace BookStore.ViewModels
 
         public PhysicalBookFilter Filter { get; set; } = new();
 
-        public PageViewModel PageViewMode { get; set; } = null!;
+        public PageViewModel PageViewModel { get; set; } = null!;
 
         public PhysicalBookSortState Sort { get; set; }
 

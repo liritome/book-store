@@ -1,0 +1,68 @@
+﻿@model PaginationViewModel
+
+<nav>
+    <ul class="pagination">
+        @{
+            int pageNumber = Model.PageViewModel.PageNumber;
+            int totalPages = Model.PageViewModel.TotalPages;
+            int pagesAroundActive = 2;
+
+            <li class="page-item">
+                <page page-number="@(pageNumber - 1)" sort-by="@Model.Sort" filter="@Model.Filter"
+                      area="@Model.Area" controller="@Model.Controller" action="@Model.Action"
+                      class="page-link @(Model.PageViewModel.HasPrevPage ? "" : "disabled")">
+                    <i class="bi bi-chevron-left"></i>
+                </page>
+            </li>
+            if (pageNumber > 1 + pagesAroundActive)
+            {
+                <li class="page-item">
+                    <page page-number="1" sort-by="@Model.Sort" filter="@Model.Filter"
+                          area="@Model.Area" controller="@Model.Controller" action="@Model.Action"
+                          class="page-link">
+                        1
+                    </page>
+                </li>
+                if (pageNumber - pagesAroundActive - 1 > 1)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                }
+            }
+            for (int i = Math.Max(pageNumber - pagesAroundActive, 1); i <= Math.Min(pageNumber + pagesAroundActive, totalPages); i++)
+            {
+                <li class="page-item @(pageNumber == i ? "active" : "")">
+                    <page page-number="@i" sort-by="@Model.Sort" filter="@Model.Filter"
+                          area="@Model.Area" controller="@Model.Controller" action="@Model.Action"
+                          class="page-link">
+                        @i
+                    </page>
+                </li>
+            }
+            if (pageNumber < totalPages - pagesAroundActive)
+            {
+                if (totalPages - pageNumber - pagesAroundActive > 1)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                }
+                <li class="page-item">
+                    <page page-number="@totalPages" sort-by="@Model.Sort" filter="@Model.Filter"
+                          area="@Model.Area" controller="@Model.Controller" action="@Model.Action"
+                          class="page-link">
+                        @totalPages
+                    </page>
+                </li>
+            }
+            <li class="page-item">
+                <page page-number="@(pageNumber + 1)" sort-by="@Model.Sort" filter="@Model.Filter"
+                      area="@Model.Area" controller="@Model.Controller" action="@Model.Action"
+                      class="page-link @(Model.PageViewModel.HasNextPage ? "" : "disabled")">
+                    <i class="bi bi-chevron-right"></i>
+                </page>
+            </li>
+        }
+    </ul>
+</nav>

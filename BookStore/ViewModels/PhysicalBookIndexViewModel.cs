@@ -23,7 +23,7 @@ namespace BookStore.ViewModels
         public PhysicalBookSortState CoverSort => Sort == PhysicalBookSortState.CoverAsc
             ? PhysicalBookSortState.CoverDesc : PhysicalBookSortState.CoverAsc;
 
-        public PhysicalBookSortState IsbnSort => Sort == PhysicalBookSortState.IsbnAsc 
+        public PhysicalBookSortState IsbnSort => Sort == PhysicalBookSortState.IsbnAsc
             ? PhysicalBookSortState.IsbnDesc : PhysicalBookSortState.IsbnAsc;
 
         public PhysicalBookSortState PriceSort => Sort == PhysicalBookSortState.PriceAsc

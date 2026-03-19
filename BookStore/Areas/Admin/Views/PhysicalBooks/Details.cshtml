@@ -62,9 +62,9 @@
                 <div class="text-center">
                     @if (Model.Images.Count > 0)
                     {
-                        <img class="admin-book-image img-fluid mb-3" src="~/images/productImages/@Model.Cover?.Url" />                        
+                        <img class="admin-book-image img-fluid mb-3" src="~/images/productImages/@Model.Cover?.Url" />
                         <div class="d-flex gap-3 overflow-x-auto p-2">
-                            @foreach(var image in Model.OrderedImages.Skip(1))
+                            @foreach (var image in Model.OrderedImages.Skip(1))
                             {
                                 <img class="admin-book-image-small img-fluid" src="~/images/productImages/@image.Url" />
                             }
@@ -107,7 +107,7 @@
                             <span class="text-muted">
                                 @Model.BookEdition.BookBase.Year
                             </span>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
                 <div class="mt-2">
@@ -322,7 +322,7 @@
             <div class="bg-white rounded-4 p-3 mt-4">
                 <h5>Tags</h5>
                 <div class="d-flex flex-wrap gap-2 mt-3">
-                    @foreach(Tag tag in Model.BookEdition.BookBase.Tags)
+                    @foreach (Tag tag in Model.BookEdition.BookBase.Tags)
                     {
                         <a asp-area="Admin" asp-controller="Tags" asp-action="Details" asp-route-slug="tag-name">
                             <div class="bg-secondary-subtle px-2 py-1 rounded-5">
@@ -366,7 +366,7 @@
                 </div>
                 <div class="collapse border-top" id="reviewsCollapse">
                     <div class="d-flex flex-column">
-                        @if(Model.Reviews.Count == 0)
+                        @if (Model.Reviews.Count == 0)
                         {
                             <div class="border rounded-3 p-3 mt-3">
                                 No reviews

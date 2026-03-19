@@ -38,7 +38,7 @@
                                     {
                                         <option value="@edition.Id">
                                             "@edition.BookBase.Title" by @edition.BookBase.Authors.FirstOrDefault()?.Name
-                                            ("@edition.Title": @edition.Publisher.Name (publisher) 
+                                            ("@edition.Title": @edition.Publisher.Name (publisher)
                                             - @edition.Translators.FirstOrDefault()?.Name (translator))
                                         </option>
                                     }
@@ -131,10 +131,6 @@
                                 <input name="TitleAddition" type="text" class="form-control admin-input-container py-0" />
                             </div>
                             <div class="list-group-item d-flex justify-content-between gap-2">
-                                <span class="text-nowrap">Slug</span>
-                                <input name="Slug" type="text" class="form-control admin-input-container py-0" />
-                            </div>
-                            <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">ISBN</span>
                                 <input name="Isbn" type="text" class="form-control admin-input-container py-0" />
                             </div>
@@ -186,25 +182,43 @@
                             <div class="d-flex gap-2">
                                 <div class="w-100">
                                     <h6>Price</h6>
-                                    <input id="priceInput" name="Price" type="number" min="0" class="form-control" />
+                                    <input id="priceInput" name="Price" type="number" min="1" class="form-control" />
                                 </div>
                                 <div class="w-100">
                                     <h6>Discount</h6>
                                     <select disabled id="discountSelect" name="DiscountId" class="form-select">
                                         <option value="">-</option>
-                                        @foreach (Discount discount in Model.Discounts)
-                                        {
-                                            <option value="@discount.Id"
-                                                    data-type="@discount.GetType().Name"
-                                                    data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
-                                                @discount.Name (@discount.Display())
-                                            </option>
-                                        }
+                                        <optgroup label="Active">
+                                            @foreach (var discount in Model.Discounts)
+                                            {
+                                                if (discount.IsActive())
+                                                {
+                                                    <option value="@discount.Id"
+                                                            data-type="@discount.GetType().Name"
+                                                            data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
+                                                        @discount.Name (@discount.Display())
+                                                    </option>
+                                                }
+                                            }
+                                        </optgroup>
+                                        <optgroup label="Scheduled">
+                                            @foreach (var discount in Model.Discounts)
+                                            {
+                                                if (discount.IsScheduled())
+                                                {
+                                                    <option value="@discount.Id"
+                                                            data-type="@discount.GetType().Name"
+                                                            data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
+                                                        @discount.Name (@discount.Display())
+                                                    </option>
+                                                }
+                                            }
+                                        </optgroup>
                                     </select>
                                 </div>
                                 <div class="w-100">
                                     <h6>Final price</h6>
-                                    <input id="finalPriceInput" name="FinalPrice" type="number" min="0" class="form-control" />
+                                    <input id="finalPriceInput" name="FinalPrice" type="number" min="1" class="form-control" />
                                 </div>
                             </div>
                             <small class="text-muted">Discount valid: - </small>

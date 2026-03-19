@@ -12,22 +12,13 @@ namespace BookStore.Areas.Admin.Controllers
         private readonly PhysicalBookService physicalBookService;
         private readonly BookEditionService bookEditionService;
         private readonly DiscountService discountService;
-        private readonly AuthorService authorService;
-        private readonly TranslatorService translatorService;
-        private readonly PublisherService publisherService;
-        private readonly LanguageService languageService;
 
-        public PhysicalBooksController(PhysicalBookService physicalBookService, DiscountService discountService,
-                BookEditionService bookEditionService, AuthorService authorService, TranslatorService translatorService,
-                PublisherService publisherService, LanguageService languageService)
+        public PhysicalBooksController(PhysicalBookService physicalBookService,
+            DiscountService discountService, BookEditionService bookEditionService)
         {
             this.physicalBookService = physicalBookService;
             this.bookEditionService = bookEditionService;
             this.discountService = discountService;
-            this.authorService = authorService;
-            this.translatorService = translatorService;
-            this.publisherService = publisherService;
-            this.languageService = languageService;
         }
 
         public async Task<IActionResult> Index(PhysicalBookFilter filter, PhysicalBookSortState sort = PhysicalBookSortState.IdAsc, int page = 1)
@@ -74,7 +65,13 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(PhysicalBookAddInputModel model)
         {
-            int bookId = await physicalBookService.AddBookAsync(model);
+            var bookEdition = await bookEditionService.GetEditionByIdAsync(model.BookEditionId);
+            if (bookEdition == null)
+            {
+                ViewData["ErrorMessage"] = "Book edition is null";
+                return View("Error");
+            }
+            int bookId = await physicalBookService.AddBookAsync(model, bookEdition.Title);
             await physicalBookService.AttachImagesToBookAsync(bookId, model.Images);
             return RedirectToAction("Details", new { Id = bookId });
         }
@@ -100,7 +97,13 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(PhysicalBookEditInputModel model)
         {
-            await physicalBookService.UpdateBookAsync(model);
+            var bookEdition = await bookEditionService.GetEditionByIdAsync(model.BookEditionId);
+            if (bookEdition == null)
+            {
+                ViewData["ErrorMessage"] = "Book edition is null";
+                return View("Error");
+            }
+            await physicalBookService.UpdateBookAsync(model, bookEdition.Title);
             await physicalBookService.ReorderImagesAsync(model.ImageDtos);
             await physicalBookService.AttachImagesToBookAsync(model.BookId, model.Images);
             return RedirectToAction("Details", new { Id = model.BookId });

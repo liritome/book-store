@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BookStore.Interfaces;
 
 namespace BookStore.Models
 {
-    public abstract class Product
+    public abstract class Product : ISlug
     {
         public int Id { get; set; }
 
@@ -31,7 +32,8 @@ namespace BookStore.Models
         public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
 
         [NotMapped]
-        public double? Rating {
+        public double? Rating
+        {
             get
             {
                 if (Reviews.Count == 0)

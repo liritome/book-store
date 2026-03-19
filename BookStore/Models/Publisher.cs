@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BookStore.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Models
 {
-    public class Publisher
+    public class Publisher : ISlug
     {
         public int Id { get; set; }
 

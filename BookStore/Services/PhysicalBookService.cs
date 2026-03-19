@@ -10,11 +10,13 @@ namespace BookStore.Services
     {
         private readonly BookStoreDbContext dbContext;
         private readonly ProductImageService productImageService;
+        private readonly SlugService slugService;
 
-        public PhysicalBookService(BookStoreDbContext dbContext, ProductImageService productImageService)
+        public PhysicalBookService(BookStoreDbContext dbContext, ProductImageService productImageService, SlugService slugService)
         {
             this.dbContext = dbContext;
             this.productImageService = productImageService;
+            this.slugService = slugService;
         }
 
         public IQueryable<PhysicalBook> GetAllBooksQuery(PhysicalBookFilter filter, PhysicalBookSortState sort)
@@ -95,7 +97,7 @@ namespace BookStore.Services
             if (!filter.Visibility.IsNullOrEmpty())
             {
                 books = books
-                    .Where(b => 
+                    .Where(b =>
                         (filter.Visibility.Contains("visible") && b.IsVisible) ||
                         (filter.Visibility.Contains("hidden") && !b.IsVisible));
             }
@@ -120,7 +122,8 @@ namespace BookStore.Services
 
             if (filter.DiscountId != null)
             {
-                books = filter.DiscountId switch {
+                books = filter.DiscountId switch
+                {
                     -2 => books.Where(b => b.DiscountId != null),
                     -1 => books.Where(b => b.DiscountId == null),
                     _ => books.Where(b => b.DiscountId == filter.DiscountId)
@@ -207,7 +210,7 @@ namespace BookStore.Services
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task<int> AddBookAsync(PhysicalBookAddInputModel model)
+        public async Task<int> AddBookAsync(PhysicalBookAddInputModel model, string bookEditionTitle)
         {
             var book = new PhysicalBook();
 
@@ -224,7 +227,7 @@ namespace BookStore.Services
             book.Weight = model.Weight;
             book.Stock = model.Stock;
 
-            book.Slug = model.Slug;
+            book.Slug = await slugService.GenerateUniqueAsync<Product>($"{bookEditionTitle} {model.TitleAddition}");
             book.Images = new List<ProductImage>();
             book.Reviews = new List<Review>();
             book.Price = model.Price;
@@ -243,7 +246,7 @@ namespace BookStore.Services
             return book.Id;
         }
 
-        public async Task UpdateBookAsync(PhysicalBookEditInputModel model)
+        public async Task UpdateBookAsync(PhysicalBookEditInputModel model, string bookEditionTitle)
         {
             PhysicalBook? book = await GetBookByIdAsync(model.BookId);
             if (book == null) return;
@@ -261,7 +264,7 @@ namespace BookStore.Services
             book.Weight = model.Weight;
             book.Stock = model.Stock;
 
-            book.Slug = model.Slug;
+            book.Slug = await slugService.GenerateUniqueAsync<Product>($"{bookEditionTitle} {model.TitleAddition}");
             book.Price = model.Price;
             book.DiscountId = model.DiscountId;
             book.FinalPrice = model.FinalPrice;

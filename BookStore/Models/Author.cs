@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BookStore.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Models
 {
-    public class Author
+    public class Author : ISlug
     {
         public int Id { get; set; }
 

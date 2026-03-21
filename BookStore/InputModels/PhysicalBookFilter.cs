@@ -14,6 +14,7 @@ namespace BookStore.InputModels
         public int? PagesTo { get; set; }
         public int? StockFrom { get; set; }
         public int? StockTo { get; set; }
+        public List<int> TagIds { get; set; } = new();
         public List<int> LanguageIds { get; set; } = new();
         public List<string> Visibility { get; set; } = new();
         public List<CoverType> CoverTypes { get; set; } = new();

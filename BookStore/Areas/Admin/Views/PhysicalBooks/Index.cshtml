@@ -245,7 +245,7 @@
                             {
                                 EntityName = "author",
                                 FieldName = "AuthorIds",
-                                Header = "Author",
+                                Header = "Authors",
                                 InputContainerPlaceholder = "Name",
                                 SelectedIds = Model.Filter.AuthorIds,
                                 SearchByQueryUrl = Url.Action("SearchAuthorsJson", "Authors", new { area = "Admin" }) ?? "",
@@ -269,7 +269,7 @@
                             {
                                 EntityName = "translator",
                                 FieldName = "TranslatorIds",
-                                Header = "Translator",
+                                Header = "Translators",
                                 InputContainerPlaceholder = "Name",
                                 SelectedIds = Model.Filter.TranslatorIds,
                                 SearchByQueryUrl = Url.Action("SearchTranslatorsJson", "Translators", new { area = "Admin" }) ?? "",
@@ -305,6 +305,18 @@
                             <input name="StockTo" type="number" min="0" class="form-control" placeholder="To"
                                    value="@Model.Filter.StockTo">
                         </div>
+                    </div>
+                    <div>
+                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                            {
+                                EntityName = "tag",
+                                FieldName = "TagIds",
+                                Header = "Tags",
+                                InputContainerPlaceholder = "",
+                                SelectedIds = Model.Filter.TagIds,
+                                SearchByQueryUrl = Url.Action("SearchTagsJson", "Tags", new { area = "Admin" }) ?? "",
+                                SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? ""
+                            })
                     </div>
                     <div>
                         @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel

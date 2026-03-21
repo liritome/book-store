@@ -88,6 +88,12 @@ namespace BookStore.Services
                     .Where(b => b.Stock <= filter.StockTo);
             }
 
+            if (!filter.TagIds.IsNullOrEmpty())
+            {
+                books = books
+                    .Where(b => filter.TagIds.All(id => b.BookEdition.BookBase.Tags.Any(t => t.Id == id)));
+            }
+
             if (!filter.LanguageIds.IsNullOrEmpty())
             {
                 books = books
@@ -251,6 +257,10 @@ namespace BookStore.Services
             PhysicalBook? book = await GetBookByIdAsync(model.BookId);
             if (book == null) return;
 
+            if (model.BookEditionId != book.BookEditionId || !string.Equals(model.TitleAddition, book.TitleAddition))
+            {
+                book.Slug = await slugService.GenerateUniqueAsync<Product>($"{bookEditionTitle} {model.TitleAddition}");
+            }
             book.BookEditionId = model.BookEditionId;
             book.Isbn = model.Isbn;
             book.TitleAddition = model.TitleAddition;
@@ -264,7 +274,6 @@ namespace BookStore.Services
             book.Weight = model.Weight;
             book.Stock = model.Stock;
 
-            book.Slug = await slugService.GenerateUniqueAsync<Product>($"{bookEditionTitle} {model.TitleAddition}");
             book.Price = model.Price;
             book.DiscountId = model.DiscountId;
             book.FinalPrice = model.FinalPrice;

@@ -223,14 +223,32 @@
                                     <h6>Discount</h6>
                                     <select id="discountSelect" name="DiscountId" class="form-select">
                                         <option value="" selected="@(Model.Book.DiscountId == null)">-</option>
-                                        @foreach (Discount discount in Model.Discounts)
-                                        {
-                                            <option value="@discount.Id" selected="@(discount.Id == Model.Book.DiscountId)"
-                                                    data-type="@discount.GetType().Name"
-                                                    data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
-                                                @discount.Name (@discount.Display())
-                                            </option>
-                                        }
+                                        <optgroup label="Active">
+                                            @foreach (var discount in Model.Discounts)
+                                            {
+                                                if (discount.IsActive())
+                                                {
+                                                    <option value="@discount.Id" selected="@(discount.Id == Model.Book.DiscountId)"
+                                                            data-type="@discount.GetType().Name"
+                                                            data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
+                                                        @discount.Name (@discount.Display())
+                                                    </option>
+                                                }
+                                            }
+                                        </optgroup>
+                                        <optgroup label="Scheduled">
+                                            @foreach (var discount in Model.Discounts)
+                                            {
+                                                if (discount.IsScheduled())
+                                                {
+                                                    <option value="@discount.Id" selected="@(discount.Id == Model.Book.DiscountId)"
+                                                            data-type="@discount.GetType().Name"
+                                                            data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
+                                                        @discount.Name (@discount.Display())
+                                                    </option>
+                                                }
+                                            }
+                                        </optgroup>
                                     </select>
                                 </div>
                                 <div class="w-100">

@@ -1,0 +1,229 @@
+﻿@model BookBaseIndexViewModel
+
+@{
+    ViewData["Title"] = "Book bases";
+}
+
+<div class="d-flex">
+    <div class="admin-table-left">
+
+        <!-- Add new book base button -->
+        <div class="d-flex gap-2">
+            <a asp-action="Add" class="btn btn-primary d-flex align-items-center gap-2">
+                <i class="bi bi-plus-circle"></i>
+                <span>Add Book base</span>
+            </a>
+        </div>
+
+        <!-- Pagination top -->
+        <div class="mt-2 d-flex justify-content-start">
+            <div>
+                <div class="mb-2">
+                    Showing @Model.PageViewModel.GetLowerPageRange-@Model.PageViewModel.GetUpperPageRange of @Model.PageViewModel.TotalItems book bases
+                </div>
+                @await Html.PartialAsync("_Pagination", new PaginationViewModel
+                {
+                    PageViewModel = Model.PageViewModel,
+                    Filter = Model.Filter,
+                    Sort = Model.Sort,
+                    Area = "Admin",
+                    Controller = "BookBases",
+                    Action = "Index"
+                })
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white rounded-4 overflow-auto">
+            <table class="table table-fixed align-middle mt-3">
+                <colgroup>
+                    <col style="width: 7%"> <!-- id -->
+                    <col style="width: 20%"> <!-- authors -->
+                    <col style="width: 26%"> <!-- title -->
+                    <col style="width: 22%"> <!-- series -->
+                    <col style="width: 7%"> <!-- year -->
+                    <col style="width: 8%"> <!-- editions -->
+                    <col style="width: 10%"> <!-- action buttons -->
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>
+                            <sortable-header display-name="ID"
+                                sort-by="@Model.IdSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@BookBaseSortState.IdAsc"
+                                sort-desc="@BookBaseSortState.IdDesc"
+                                filter="@Model.Filter"
+                                controller="BookBases"
+                                action="Index">
+                            </sortable-header>
+                        </th>
+                        <th>Authors</th>
+                        <th>
+                            <sortable-header display-name="Title"
+                                sort-by="@Model.TitleSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@BookBaseSortState.TitleAsc"
+                                sort-desc="@BookBaseSortState.TitleDesc"
+                                filter="@Model.Filter"
+                                controller="BookBases"
+                                action="Index">
+                            </sortable-header>
+                        </th>
+                        <th>
+                            <sortable-header display-name="Series"
+                                sort-by="@Model.SeriesIdSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@BookBaseSortState.SeriesIdAsc"
+                                sort-desc="@BookBaseSortState.SeriesIdDesc"
+                                filter="@Model.Filter"
+                                controller="BookBases"
+                                action="Index">
+                            </sortable-header>
+                        </th>
+                        <th>
+                            <sortable-header display-name="Year"
+                                sort-by="@Model.YearSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@BookBaseSortState.YearAsc"
+                                sort-desc="@BookBaseSortState.YearDesc"
+                                filter="@Model.Filter"
+                                controller="BookBases"
+                                action="Index">
+                            </sortable-header>
+                        </th>
+                        <th>
+                            <sortable-header display-name="Editions"
+                                sort-by="@Model.EditionsCountSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@BookBaseSortState.EditionsCountAsc"
+                                sort-desc="@BookBaseSortState.EditionsCountDesc"
+                                filter="@Model.Filter"
+                                controller="BookBases"
+                                action="Index">
+                            </sortable-header>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bookBase in Model.BookBases)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@bookBase.Id" class="text-primary">
+                                    @bookBase.Id
+                                </a>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-wrap column-gap-2">
+                                    <div>@bookBase.Authors.FirstOrDefault()?.Name</div>
+                                    @foreach (var author in bookBase.Authors.Skip(1))
+                                    {
+                                        <div>, @author.Name</div>
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <span class="data-long" title="@bookBase.Title">
+                                    @bookBase.Title
+                                </span>
+                            </td>
+                            <td>
+                                @if (bookBase.Series != null)
+                                {
+                                    <span class="data-long" title="@bookBase.Series.Name #@bookBase.NumberInSeries">
+                                        @bookBase.Series.Name #@bookBase.NumberInSeries
+                                    </span>                                    
+                                }
+                            </td>
+                            <td>@bookBase.Year</td>
+                            <td>@bookBase.BookEditions.Count()</td>
+                            <td>
+                                <div class="d-flex gap-1 justify-content-end">
+                                    <a asp-action="Edit" asp-route-id="@bookBase.Id" class="admin-table-btn btn btn-primary">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form asp-action="Delete" asp-route-id="@bookBase.Id" method="post"
+                                          onsubmit="return confirm('Delete @bookBase.Title (ID: @bookBase.Id)?')">
+                                        <button type="submit" class="admin-table-btn btn btn-danger">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="admin-table-right ms-4 position-relative">
+        <div class="admin-table-filter bg-white rounded-4 sticky-top">
+            <form asp-action="Index" method="get">
+                <div class="admin-table-filter-scrollable d-flex flex-column overflow-y-auto">
+                    <div>
+                        <label class="form-label">Book base</label>
+                        <input name="Query" type="text" class="form-control" placeholder="Title, Series or ID"
+                               value="@Model.Filter.Query">
+                    </div>
+                    <div>
+                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                        {
+                            EntityName = "author",
+                            FieldName = "AuthorIds",
+                            Header = "Authors",
+                            InputContainerPlaceholder = "Name",
+                            SelectedIds = Model.Filter.AuthorIds,
+                            SearchByQueryUrl = Url.Action("SearchAuthorsJson", "Authors", new { area = "Admin" }) ?? "",
+                            SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? ""
+                        })
+                    </div>
+                    <div>
+                        <label class="form-label">Year</label>
+                        <div class="d-flex align-items-center">
+                            <input name="YearFrom" type="number" min="0" class="form-control" placeholder="From"
+                                   value="@Model.Filter.YearFrom">
+                            <span class="px-1">–</span>
+                            <input name="YearTo" type="number" min="0" class="form-control" placeholder="To"
+                                   value="@Model.Filter.YearTo">
+                        </div>
+                    </div>
+                    <div>
+                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                        {
+                            EntityName = "tag",
+                            FieldName = "TagIds",
+                            Header = "Tags",
+                            InputContainerPlaceholder = "",
+                            SelectedIds = Model.Filter.TagIds,
+                            SearchByQueryUrl = Url.Action("SearchTagsJson", "Tags", new { area = "Admin" }) ?? "",
+                            SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? ""
+                        })
+                    </div>
+                    <div>
+                        <label class="form-label">Editions</label>
+                        <div class="d-flex align-items-center">
+                            <input name="EditionsCountFrom" type="number" min="0" class="form-control" placeholder="From"
+                                   value="@Model.Filter.EditionsCountFrom">
+                            <span class="px-1">–</span>
+                            <input name="EditionsCountTo" type="number" min="0" class="form-control" placeholder="To"
+                                   value="@Model.Filter.EditionsCountTo">
+                        </div>
+                    </div>
+                </div>
+                <div class="position-sticky d-flex gap-2 mt-auto border-top p-2">
+                    <button type="submit" class="btn btn-primary w-100 d-flex align-items-center gap-2">
+                        <i class="bi bi-search"></i>
+                        Search
+                    </button>
+                    <a title="Clear filters" class="admin-filter-button btn btn-danger d-flex justify-content-center align-items-center" asp-action="Index">
+                        <i class="bi bi-x-circle"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

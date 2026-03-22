@@ -35,7 +35,20 @@
 
         <!-- Table -->
         <div class="bg-white rounded-4 overflow-auto">
-            <table class="table admin-table align-middle mt-3">
+            <table class="table table-fixed align-middle mt-3">
+                <colgroup>
+                    <col style="width: 1%"> <!-- visibility -->
+                    <col style="width: 7%"> <!-- Id -->
+                    <col style="width: 5%"> <!-- image -->
+                    <col style="width: 19%"> <!-- title -->
+                    <col style="width: 10%"> <!-- cover type -->
+                    <col style="width: 13%"> <!-- isbn -->
+                    <col style="width: 7%"> <!-- price -->
+                    <col style="width: 10%"> <!-- discount -->
+                    <col style="width: 7%"> <!-- final price -->
+                    <col style="width: 6%"> <!-- stock -->
+                    <col style="width: 15%"> <!-- action buttons -->
+                </colgroup>
                 <thead>
                     <tr>
                         <th></th>
@@ -51,7 +64,7 @@
                                 action="Index">
                             </sortable-header>
                         </th>
-                        <th>Image</th>
+                        <th></th>
                         <th>
                             <sortable-header
                                 display-name="Title"
@@ -169,20 +182,14 @@
                                 }
                             </td>
                             <td>
-                                <span class="admin-book-table-title" title="@book.Name">
+                                <span class="data-long" title="@book.Name">
                                     @book.Name
                                 </span>
                             </td>
                             <td>
-                                <span class="admin-book-table-type">
-                                    @(book.CoverType == CoverType.Hardcover ? "Hardcover" : "Paperback")
-                                </span>
+                                @(book.CoverType == CoverType.Hardcover ? "Hardcover" : "Paperback")
                             </td>
-                            <td>
-                                <span class="admin-book-table-isbn">
-                                    @book.Isbn
-                                </span>
-                            </td>
+                            <td>@book.Isbn</td>
                             <td>@book.Price ₴</td>
                             <td class="text-center">
                                 @if (book.DiscountId == null)
@@ -197,7 +204,7 @@
                             <td>@book.FinalPrice ₴</td>
                             <td>@book.Stock</td>
                             <td>
-                                <div class="d-flex gap-1">
+                                <div class="d-flex gap-1 justify-content-end">
                                     <a asp-action="Edit" asp-route-id="@book.Id" class="admin-table-btn btn btn-primary">
                                         <i class="bi bi-pencil"></i>
                                     </a>
@@ -237,7 +244,7 @@
                 <div class="admin-table-filter-scrollable d-flex flex-column overflow-y-auto">
                     <div>
                         <label class="form-label">Book</label>
-                        <input name="Query" type="text" class="form-control" placeholder="Title, ID or ISBN"
+                        <input name="Query" type="text" class="form-control" placeholder="Title, Series, ISBN or ID"
                                value="@Model.Filter.Query">
                     </div>
                     <div>

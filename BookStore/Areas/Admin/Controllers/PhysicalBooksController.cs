@@ -33,8 +33,8 @@ namespace BookStore.Areas.Admin.Controllers
                 Books = books,
                 Discounts = await discountService.GetActiveAndScheduledDiscountsAsync(),
                 Filter = filter,
-                PageViewModel = new PageViewModel(page, booksCount, pageSize),
-                Sort = sort
+                Sort = sort,
+                PageViewModel = new PageViewModel(page, booksCount, pageSize)
             };
 
             return View(model);

@@ -23,4 +23,18 @@ namespace BookStore.Models
 
         public virtual ICollection<BookEdition> BookEditions { get; set; } = new List<BookEdition>();
     }
+
+    public enum BookBaseSortState
+    {
+        IdAsc,
+        IdDesc,
+        TitleAsc,
+        TitleDesc,
+        SeriesIdAsc,
+        SeriesIdDesc,
+        YearAsc,
+        YearDesc,
+        EditionsCountAsc,
+        EditionsCountDesc
+    }
 }

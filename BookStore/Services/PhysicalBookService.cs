@@ -218,34 +218,35 @@ namespace BookStore.Services
 
         public async Task<int> AddBookAsync(PhysicalBookAddInputModel model, string bookEditionTitle)
         {
-            var book = new PhysicalBook();
-
-            book.BookEditionId = model.BookEditionId;
-            book.Isbn = model.Isbn;
-            book.TitleAddition = model.TitleAddition;
-            book.DescriptionAddition = model.DescriptionAddition;
-            book.CoverType = model.CoverType;
-            book.HasIllustrations = model.HasIllustrations;
-            book.Pages = model.Pages;
-            book.Width = model.Width;
-            book.Height = model.Height;
-            book.Thickness = model.Thickness;
-            book.Weight = model.Weight;
-            book.Stock = model.Stock;
-
-            book.Slug = await slugService.GenerateUniqueAsync<Product>($"{bookEditionTitle} {model.TitleAddition}");
-            book.Images = new List<ProductImage>();
-            book.Reviews = new List<Review>();
-            book.Price = model.Price;
-            book.DiscountId = model.DiscountId;
-            book.FinalPrice = model.FinalPrice;
-            book.IsVisible = model.IsVisible switch
+            var book = new PhysicalBook
             {
-                "Visible" => true,
-                "Hidden" => false,
-                _ => false
+                BookEditionId = model.BookEditionId,
+                Isbn = model.Isbn,
+                TitleAddition = model.TitleAddition,
+                DescriptionAddition = model.DescriptionAddition,
+                CoverType = model.CoverType,
+                HasIllustrations = model.HasIllustrations,
+                Pages = model.Pages,
+                Width = model.Width,
+                Height = model.Height,
+                Thickness = model.Thickness,
+                Weight = model.Weight,
+                Stock = model.Stock,
+
+                Slug = await slugService.GenerateUniqueAsync<Product>($"{bookEditionTitle} {model.TitleAddition}"),
+                Images = new List<ProductImage>(),
+                Reviews = new List<Review>(),
+                Price = model.Price,
+                DiscountId = model.DiscountId,
+                FinalPrice = model.FinalPrice,
+                IsVisible = model.IsVisible switch
+                {
+                    "Visible" => true,
+                    "Hidden" => false,
+                    _ => false
+                },
+                IsAvailable = model.IsAvailable
             };
-            book.IsAvailable = model.IsAvailable;
 
             dbContext.PhysicalBooks.Add(book);
             await dbContext.SaveChangesAsync();

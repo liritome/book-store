@@ -1,8 +1,10 @@
 ﻿using BookStore.Data;
 using BookStore.InputModels;
 using BookStore.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Net.WebSockets;
 
 namespace BookStore.Services
 {
@@ -96,7 +98,7 @@ namespace BookStore.Services
             return await result.ToListAsync();
         }
 
-        public async Task<BookBase?> GetBaseByIdAsync(int id)
+        public async Task<BookBase?> GetBookBaseByIdAsync(int id)
         {
             return await dbContext.BookBases
                 .Include(b => b.Authors)
@@ -105,9 +107,35 @@ namespace BookStore.Services
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        /*public async Task<int> AddBookBaseAsync(BookBaseAddInputModel model)
+        public async Task<int> AddBookBaseAsync(BookBaseAddInputModel model)
         {
+            var bookBase = new BookBase
+            {
+                Title = model.Title,
+                Year = model.Year,
+                SeriesId = model.SeriesId,
+                NumberInSeries = model.NumberInSeries,
 
-        }*/
+                Authors = await dbContext.Authors
+                .Where(a => model.AuthorIds.Contains(a.Id))
+                .ToListAsync(),
+
+                Tags = await dbContext.Tags
+                .Where(t => model.TagIds.Contains(t.Id))
+                .ToListAsync()
+            };
+
+            dbContext.BookBases.Add(bookBase);
+            await dbContext.SaveChangesAsync();
+            return bookBase.Id;
+        }
+
+        public async Task DeleteBookBaseAsync(int id)
+        {
+            var bookBase = await GetBookBaseByIdAsync(id);
+            if (bookBase == null) return;
+            dbContext.BookBases.Remove(bookBase);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -65,10 +65,10 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(PhysicalBookAddInputModel model)
         {
-            var bookEdition = await bookEditionService.GetEditionByIdAsync(model.BookEditionId);
+            BookEdition? bookEdition = await bookEditionService.GetEditionByIdAsync(model.BookEditionId);
             if (bookEdition == null)
             {
-                ViewData["ErrorMessage"] = "Book edition is null";
+                ViewData["ErrorMessage"] = "BookEdition is null";
                 return View("Error");
             }
             int bookId = await physicalBookService.AddBookAsync(model, bookEdition.Title);
@@ -97,7 +97,7 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(PhysicalBookEditInputModel model)
         {
-            var bookEdition = await bookEditionService.GetEditionByIdAsync(model.BookEditionId);
+            BookEdition? bookEdition = await bookEditionService.GetEditionByIdAsync(model.BookEditionId);
             if (bookEdition == null)
             {
                 ViewData["ErrorMessage"] = "Book edition is null";
@@ -113,6 +113,12 @@ namespace BookStore.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await physicalBookService.DeleteBookAsync(id);
+
+            string? returnUrl = Request.Headers.Referer.ToString();
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
             return RedirectToAction("Index");
         }
 

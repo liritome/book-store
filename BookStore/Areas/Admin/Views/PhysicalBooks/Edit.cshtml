@@ -288,32 +288,6 @@
                         </div>
                     </div>
                 </div>
-                @* <div class="bg-white rounded-4 p-3 mt-4">
-                    <h5>Tags</h5>
-                    <div class="d-flex flex-wrap gap-2 mt-3">
-                        @{
-                            var tags = Model.Book.BookEdition.BookBase.Tags.ToList();
-                            for(int i = 0; i < tags.Count; i++)
-                            {
-                                var tag = tags[i];
-                                <div class="bg-secondary-subtle d-flex align-items-center px-2 py-1 rounded-5">
-                                    <div class="tag-item">
-                                        <span class="me-1">@tag.Name</span>
-                                        <input hidden name="TagDtos[@i].TagId" value="@tag.Id"/>
-                                        <input hidden name="TagDtos[@i].Delete" value="false"/>
-                                        <input hidden name="TagDtos[@i].Add" value="false"/>
-                                        <button type="button" class="tag-delete-btn btn btn-outline-secondary d-flex justify-content-center align-items-center p-0 rounded-5">
-                                            <i class="bi bi-x"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            }
-                        }
-                        <button type="button" class="btn btn-outline-primary d-flex justify-content-center align-items-center rounded-5">
-                            <i class="bi bi-plus-lg"></i>
-                        </button>
-                    </div>
-                </div> *@
                 <div class="bg-white rounded-4 p-3 mt-4">
                     <h5>Description Addition</h5>
                     <textarea name="DescriptionAddition" class="form-control mt-2" rows="20">@Model.Book.DescriptionAddition</textarea>
@@ -325,14 +299,3 @@
 
 <script src="~/js/admin/book-form.js"></script>
 <script src="~/js/admin/book-edit-images.js"></script>
-
-@* <script>
-    document.querySelectorAll(".tag-delete-btn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            const item = e.target.closest(".tag-item");
-            const deleteInput = item.querySelector('input[name$=".Delete"]');
-            deleteInput.value = "true";
-            item.style.display = "none";
-        });
-    };
-</script> *@

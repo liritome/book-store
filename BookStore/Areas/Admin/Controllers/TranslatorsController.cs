@@ -14,7 +14,7 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchTranslatorsJson(string query)
+        public async Task<JsonResult> SearchTranslatorsJson(string query)
         {
             var translators = await translatorService.SearchTranslatorsAsync(query);
             var result = translators.Select(t => new
@@ -26,12 +26,12 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchTranslatorByIdJson(int id)
+        public async Task<JsonResult> SearchTranslatorByIdJson(int id)
         {
             var translator = await translatorService.GetTranslatorByIdAsync(id);
             if (translator == null)
             {
-                return View("Error");
+                return Json(null);
             }
             var result = new
             {

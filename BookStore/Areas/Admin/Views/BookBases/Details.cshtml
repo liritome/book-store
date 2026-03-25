@@ -4,3 +4,111 @@
     ViewData["Title"] = Model.Title;
 }
 
+<div class="d-flex justify-content-between align-items-start">
+    <div>
+        <h2 class="mb-1">@Model.Title</h2>
+        <div class="d-flex gap-2 align-items-center">
+            <span class="text-muted">ID: @Model.Id</span>
+        </div>
+    </div>
+    <div class="d-flex gap-2">
+        <a class="admin-details-button btn btn-primary d-flex justify-content-center align-items-center" asp-action="Edit" asp-route-id="@Model.Id">
+            <i class="bi bi-pencil"></i>
+            <span class="ms-1">Edit</span>
+        </a>
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Delete @Model.Title (ID: @Model.Id)?')">
+            <button class="admin-details-button btn btn-danger">
+                <i class="bi bi-trash"></i>
+                <span>Delete</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="mt-3">
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="bg-white rounded-4 p-3">
+                <div>
+                    <div>
+                        <h5>Details</h5>
+                    </div>
+                    <div class="list-group list-group-flush text-end">
+                        <div class="list-group-item d-flex justify-content-between gap-2">
+                            <span class="text-nowrap">Title</span>
+                            <span class="text-muted">
+                                @Model.Title
+                            </span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-2">
+                            <span class="text-nowrap">Year</span>
+                            <span class="text-muted">
+                                @Model.Year
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <div>
+                        <h5>Book Series</h5>
+                    </div>
+                    <div class="list-group list-group-flush text-end">
+                        <div class="list-group-item d-flex justify-content-between gap-2">
+                            <span class="text-nowrap">Series</span>
+                            <a asp-area="Admin" asp-controller="Series" asp-action="Details" asp-route-id="@Model.SeriesId" class="text-muted border-bottom border-dark border-1">
+                                @Model.Series?.Name
+                            </a>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between gap-2">
+                            <span class="text-nowrap">Number in series</span>
+                            <span class="text-muted">
+                                @Model.NumberInSeries
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 mt-4 mt-lg-0">
+            <div class="bg-white rounded-4 p-3">
+                <h5>Authors</h5>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    @foreach (var author in Model.Authors)
+                    {
+                        <a asp-area="Admin" asp-controller="Authors" asp-action="Details" asp-route-id="@author.Id" class="bg-secondary-subtle d-flex align-items-center px-2 py-1 rounded-5">
+                            <span class="me-1">@author.Name</span>
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="bg-white rounded-4 p-3 mt-4">
+                <h5>Tags</h5>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <a asp-area="Admin" asp-controller="Tags" asp-action="Details" asp-route-id="@tag.Id" class="bg-secondary-subtle d-flex align-items-center px-2 py-1 rounded-5">
+                            <span class="me-1">@tag.Name</span>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-3 mt-2">
+        <ul class="list-unstyled mb-0">
+            <li>
+                <strong>Created:</strong>
+                25.03.2025 18:00:00
+                <strong class="ms-3">by:</strong>
+                Admin Name
+            </li>
+            <li class="mt-1">
+                <strong>Updated:</strong>
+                25.03.2025 22:00:00
+                <strong class="ms-3">by:</strong>
+                Admin Name
+            </li>
+        </ul>
+    </div>
+</div>

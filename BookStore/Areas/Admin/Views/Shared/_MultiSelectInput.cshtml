@@ -1,6 +1,9 @@
-﻿@model MultiSelectFilterViewModel
+﻿@model MultiSelectInputViewModel
 
-<label class="form-label">@Model.Header</label>
+@if (!string.IsNullOrEmpty(Model.Header))
+{
+    <label class="form-label">@Model.Header</label>    
+}
 <div id="@($"{Model.EntityName}Ids")">
     @foreach (var id in Model.SelectedIds)
     {
@@ -20,7 +23,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        initMultiSelectFilter({
+        initMultiSelectInput({
             entityName: "@Model.EntityName",
             fieldName: "@Model.FieldName",
             searchByQueryUrl: "@Model.SearchByQueryUrl",

@@ -18,6 +18,20 @@ namespace BookStore.Services
             return await dbContext.Series.ToListAsync();
         }
 
+        public async Task<List<Series>> SearchSeriesAsync(string query)
+        {
+            var result = dbContext.Series.AsQueryable();
+            if (!string.IsNullOrEmpty(query))
+            {
+                result = result
+                    .Where(s => s.Name.Contains(query));
+            }
+            return await result
+                .OrderBy(s => s.Name)
+                .Take(10)
+                .ToListAsync();
+        }
+
         public async Task<Series?> GetSeriesByIdAsync(int id)
         {
             return await dbContext.Series.FindAsync(id);

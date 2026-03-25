@@ -14,7 +14,7 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchPublishersJson(string query)
+        public async Task<JsonResult> SearchPublishersJson(string query)
         {
             var publishers = await publisherService.SearchPublishersAsync(query);
             var result = publishers.Select(p => new
@@ -26,12 +26,12 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchPublisherByIdJson(int id)
+        public async Task<JsonResult> SearchPublisherByIdJson(int id)
         {
             var publisher = await publisherService.GetPublisherByIdAsync(id);
             if (publisher == null)
             {
-                return View("Error");
+                return Json(null);
             }
             var result = new
             {

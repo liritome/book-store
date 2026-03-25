@@ -14,7 +14,7 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchTagsJson(string query)
+        public async Task<JsonResult> SearchTagsJson(string query)
         {
             var tags = await tagService.SearchTagsAsync(query);
             var result = tags.Select(t => new
@@ -26,12 +26,12 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchTagByIdJson(int id)
+        public async Task<JsonResult> SearchTagByIdJson(int id)
         {
             var tag = await tagService.GetTagByIdAsync(id);
             if (tag == null)
             {
-                return View("Error");
+                return Json(null);
             }
             var result = new
             {

@@ -14,7 +14,7 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchLanguagesJson(string query)
+        public async Task<JsonResult> SearchLanguagesJson(string query)
         {
             var languages = await languageService.SearchLanguagesAsync(query);
             var result = languages.Select(l => new
@@ -26,12 +26,12 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchLanguageByIdJson(int id)
+        public async Task<JsonResult> SearchLanguageByIdJson(int id)
         {
             var language = await languageService.GetLanguageByIdAsync(id);
             if (language == null)
             {
-                return View("Error");
+                return Json(null);
             }
             var result = new
             {

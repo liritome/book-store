@@ -170,7 +170,7 @@
                                value="@Model.Filter.Query">
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
                         {
                             EntityName = "author",
                             FieldName = "AuthorIds",
@@ -192,7 +192,7 @@
                         </div>
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
                         {
                             EntityName = "tag",
                             FieldName = "TagIds",
@@ -227,3 +227,5 @@
         </div>
     </div>
 </div>
+
+<script src="~/js/admin/filter-scroll.js"></script>

@@ -14,12 +14,8 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchAuthorsJson(string query)
+        public async Task<JsonResult> SearchAuthorsJson(string query)
         {
-            /*if (string.IsNullOrEmpty(query))
-            {
-                return Json(new List<object>());
-            }*/
             var authors = await authorService.SearchAuthorsAsync(query);
             var result = authors.Select(a => new
             {
@@ -30,12 +26,12 @@ namespace BookStore.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchAuthorByIdJson(int id)
+        public async Task<JsonResult> SearchAuthorByIdJson(int id)
         {
             var author = await authorService.GetAuthorByIdAsync(id);
             if (author == null)
             {
-                return View("Error");
+                return Json(null);
             }
             var result = new
             {

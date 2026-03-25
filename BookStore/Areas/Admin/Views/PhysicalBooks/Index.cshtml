@@ -248,7 +248,7 @@
                                value="@Model.Filter.Query">
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
                             {
                                 EntityName = "author",
                                 FieldName = "AuthorIds",
@@ -260,7 +260,7 @@
                             })
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
                             {
                                 EntityName = "publisher",
                                 FieldName = "PublisherIds",
@@ -272,7 +272,7 @@
                             })
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
                             {
                                 EntityName = "translator",
                                 FieldName = "TranslatorIds",
@@ -314,7 +314,7 @@
                         </div>
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
                             {
                                 EntityName = "tag",
                                 FieldName = "TagIds",
@@ -326,7 +326,7 @@
                             })
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
                             {
                                 EntityName = "language",
                                 FieldName = "LanguageIds",
@@ -429,3 +429,5 @@
         </div>
     </div>
 </div>
+
+<script src="~/js/admin/filter-scroll.js"></script>

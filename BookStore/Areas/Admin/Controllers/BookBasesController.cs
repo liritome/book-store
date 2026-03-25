@@ -76,7 +76,7 @@ namespace BookStore.Areas.Admin.Controllers
             await bookBaseService.DeleteBookBaseAsync(id);
 
             string? returnUrl = Request.Headers.Referer.ToString();
-            if (!string.IsNullOrEmpty(returnUrl))
+            if (!string.IsNullOrEmpty(returnUrl) && !returnUrl.Contains("Details"))
             {
                 return Redirect(returnUrl);
             }

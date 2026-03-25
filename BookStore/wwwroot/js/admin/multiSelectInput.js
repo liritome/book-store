@@ -1,4 +1,4 @@
-﻿async function initMultiSelectFilter(config) {
+﻿async function initMultiSelectInput(config) {
     const entityName = config.entityName;
     const fieldName = config.fieldName;
     const searchByQueryUrl = config.searchByQueryUrl;
@@ -14,7 +14,7 @@
     for (const item of idItems) {
         const response = await fetch(`${searchByIdUrl}?id=${encodeURIComponent(item.value)}`);
         const entity = await response.json();
-        const element = createFilterElement(entity, true)
+        const element = createElement(entity, true)
         selectedContainer.appendChild(element);
     }
 
@@ -30,7 +30,7 @@
             resultsContainer.appendChild(element);
         }
         entities.forEach(entity => {
-            const element = createFilterElement(entity, false);
+            const element = createElement(entity, false);
             const isAlreadySelected = selectedContainer.querySelector(`input[value="${entity.id}"]`);
             resultsContainer.appendChild(element);
             if (isAlreadySelected) {
@@ -39,7 +39,7 @@
         });
     });
 
-    function createFilterElement(entity, isChecked) {
+    function createElement(entity, isChecked) {
         const wrapper = document.createElement("div");
         wrapper.className = "form-check";
 
@@ -66,7 +66,7 @@
             const wrapper = this.closest(".form-check");
             if (this.checked) {
                 wrapper.hidden = true;
-                const selectedElement = createFilterElement(entity, true)
+                const selectedElement = createElement(entity, true)
                 selectedContainer.appendChild(selectedElement);
             }
             else {

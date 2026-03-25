@@ -25,28 +25,6 @@
                 <div class="bg-white rounded-4 p-3">
                     <div>
                         <div>
-                            <h5>Book Series</h5>
-                        </div>
-                        <div class="list-group list-group-flush text-end">
-                            <div class="list-group-item d-flex justify-content-between gap-2">
-                                <span class="text-nowrap">Series</span>
-                                <select name="SeriesId" class="form-select admin-input-container py-0">
-                                    @foreach (Series series in Model.Series)
-                                    {
-                                        <option value="@series.Id">
-                                            @series.Name
-                                        </option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="list-group-item d-flex justify-content-between gap-2">
-                                <span class="text-nowrap">Number in series</span>
-                                <input name="NumberInSeries" type="number" min="0" class="form-control admin-input-container py-0" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <div>
                             <h5>Details</h5>
                         </div>
                         <div class="list-group list-group-flush text-end">
@@ -60,29 +38,51 @@
                             </div>
                         </div>
                     </div>
+                    <div class="mt-2">
+                        <div>
+                            <h5>Book Series</h5>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex justify-content-between gap-2">
+                                <span class="text-nowrap">Series</span>
+                                <div>
+                                    @await Html.PartialAsync("_SingleSelectInput", new SingleSelectInputViewModel
+                                    {
+                                        EntityName = "series",
+                                        FieldName = "SeriesId",
+                                        InputContainerPlaceholder = "Series name",
+                                        SearchByQueryUrl = Url.Action("SearchSeriesJson", "Series", new { area = "Admin" }) ?? "",
+                                        SearchByIdUrl = Url.Action("SearchSeriesByIdJson", "Series", new { area = "Admin" }) ?? ""
+                                    })
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between gap-2">
+                                <span class="text-nowrap">Number in series</span>
+                                <input name="NumberInSeries" type="number" min="0" class="form-control admin-input-container py-0" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-7 mt-4 mt-lg-0">
                 <div class="bg-white rounded-4 p-3">
                     <h5>Authors</h5>
-                    @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                    @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
                     {
                         EntityName = "author",
                         FieldName = "AuthorIds",
-                        Header = "Authors",
-                        InputContainerPlaceholder = "Name",
+                        InputContainerPlaceholder = "Author name",
                         SearchByQueryUrl = Url.Action("SearchAuthorsJson", "Authors", new { area = "Admin" }) ?? "",
                         SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? ""
                     })
                 </div>
                 <div class="bg-white rounded-4 p-3 mt-4">
                     <h5>Tags</h5>
-                    @await Html.PartialAsync("_MultiSelectFilter", new MultiSelectFilterViewModel
+                    @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
                     {
                         EntityName = "tag",
                         FieldName = "TagIds",
-                        Header = "Tags",
-                        InputContainerPlaceholder = "",
+                        InputContainerPlaceholder = "Tag name",
                         SearchByQueryUrl = Url.Action("SearchTagsJson", "Tags", new { area = "Admin" }) ?? "",
                         SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? ""
                     })

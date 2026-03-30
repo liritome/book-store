@@ -1,4 +1,4 @@
-﻿@model MultiSelectInputViewModel
+﻿@model SelectInputViewModel
 
 @if (!string.IsNullOrEmpty(Model.Header))
 {
@@ -23,11 +23,11 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        initMultiSelectInput({
+        initSelectInput({
             entityName: "@Model.EntityName",
             fieldName: "@Model.FieldName",
             searchByQueryUrl: "@Model.SearchByQueryUrl",
             searchByIdUrl: "@Model.SearchByIdUrl"
-        });
+        }, @Model.Multiple.ToString().ToLower());
     });
 </script>

@@ -1,14 +1,15 @@
 ﻿namespace BookStore.ViewModels
 {
-    public class SingleSelectInputViewModel
+    public class SelectInputViewModel
     {
         public string EntityName { get; set; } = "";
         public string Header { get; set; } = "";
-        public int? SelectedId { get; set; }
+        public List<int> SelectedIds { get; set; } = new();
         public string InputContainerPlaceholder { get; set; } = "";
 
         public string FieldName { get; set; } = "";
         public string SearchByQueryUrl { get; set; } = "";
         public string SearchByIdUrl { get; set; } = "";
+        public bool Multiple { get; set; } = false;
     }
 }

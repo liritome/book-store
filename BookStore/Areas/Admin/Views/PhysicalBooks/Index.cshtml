@@ -248,7 +248,7 @@
                                value="@Model.Filter.Query">
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
                             {
                                 EntityName = "author",
                                 FieldName = "AuthorIds",
@@ -256,11 +256,12 @@
                                 InputContainerPlaceholder = "Name",
                                 SelectedIds = Model.Filter.AuthorIds,
                                 SearchByQueryUrl = Url.Action("SearchAuthorsJson", "Authors", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? ""
+                                SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? "",
+                                Multiple = true
                             })
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
                             {
                                 EntityName = "publisher",
                                 FieldName = "PublisherIds",
@@ -268,11 +269,12 @@
                                 InputContainerPlaceholder = "Name",
                                 SelectedIds = Model.Filter.PublisherIds,
                                 SearchByQueryUrl = Url.Action("SearchPublishersJson", "Publishers", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchPublisherByIdJson", "Publishers", new { area = "Admin" }) ?? ""
+                                SearchByIdUrl = Url.Action("SearchPublisherByIdJson", "Publishers", new { area = "Admin" }) ?? "",
+                                Multiple = true
                             })
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
                             {
                                 EntityName = "translator",
                                 FieldName = "TranslatorIds",
@@ -280,7 +282,8 @@
                                 InputContainerPlaceholder = "Name",
                                 SelectedIds = Model.Filter.TranslatorIds,
                                 SearchByQueryUrl = Url.Action("SearchTranslatorsJson", "Translators", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchTranslatorByIdJson", "Translators", new { area = "Admin" }) ?? ""
+                                SearchByIdUrl = Url.Action("SearchTranslatorByIdJson", "Translators", new { area = "Admin" }) ?? "",
+                                Multiple = true
                             })
                     </div>
                     <div>
@@ -314,7 +317,7 @@
                         </div>
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
                             {
                                 EntityName = "tag",
                                 FieldName = "TagIds",
@@ -322,11 +325,12 @@
                                 InputContainerPlaceholder = "",
                                 SelectedIds = Model.Filter.TagIds,
                                 SearchByQueryUrl = Url.Action("SearchTagsJson", "Tags", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? ""
+                                SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? "",
+                                Multiple = true
                             })
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
                             {
                                 EntityName = "language",
                                 FieldName = "LanguageIds",
@@ -334,7 +338,8 @@
                                 InputContainerPlaceholder = "",
                                 SelectedIds = Model.Filter.LanguageIds,
                                 SearchByQueryUrl = Url.Action("SearchLanguagesJson", "Languages", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchLanguageByIdJson", "Languages", new { area = "Admin" }) ?? ""
+                                SearchByIdUrl = Url.Action("SearchLanguageByIdJson", "Languages", new { area = "Admin" }) ?? "",
+                                Multiple = true
                             })
                     </div>
                     <div>

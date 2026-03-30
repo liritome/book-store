@@ -170,7 +170,7 @@
                                value="@Model.Filter.Query">
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
                         {
                             EntityName = "author",
                             FieldName = "AuthorIds",
@@ -178,7 +178,8 @@
                             InputContainerPlaceholder = "Name",
                             SelectedIds = Model.Filter.AuthorIds,
                             SearchByQueryUrl = Url.Action("SearchAuthorsJson", "Authors", new { area = "Admin" }) ?? "",
-                            SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? ""
+                            SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? "",
+                            Multiple = true
                         })
                     </div>
                     <div>
@@ -192,7 +193,7 @@
                         </div>
                     </div>
                     <div>
-                        @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
                         {
                             EntityName = "tag",
                             FieldName = "TagIds",
@@ -200,7 +201,8 @@
                             InputContainerPlaceholder = "",
                             SelectedIds = Model.Filter.TagIds,
                             SearchByQueryUrl = Url.Action("SearchTagsJson", "Tags", new { area = "Admin" }) ?? "",
-                            SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? ""
+                            SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? "",
+                            Multiple = true
                         })
                     </div>
                     <div>

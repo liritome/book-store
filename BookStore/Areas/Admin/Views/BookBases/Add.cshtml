@@ -46,7 +46,7 @@
                             <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Series</span>
                                 <div>
-                                    @await Html.PartialAsync("_SingleSelectInput", new SingleSelectInputViewModel
+                                    @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
                                     {
                                         EntityName = "series",
                                         FieldName = "SeriesId",
@@ -67,24 +67,26 @@
             <div class="col-lg-7 mt-4 mt-lg-0">
                 <div class="bg-white rounded-4 p-3">
                     <h5>Authors</h5>
-                    @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
+                    @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
                     {
                         EntityName = "author",
                         FieldName = "AuthorIds",
                         InputContainerPlaceholder = "Author name",
                         SearchByQueryUrl = Url.Action("SearchAuthorsJson", "Authors", new { area = "Admin" }) ?? "",
-                        SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? ""
+                        SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? "",
+                        Multiple = true
                     })
                 </div>
                 <div class="bg-white rounded-4 p-3 mt-4">
                     <h5>Tags</h5>
-                    @await Html.PartialAsync("_MultiSelectInput", new MultiSelectInputViewModel
+                    @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
                     {
                         EntityName = "tag",
                         FieldName = "TagIds",
                         InputContainerPlaceholder = "Tag name",
                         SearchByQueryUrl = Url.Action("SearchTagsJson", "Tags", new { area = "Admin" }) ?? "",
-                        SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? ""
+                        SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? "",
+                        Multiple = true
                     })
                 </div>
             </div>

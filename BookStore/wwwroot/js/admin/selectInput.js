@@ -1,4 +1,4 @@
-﻿async function initMultiSelectInput(config) {
+﻿async function initSelectInput(config, multiple) {
     const entityName = config.entityName;
     const fieldName = config.fieldName;
     const searchByQueryUrl = config.searchByQueryUrl;
@@ -65,6 +65,18 @@
         checkbox.addEventListener("change", function () {
             const wrapper = this.closest(".form-check");
             if (this.checked) {
+                if (multiple == false) {
+                    const previouslySelected = selectedContainer.querySelector(`input`);
+                    if (previouslySelected != null) {
+                        const previousWrapper = previouslySelected.closest(`.form-check`);
+                        selectedContainer.removeChild(previousWrapper);
+                        const previousSearchedCheck = resultsContainer.querySelector(`input[value="${previouslySelected.value}"]`);
+                        if (previousSearchedCheck != null) {
+                            previousSearchedCheck.checked = false;
+                            previousSearchedCheck.closest(".form-check").hidden = false;
+                        }
+                    }
+                }
                 wrapper.hidden = true;
                 const selectedElement = createElement(entity, true)
                 selectedContainer.appendChild(selectedElement);
@@ -82,3 +94,4 @@
         return wrapper;
     }
 }
+

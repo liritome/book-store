@@ -11,17 +11,16 @@ namespace BookStore.Areas.Admin.Controllers
     {
         private readonly PhysicalBookService physicalBookService;
         private readonly BookEditionService bookEditionService;
-        private readonly DiscountService discountService;
 
         public PhysicalBooksController(PhysicalBookService physicalBookService,
-            DiscountService discountService, BookEditionService bookEditionService)
+            BookEditionService bookEditionService)
         {
             this.physicalBookService = physicalBookService;
             this.bookEditionService = bookEditionService;
-            this.discountService = discountService;
         }
 
-        public async Task<IActionResult> Index(PhysicalBookFilter filter, PhysicalBookSortState sort = PhysicalBookSortState.IdAsc, int page = 1)
+        public async Task<IActionResult> Index(PhysicalBookFilter filter,
+            PhysicalBookSortState sort = PhysicalBookSortState.IdAsc, int page = 1)
         {
             int pageSize = 10;
             var booksQuery = physicalBookService.GetAllBooksQuery(filter, sort);
@@ -31,7 +30,6 @@ namespace BookStore.Areas.Admin.Controllers
             var model = new PhysicalBookIndexViewModel
             {
                 Books = books,
-                Discounts = await discountService.GetActiveAndScheduledDiscountsAsync(),
                 Filter = filter,
                 Sort = sort,
                 PageViewModel = new PageViewModel(page, booksCount, pageSize)
@@ -56,7 +54,6 @@ namespace BookStore.Areas.Admin.Controllers
         {
             PhysicalBookAddViewModel model = new PhysicalBookAddViewModel
             {
-                Discounts = await discountService.GetAllDiscountsAsync(),
                 BookEditions = await bookEditionService.GetAllEditionsAsync()
             };
             return View(model);
@@ -88,7 +85,6 @@ namespace BookStore.Areas.Admin.Controllers
             PhysicalBookEditViewModel model = new PhysicalBookEditViewModel
             {
                 Book = book,
-                Discounts = await discountService.GetAllDiscountsAsync(),
                 BookEditions = await bookEditionService.GetAllEditionsAsync()
             };
             return View(model);
@@ -97,13 +93,7 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(PhysicalBookEditInputModel model)
         {
-            BookEdition? bookEdition = await bookEditionService.GetEditionByIdAsync(model.BookEditionId);
-            if (bookEdition == null)
-            {
-                ViewData["ErrorMessage"] = "Book edition is null";
-                return View("Error");
-            }
-            await physicalBookService.UpdateBookAsync(model, bookEdition.Title);
+            await physicalBookService.UpdateBookAsync(model);
             await physicalBookService.ReorderImagesAsync(model.ImageDtos);
             await physicalBookService.AttachImagesToBookAsync(model.BookId, model.Images);
             return RedirectToAction("Details", new { Id = model.BookId });

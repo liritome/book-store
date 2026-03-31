@@ -6,7 +6,6 @@ namespace BookStore.ViewModels
     public class PhysicalBookIndexViewModel
     {
         public IEnumerable<PhysicalBook> Books { get; set; } = null!;
-        public IEnumerable<Discount> Discounts { get; set; } = null!;
 
         public PhysicalBookFilter Filter { get; set; } = new();
 

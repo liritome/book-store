@@ -37,6 +37,21 @@ namespace BookStore.Services
                 .ToListAsync();
         }
 
+        public async Task<List<Discount>> SearchDiscountsAsync(string query)
+        {
+            var result = dbContext.Discounts.AsQueryable();
+            if (!string.IsNullOrEmpty(query))
+            {
+                query = query.Trim();
+                result = result
+                    .Where(d => d.Name.Contains(query));
+            }
+            return await result
+                .OrderBy(d => d.Name)
+                .Take(10)
+                .ToListAsync();
+        }
+
         public async Task<Discount?> GetDiscountByIdAsync(int id)
         {
             return await dbContext.Discounts.FindAsync(id);

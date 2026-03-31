@@ -100,68 +100,40 @@
                 </div>
             </div>
             <div class="col-lg-7 mt-4 mt-lg-0">
-                <h5 class="">Stock and pricing</h5>
-                <div class="row mt-2">
-                    <div class="col-lg-6">
-                        <div class="bg-white rounded-4 p-3">
-                            <div class="d-flex gap-2">
-                                <div class="w-100">
-                                    <h6>Price</h6>
-                                    <input id="priceInput" name="Price" type="number" min="1" class="form-control" />
-                                </div>
-                                <div class="w-100">
-                                    <h6>Discount</h6>
-                                    <select disabled id="discountSelect" name="DiscountId" class="form-select">
-                                        <option value="">-</option>
-                                        <optgroup label="Active">
-                                            @foreach (var discount in Model.Discounts)
-                                            {
-                                                if (discount.IsActive())
-                                                {
-                                                    <option value="@discount.Id"
-                                                            data-type="@discount.GetType().Name"
-                                                            data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
-                                                        @discount.Name (@discount.Display())
-                                                    </option>
-                                                }
-                                            }
-                                        </optgroup>
-                                        <optgroup label="Scheduled">
-                                            @foreach (var discount in Model.Discounts)
-                                            {
-                                                if (discount.IsScheduled())
-                                                {
-                                                    <option value="@discount.Id"
-                                                            data-type="@discount.GetType().Name"
-                                                            data-value="@((discount as AmountDiscount)?.Amount ?? (discount as PercentageDiscount)?.Percentage)">
-                                                        @discount.Name (@discount.Display())
-                                                    </option>
-                                                }
-                                            }
-                                        </optgroup>
-                                    </select>
-                                </div>
-                                <div class="w-100">
-                                    <h6>Final price</h6>
-                                    <input id="finalPriceInput" name="FinalPrice" type="number" min="1" class="form-control" />
-                                </div>
-                            </div>
-                            <small class="text-muted">Discount valid: - </small>
+                <div class="bg-white rounded-4 p-3">
+                    <h5>Price and discount</h5>
+                    <div class="d-flex gap-2">
+                        <div class="w-50">
+                            <span>Base price</span>
+                            <input id="priceInput" name="Price" type="number" min="1" class="form-control" />
+                        </div>
+                        <div class="w-50">
+                            <span>Final price</span>
+                            <input id="finalPriceInput" name="FinalPrice" type="number" min="1" class="form-control" />
+                        </div>
+                        <div class="w-100">
+                            <span>Discount</span>
+                            @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
+                            {
+                                EntityName = "discount",
+                                FieldName = "DiscountId",
+                                InputContainerPlaceholder = "",
+                                SearchByQueryUrl = Url.Action("SearchDiscountsJson", "Discounts", new { area = "Admin" }) ?? "",
+                                SearchByIdUrl = Url.Action("SearchDiscountByIdJson", "Discounts", new { area = "Admin" }) ?? ""
+                            })
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="bg-white rounded-4 p-3 mt-3 mt-lg-0">
-                            <h6>Stock</h6>
-                            <div class="d-flex align-items-center">
-                                <input name="Stock" type="number" min="0" class="form-control w-50" />
-                                <div class="ms-4">
-                                    <input class="form-check-input" type="checkbox" value="true" name="IsAvailable" id="isAvailable" />
-                                    <label class="form-check-label ps-2" for="isAvailable">Available</label>
-                                </div>
-                            </div>
-                            <small class="text-muted mt-4">Last restock:</small>
+                </div>
+                <div class="bg-white rounded-4 p-3 mt-4">
+                    <h5>Stock</h5>
+                    <div class="d-flex align-items-center">
+                        <input name="Stock" type="number" min="0" class="form-control w-50" />
+                        <div class="ms-4">
+                            <input class="form-check-input" type="checkbox" value="true" name="IsAvailable" id="isAvailable" />
+                            <label class="form-check-label ps-2" for="isAvailable">Available</label>
                         </div>
                     </div>
+                    <small class="text-muted mt-4">Last restock:</small>
                 </div>
                 <div class="bg-white rounded-4 p-3 mt-4">
                     <h5>Visibility</h5>

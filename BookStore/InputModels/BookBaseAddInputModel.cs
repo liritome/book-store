@@ -2,8 +2,8 @@
 {
     public class BookBaseAddInputModel
     {
-        public int SeriesId { get; set; }
-        public int NumberInSeries { get; set; }
+        public int? SeriesId { get; set; }
+        public int? NumberInSeries { get; set; }
         public string Title { get; set; } = null!;
         public int Year { get; set; }
         public List<int> AuthorIds { get; set; } = new();

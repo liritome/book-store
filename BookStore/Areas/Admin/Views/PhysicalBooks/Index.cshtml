@@ -381,34 +381,17 @@
                         </div>
                     </div>
                     <div>
-                        <label class="form-label d-block">Discount</label>
-                        <select name="DiscountId" class="form-select">
-                            <option value="" selected="@(Model.Filter.DiscountId == null)">-</option>
-                            <option value="-2" selected="@(Model.Filter.DiscountId == -2)">Any</option>
-                            <option value="-1" selected="@(Model.Filter.DiscountId == -1)">None</option>
-                            <optgroup label="Active">
-                                @foreach (var discount in Model.Discounts)
-                                {
-                                    if (discount.IsActive())
-                                    {
-                                        <option value="@discount.Id" selected="@(discount.Id == Model.Filter.DiscountId)">
-                                            @discount.Name (@discount.Display())
-                                        </option>
-                                    }
-                                }
-                            </optgroup>
-                            <optgroup label="Scheduled">
-                                @foreach (var discount in Model.Discounts)
-                                {
-                                    if (discount.IsScheduled())
-                                    {
-                                        <option value="@discount.Id" selected="@(discount.Id == Model.Filter.DiscountId)">
-                                            @discount.Name (@discount.Display())
-                                        </option>
-                                    }
-                                }
-                            </optgroup>
-                        </select>
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
+                            {
+                                EntityName = "discount",
+                                FieldName = "DiscountId",
+                                Header = "Discount",
+                                InputContainerPlaceholder = "",
+                                SelectedIds = Model.Filter.DiscountId == null ? new List<int>()
+                                        : new List<int> { Model.Filter.DiscountId.Value },
+                                SearchByQueryUrl = Url.Action("SearchDiscountsJson", "Discounts", new { area = "Admin" }) ?? "",
+                                SearchByIdUrl = Url.Action("SearchDiscountByIdJson", "Discounts", new { area = "Admin" }) ?? ""
+                            })
                     </div>
                     <div>
                         <label class="form-label">Final price</label>

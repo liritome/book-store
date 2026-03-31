@@ -49,6 +49,13 @@ namespace BookStore
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            /*
+             * todo: add close btn for SelectInput partial, that will close Searched div
+             * todo: fix final price autocomplete for Book add/edit view
+             * todo: add Series to BookBase filters
+             * todo: Rework authors column in BookBase Index table for better ui design
+            */
+
             app.Run();
         }
     }

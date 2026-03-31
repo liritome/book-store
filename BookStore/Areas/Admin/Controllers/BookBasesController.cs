@@ -10,20 +10,14 @@ namespace BookStore.Areas.Admin.Controllers
     public class BookBasesController : Controller
     {
         private readonly BookBaseService bookBaseService;
-        private readonly AuthorService authorService;
-        private readonly TagService tagService;
-        private readonly SeriesService seriesService;
 
-        public BookBasesController(BookBaseService bookBaseService, AuthorService authorService,
-            TagService tagService, SeriesService seriesService)
+        public BookBasesController(BookBaseService bookBaseService)
         {
             this.bookBaseService = bookBaseService;
-            this.authorService = authorService;
-            this.tagService = tagService;
-            this.seriesService = seriesService;
         }
 
-        public async Task<IActionResult> Index(BookBaseFilter filter, BookBaseSortState sort = BookBaseSortState.IdAsc, int page = 1)
+        public async Task<IActionResult> Index(BookBaseFilter filter,
+            BookBaseSortState sort = BookBaseSortState.IdAsc, int page = 1)
         {
             int pageSize = 10;
             var bookBasesQuery = bookBaseService.GetAllBookBasesQuery(filter, sort);
@@ -54,12 +48,7 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            BookBaseAddViewModel model = new BookBaseAddViewModel
-            {
-                Authors = await authorService.GetAllAuthorsAsync(),
-                Series = await seriesService.GetAllSeriesAsync(),
-                Tags = await tagService.GetAllTagsAsync()
-            };
+            BookBaseAddViewModel model = new BookBaseAddViewModel();
             return View(model);
         }
 
@@ -68,6 +57,29 @@ namespace BookStore.Areas.Admin.Controllers
         {
             var bookBaseId = await bookBaseService.AddBookBaseAsync(model);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            BookBase? bookBase = await bookBaseService.GetBookBaseByIdAsync(id);
+            if(bookBase == null)
+            {
+                ViewData["ErrorMessage"] = "BookBase is null";
+                return View("Error");
+            }
+            BookBaseEditViewModel model = new BookBaseEditViewModel
+            {
+                BookBase = bookBase
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(BookBaseEditInputModel model)
+        {
+            await bookBaseService.UpdateBookBaseAsync(model);
+            return RedirectToAction("Details", new { Id = model.BookBaseId });
         }
 
         [HttpPost]

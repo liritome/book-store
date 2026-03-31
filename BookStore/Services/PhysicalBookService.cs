@@ -253,14 +253,14 @@ namespace BookStore.Services
             return book.Id;
         }
 
-        public async Task UpdateBookAsync(PhysicalBookEditInputModel model, string bookEditionTitle)
+        public async Task UpdateBookAsync(PhysicalBookEditInputModel model)
         {
             PhysicalBook? book = await GetBookByIdAsync(model.BookId);
             if (book == null) return;
 
             if (model.BookEditionId != book.BookEditionId || !string.Equals(model.TitleAddition, book.TitleAddition))
             {
-                book.Slug = await slugService.GenerateUniqueAsync<Product>($"{bookEditionTitle} {model.TitleAddition}");
+                book.Slug = await slugService.GenerateUniqueAsync<Product>($"{book.BookEdition.Title} {model.TitleAddition}");
             }
             book.BookEditionId = model.BookEditionId;
             book.Isbn = model.Isbn;

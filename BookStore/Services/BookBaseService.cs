@@ -1,10 +1,8 @@
 ﻿using BookStore.Data;
 using BookStore.InputModels;
 using BookStore.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Net.WebSockets;
 
 namespace BookStore.Services
 {
@@ -128,6 +126,28 @@ namespace BookStore.Services
             dbContext.BookBases.Add(bookBase);
             await dbContext.SaveChangesAsync();
             return bookBase.Id;
+        }
+
+        public async Task UpdateBookBaseAsync(BookBaseEditInputModel model)
+        {
+            BookBase? bookBase = await GetBookBaseByIdAsync(model.BookBaseId);
+            if (bookBase == null) return;
+
+            bookBase.Title = model.Title;
+            bookBase.Year = model.Year;
+            bookBase.SeriesId = model.SeriesId;
+            bookBase.NumberInSeries = model.NumberInSeries;
+
+            bookBase.Authors = await dbContext.Authors
+                .Where(a => model.AuthorIds.Contains(a.Id))
+                .ToListAsync();
+
+            bookBase.Tags = await dbContext.Tags
+                .Where(t => model.TagIds.Contains(t.Id))
+                .ToListAsync();
+
+            dbContext.BookBases.Update(bookBase);
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteBookBaseAsync(int id)

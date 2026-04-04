@@ -50,10 +50,10 @@ namespace BookStore
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             /*
-             * todo: add close btn for SelectInput partial, that will close Searched div
              * todo: fix final price autocomplete for Book add/edit view
              * todo: add Series to BookBase filters
              * todo: Rework authors column in BookBase Index table for better ui design
+             * todo: add Products table column to BookBases index
             */
 
             app.Run();

@@ -126,14 +126,10 @@ namespace BookStore.Services
                     .Where(b => b.Price <= filter.PriceTo);
             }
 
-            if (filter.DiscountId != null)
+            if (!filter.DiscountIds.IsNullOrEmpty())
             {
-                books = filter.DiscountId switch
-                {
-                    -2 => books.Where(b => b.DiscountId != null),
-                    -1 => books.Where(b => b.DiscountId == null),
-                    _ => books.Where(b => b.DiscountId == filter.DiscountId)
-                };
+                books = books
+                    .Where(b => b.DiscountId != null && filter.DiscountIds.Contains(b.DiscountId.Value));
             }
 
             if (filter.FinalFrom != null)
@@ -174,7 +170,16 @@ namespace BookStore.Services
                         .ThenInclude(bb => bb.Authors)
                 .Include(b => b.BookEdition)
                     .ThenInclude(be => be.BookBase)
+                        .ThenInclude(bb => bb.Tags)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(be => be.BookBase)
                         .ThenInclude(bb => bb.Series)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(bb => bb.Publisher)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(bb => bb.Language)
+                .Include(b => b.BookEdition)
+                    .ThenInclude(bb => bb.Translators)
                 .Include(b => b.Discount)
                 .Include(b => b.Images);
 

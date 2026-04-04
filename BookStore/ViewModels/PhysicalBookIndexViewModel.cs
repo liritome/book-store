@@ -7,6 +7,13 @@ namespace BookStore.ViewModels
     {
         public IEnumerable<PhysicalBook> Books { get; set; } = null!;
 
+        public IEnumerable<Author> Authors { get; set; } = null!;
+        public IEnumerable<Publisher> Publishers { get; set; } = null!;
+        public IEnumerable<Translator> Translators { get; set; } = null!;
+        public IEnumerable<Tag> Tags { get; set; } = null!;
+        public IEnumerable<Language> Languages { get; set; } = null!;
+        public IEnumerable<Discount> Discounts { get; set; } = null!;
+
         public PhysicalBookFilter Filter { get; set; } = new();
 
         public PageViewModel PageViewModel { get; set; } = null!;

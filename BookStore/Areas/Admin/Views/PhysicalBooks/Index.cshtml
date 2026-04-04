@@ -248,43 +248,40 @@
                                value="@Model.Filter.Query">
                     </div>
                     <div>
-                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
-                            {
-                                EntityName = "author",
-                                FieldName = "AuthorIds",
-                                Header = "Authors",
-                                InputContainerPlaceholder = "Name",
-                                SelectedIds = Model.Filter.AuthorIds,
-                                SearchByQueryUrl = Url.Action("SearchAuthorsJson", "Authors", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? "",
-                                Multiple = true
-                            })
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Author>
+                        {
+                            Label = "Authors",
+                            Placeholder = "Name",
+                            Items = Model.Authors,
+                            SelectedIds = Model.Filter.AuthorIds,
+                            Name = "AuthorIds",
+                            GetIdFunc = a => a.Id,
+                            GetTextFunc = a => a.Name
+                        })
                     </div>
                     <div>
-                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
-                            {
-                                EntityName = "publisher",
-                                FieldName = "PublisherIds",
-                                Header = "Publisher",
-                                InputContainerPlaceholder = "Name",
-                                SelectedIds = Model.Filter.PublisherIds,
-                                SearchByQueryUrl = Url.Action("SearchPublishersJson", "Publishers", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchPublisherByIdJson", "Publishers", new { area = "Admin" }) ?? "",
-                                Multiple = true
-                            })
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Publisher>
+                        {
+                            Label = "Publisher",
+                            Placeholder = "Name",
+                            Items = Model.Publishers,
+                            SelectedIds = Model.Filter.PublisherIds,
+                            Name = "PublisherIds",
+                            GetIdFunc = a => a.Id,
+                            GetTextFunc = a => a.Name
+                        })
                     </div>
                     <div>
-                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
-                            {
-                                EntityName = "translator",
-                                FieldName = "TranslatorIds",
-                                Header = "Translators",
-                                InputContainerPlaceholder = "Name",
-                                SelectedIds = Model.Filter.TranslatorIds,
-                                SearchByQueryUrl = Url.Action("SearchTranslatorsJson", "Translators", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchTranslatorByIdJson", "Translators", new { area = "Admin" }) ?? "",
-                                Multiple = true
-                            })
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Translator>
+                        {
+                            Label = "Translators",
+                            Placeholder = "Name",
+                            Items = Model.Translators,
+                            SelectedIds = Model.Filter.TranslatorIds,
+                            Name = "TranslatorIds",
+                            GetIdFunc = a => a.Id,
+                            GetTextFunc = a => a.Name
+                        })
                     </div>
                     <div>
                         <label class="form-label">Year</label>
@@ -317,30 +314,28 @@
                         </div>
                     </div>
                     <div>
-                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
-                            {
-                                EntityName = "tag",
-                                FieldName = "TagIds",
-                                Header = "Tags",
-                                InputContainerPlaceholder = "",
-                                SelectedIds = Model.Filter.TagIds,
-                                SearchByQueryUrl = Url.Action("SearchTagsJson", "Tags", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? "",
-                                Multiple = true
-                            })
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Tag>
+                        {
+                            Label = "Tags",
+                            Placeholder = "Name",
+                            Items = Model.Tags,
+                            SelectedIds = Model.Filter.TagIds,
+                            Name = "TagIds",
+                            GetIdFunc = a => a.Id,
+                            GetTextFunc = a => a.Name
+                        })
                     </div>
                     <div>
-                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
-                            {
-                                EntityName = "language",
-                                FieldName = "LanguageIds",
-                                Header = "Language",
-                                InputContainerPlaceholder = "",
-                                SelectedIds = Model.Filter.LanguageIds,
-                                SearchByQueryUrl = Url.Action("SearchLanguagesJson", "Languages", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchLanguageByIdJson", "Languages", new { area = "Admin" }) ?? "",
-                                Multiple = true
-                            })
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Language>
+                        {
+                            Label = "Language",
+                            Placeholder = "Name",
+                            Items = Model.Languages,
+                            SelectedIds = Model.Filter.LanguageIds,
+                            Name = "LanguageIds",
+                            GetIdFunc = a => a.Id,
+                            GetTextFunc = a => a.Name
+                        })
                     </div>
                     <div>
                         <label class="form-label d-block">Visibility</label>
@@ -381,17 +376,16 @@
                         </div>
                     </div>
                     <div>
-                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
-                            {
-                                EntityName = "discount",
-                                FieldName = "DiscountId",
-                                Header = "Discount",
-                                InputContainerPlaceholder = "",
-                                SelectedIds = Model.Filter.DiscountId == null ? new List<int>()
-                                        : new List<int> { Model.Filter.DiscountId.Value },
-                                SearchByQueryUrl = Url.Action("SearchDiscountsJson", "Discounts", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchDiscountByIdJson", "Discounts", new { area = "Admin" }) ?? ""
-                            })
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Discount>
+                        {
+                            Label = "Discounts",
+                            Placeholder = "Name",
+                            Items = Model.Discounts,
+                            SelectedIds = Model.Filter.DiscountIds,
+                            Name = "DiscountIds",
+                            GetIdFunc = a => a.Id,
+                            GetTextFunc = a => a.Name
+                        })
                     </div>
                     <div>
                         <label class="form-label">Final price</label>

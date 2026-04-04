@@ -1,15 +1,27 @@
 ﻿namespace BookStore.ViewModels
 {
-    public class SelectInputViewModel
+    public interface ISelectInputViewModel
     {
-        public string EntityName { get; set; } = "";
-        public string Header { get; set; } = "";
-        public List<int> SelectedIds { get; set; } = new();
-        public string InputContainerPlaceholder { get; set; } = "";
+        string Name { get; }
+        string Label { get; }
+        string Placeholder { get; }
+        IEnumerable<object> Items { get; }
+        IEnumerable<int>? SelectedIds { get; }
+        int GetId(object item);
+        string GetText(object item);
+    }
 
-        public string FieldName { get; set; } = "";
-        public string SearchByQueryUrl { get; set; } = "";
-        public string SearchByIdUrl { get; set; } = "";
-        public bool Multiple { get; set; } = false;
+    public class SelectInputViewModel<T> : ISelectInputViewModel
+    {
+        public string Name { get; set; } = null!;
+        public string Label { get; set; } = "";
+        public string Placeholder { get; set; } = "";
+        public IEnumerable<T> Items { get; set; } = new List<T>();
+        IEnumerable<object> ISelectInputViewModel.Items => Items.Cast<object>();
+        public IEnumerable<int>? SelectedIds { get; set; } = new List<int>();
+        public Func<T, int> GetIdFunc { get; set; } = null!;
+        public int GetId(object item) => GetIdFunc((T)item);
+        public Func<T, string> GetTextFunc { get; set; } = null!;
+        public string GetText(object item) => GetTextFunc((T)item);
     }
 }

@@ -7,6 +7,9 @@ namespace BookStore.ViewModels
     {
         public IEnumerable<BookBase> BookBases { get; set; } = null!;
 
+        public IEnumerable<Author> Authors { get; set; } = null!;
+        public IEnumerable<Tag> Tags { get; set; } = null!;
+
         public BookBaseFilter Filter { get; set; } = new();
 
         public PageViewModel PageViewModel { get; set; } = null!;

@@ -11,12 +11,14 @@ namespace BookStore.Areas.Admin.Controllers
     {
         private readonly PhysicalBookService physicalBookService;
         private readonly BookEditionService bookEditionService;
+        private readonly DiscountService discountService;
 
         public PhysicalBooksController(PhysicalBookService physicalBookService,
-            BookEditionService bookEditionService)
+            BookEditionService bookEditionService, DiscountService discountService)
         {
             this.physicalBookService = physicalBookService;
             this.bookEditionService = bookEditionService;
+            this.discountService = discountService;
         }
 
         public async Task<IActionResult> Index(PhysicalBookFilter filter,
@@ -30,6 +32,31 @@ namespace BookStore.Areas.Admin.Controllers
             var model = new PhysicalBookIndexViewModel
             {
                 Books = books,
+                Authors = books
+                    .SelectMany(b => b.BookEdition.BookBase.Authors)
+                    .DistinctBy(a => a.Id)
+                    .ToList(),
+                Publishers = books
+                    .Select(b => b.BookEdition.Publisher)
+                    .DistinctBy(p => p.Id)
+                    .ToList(),
+                Translators = books
+                    .SelectMany(b => b.BookEdition.Translators)
+                    .DistinctBy(t => t.Id)
+                    .ToList(),
+                Tags = books
+                    .SelectMany(b => b.BookEdition.BookBase.Tags)
+                    .DistinctBy(t => t.Id)
+                    .ToList(),
+                Languages = books
+                    .Select(b => b.BookEdition.Language)
+                    .DistinctBy(l => l.Id)
+                    .ToList(),
+                Discounts = books
+                    .Select(b => b.Discount)
+                    .OfType<Discount>()
+                    .DistinctBy(d => d!.Id)
+                    .ToList(),
                 Filter = filter,
                 Sort = sort,
                 PageViewModel = new PageViewModel(page, booksCount, pageSize)
@@ -54,7 +81,8 @@ namespace BookStore.Areas.Admin.Controllers
         {
             PhysicalBookAddViewModel model = new PhysicalBookAddViewModel
             {
-                BookEditions = await bookEditionService.GetAllEditionsAsync()
+                BookEditions = await bookEditionService.GetAllEditionsAsync(),
+                Discounts = await discountService.GetActiveAndScheduledDiscountsAsync()
             };
             return View(model);
         }

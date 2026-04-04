@@ -46,13 +46,14 @@
                             <div class="list-group-item d-flex justify-content-between gap-2">
                                 <span class="text-nowrap">Series</span>
                                 <div>
-                                    @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
+                                    @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Series>
                                     {
-                                        EntityName = "series",
-                                        FieldName = "SeriesId",
-                                        InputContainerPlaceholder = "Series name",
-                                        SearchByQueryUrl = Url.Action("SearchSeriesJson", "Series", new { area = "Admin" }) ?? "",
-                                        SearchByIdUrl = Url.Action("SearchSeriesByIdJson", "Series", new { area = "Admin" }) ?? ""
+                                        Label = "Series",
+                                        Placeholder = "Name",
+                                        Items = Model.Series,
+                                        Name = "SeriesIds",
+                                        GetIdFunc = a => a.Id,
+                                        GetTextFunc = a => a.Name
                                     })
                                 </div>
                             </div>
@@ -67,26 +68,26 @@
             <div class="col-lg-7 mt-4 mt-lg-0">
                 <div class="bg-white rounded-4 p-3">
                     <h5>Authors</h5>
-                    @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
+                    @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Author>
                     {
-                        EntityName = "author",
-                        FieldName = "AuthorIds",
-                        InputContainerPlaceholder = "Author name",
-                        SearchByQueryUrl = Url.Action("SearchAuthorsJson", "Authors", new { area = "Admin" }) ?? "",
-                        SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? "",
-                        Multiple = true
+                        Label = "Authors",
+                        Placeholder = "Name",
+                        Items = Model.Authors,
+                        Name = "AuthorIds",
+                        GetIdFunc = a => a.Id,
+                        GetTextFunc = a => a.Name
                     })
                 </div>
                 <div class="bg-white rounded-4 p-3 mt-4">
                     <h5>Tags</h5>
-                    @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
+                    @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Tag>
                     {
-                        EntityName = "tag",
-                        FieldName = "TagIds",
-                        InputContainerPlaceholder = "Tag name",
-                        SearchByQueryUrl = Url.Action("SearchTagsJson", "Tags", new { area = "Admin" }) ?? "",
-                        SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? "",
-                        Multiple = true
+                        Label = "Tags",
+                        Placeholder = "Name",
+                        Items = Model.Tags,
+                        Name = "TagIds",
+                        GetIdFunc = a => a.Id,
+                        GetTextFunc = a => a.Name
                     })
                 </div>
             </div>

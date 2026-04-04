@@ -103,6 +103,17 @@
                                 action="Index">
                             </sortable-header>
                         </th>
+                        @* <th>
+                            <sortable-header display-name="Products"
+                                sort-by="@Model.EditionsCountSort"
+                                current-sort="@Model.Sort"
+                                sort-asc="@BookBaseSortState.EditionsCountAsc"
+                                sort-desc="@BookBaseSortState.EditionsCountDesc"
+                                filter="@Model.Filter"
+                                controller="BookBases"
+                                action="Index">
+                            </sortable-header>
+                        </th> *@
                         <th></th>
                     </tr>
                 </thead>
@@ -116,13 +127,7 @@
                                 </a>
                             </td>
                             <td>
-                                <div class="d-flex flex-wrap column-gap-2">
-                                    <div>@bookBase.Authors.FirstOrDefault()?.Name</div>
-                                    @foreach (var author in bookBase.Authors.Skip(1))
-                                    {
-                                        <div>, @author.Name</div>
-                                    }
-                                </div>
+                                @string.Join(", ", bookBase.Authors.Select(a => a.Name))
                             </td>
                             <td>
                                 <span class="data-long" title="@bookBase.Title">
@@ -134,7 +139,7 @@
                                 {
                                     <span class="data-long" title="@bookBase.Series.Name #@bookBase.NumberInSeries">
                                         @bookBase.Series.Name #@bookBase.NumberInSeries
-                                    </span>                                    
+                                    </span>
                                 }
                             </td>
                             <td>@bookBase.Year</td>
@@ -170,16 +175,15 @@
                                value="@Model.Filter.Query">
                     </div>
                     <div>
-                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Author>
                         {
-                            EntityName = "author",
-                            FieldName = "AuthorIds",
-                            Header = "Authors",
-                            InputContainerPlaceholder = "Name",
+                            Label = "Authors",
+                            Placeholder = "Name",
+                            Items = Model.Authors,
                             SelectedIds = Model.Filter.AuthorIds,
-                            SearchByQueryUrl = Url.Action("SearchAuthorsJson", "Authors", new { area = "Admin" }) ?? "",
-                            SearchByIdUrl = Url.Action("SearchAuthorByIdJson", "Authors", new { area = "Admin" }) ?? "",
-                            Multiple = true
+                            Name = "AuthorIds",
+                            GetIdFunc = a => a.Id,
+                            GetTextFunc = a => a.Name
                         })
                     </div>
                     <div>
@@ -193,16 +197,15 @@
                         </div>
                     </div>
                     <div>
-                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
+                        @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Tag>
                         {
-                            EntityName = "tag",
-                            FieldName = "TagIds",
-                            Header = "Tags",
-                            InputContainerPlaceholder = "",
+                            Label = "Tags",
+                            Placeholder = "Name",
+                            Items = Model.Tags,
                             SelectedIds = Model.Filter.TagIds,
-                            SearchByQueryUrl = Url.Action("SearchTagsJson", "Tags", new { area = "Admin" }) ?? "",
-                            SearchByIdUrl = Url.Action("SearchTagByIdJson", "Tags", new { area = "Admin" }) ?? "",
-                            Multiple = true
+                            Name = "TagIds",
+                            GetIdFunc = a => a.Id,
+                            GetTextFunc = a => a.Name
                         })
                     </div>
                     <div>

@@ -1,33 +1,26 @@
-﻿@model SelectInputViewModel
+﻿@model ISelectInputViewModel
 
-@if (!string.IsNullOrEmpty(Model.Header))
-{
-    <label class="form-label">@Model.Header</label>    
-}
-<div id="@($"{Model.EntityName}Ids")">
-    @foreach (var id in Model.SelectedIds)
+<div>
+    @if (!string.IsNullOrEmpty(Model.Label))
     {
-        <input type="hidden" value="@id" />
+        <label class="form-label">@Model.Label</label>
     }
-</div>
-<div class="input-group">
-    <input class="form-control" type="text" id="@($"{Model.EntityName}Input")" placeholder="@Model.InputContainerPlaceholder" autocomplete="off" />
-    <button type="button" id="@($"{Model.EntityName}SearchBtn")" class="btn btn-outline-secondary">
-        <i class="bi bi-search"></i>
-    </button>
-</div>
-<div class="mt-2">
-    <div class="list-group" id="@($"{Model.EntityName}Selected")"></div>
-    <div class="list-group" id="@($"{Model.EntityName}SearchResults")"></div>
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="@Model.Placeholder" oninput="filterItems(this)" />
+        <button type="button" class="btn btn-outline-secondary" onclick="clearSearch(this)">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    <div class="dropdown-list mt-1">
+        @foreach (var item in Model.Items)
+        {
+            <label class="dropdown-item">
+                <input checked="@Model.SelectedIds!.Contains(Model.GetId(item))" type="checkbox"
+                       name="@Model.Name" value="@Model.GetId(item)" class="form-check-input" />
+                @Model.GetText(item)
+            </label>
+        }
+    </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        initSelectInput({
-            entityName: "@Model.EntityName",
-            fieldName: "@Model.FieldName",
-            searchByQueryUrl: "@Model.SearchByQueryUrl",
-            searchByIdUrl: "@Model.SearchByIdUrl"
-        }, @Model.Multiple.ToString().ToLower());
-    });
-</script>
+<script src="~/js/admin/selectInput.js"></script>

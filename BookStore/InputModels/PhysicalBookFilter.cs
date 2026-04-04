@@ -20,8 +20,8 @@ namespace BookStore.InputModels
         public List<CoverType> CoverTypes { get; set; } = new();
         public int? PriceFrom { get; set; }
         public int? PriceTo { get; set; }
+        public List<int> DiscountIds { get; set; } = new();
         public int? FinalFrom { get; set; }
         public int? FinalTo { get; set; }
-        public int? DiscountId { get; set; }
     }
 }

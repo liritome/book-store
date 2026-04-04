@@ -10,10 +10,17 @@ namespace BookStore.Areas.Admin.Controllers
     public class BookBasesController : Controller
     {
         private readonly BookBaseService bookBaseService;
+        private readonly SeriesService seriesService;
+        private readonly AuthorService authorService;
+        private readonly TagService tagService;
 
-        public BookBasesController(BookBaseService bookBaseService)
+        public BookBasesController(BookBaseService bookBaseService, SeriesService seriesService,
+            AuthorService authorService, TagService tagService)
         {
             this.bookBaseService = bookBaseService;
+            this.seriesService = seriesService;
+            this.authorService = authorService;
+            this.tagService = tagService;
         }
 
         public async Task<IActionResult> Index(BookBaseFilter filter,
@@ -27,6 +34,14 @@ namespace BookStore.Areas.Admin.Controllers
             var model = new BookBaseIndexViewModel
             {
                 BookBases = bookBases,
+                Authors = bookBases
+                    .SelectMany(bb => bb.Authors)
+                    .DistinctBy(b => b.Id)
+                    .ToList(),
+                Tags = bookBases
+                    .SelectMany(bb => bb.Tags)
+                    .DistinctBy(t => t.Id)
+                    .ToList(),
                 Filter = filter,
                 Sort = sort,
                 PageViewModel = new PageViewModel(page, bookBasesCount, pageSize)
@@ -48,7 +63,12 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            BookBaseAddViewModel model = new BookBaseAddViewModel();
+            BookBaseAddViewModel model = new BookBaseAddViewModel
+            {
+                Series = await seriesService.GetAllSeriesAsync(),
+                Authors = await authorService.GetAllAuthorsAsync(),
+                Tags = await tagService.GetAllTagsAsync()
+            };
             return View(model);
         }
 

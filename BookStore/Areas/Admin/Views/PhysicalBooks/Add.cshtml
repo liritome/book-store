@@ -113,13 +113,13 @@
                         </div>
                         <div class="w-100">
                             <span>Discount</span>
-                            @await Html.PartialAsync("_SelectInput", new SelectInputViewModel
+                            @await Html.PartialAsync("_SelectInput", new SelectInputViewModel<Discount>
                             {
-                                EntityName = "discount",
-                                FieldName = "DiscountId",
-                                InputContainerPlaceholder = "",
-                                SearchByQueryUrl = Url.Action("SearchDiscountsJson", "Discounts", new { area = "Admin" }) ?? "",
-                                SearchByIdUrl = Url.Action("SearchDiscountByIdJson", "Discounts", new { area = "Admin" }) ?? ""
+                                Placeholder = "Name",
+                                Items = Model.Discounts,
+                                Name = "DiscountIds",
+                                GetIdFunc = d => d.Id,
+                                GetTextFunc = d => d.Name
                             })
                         </div>
                     </div>

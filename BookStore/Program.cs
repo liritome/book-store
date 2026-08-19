@@ -9,7 +9,7 @@ namespace BookStore
     {
         public static void Main(string[] args)
         {
-            var culture = CultureInfo.InvariantCulture;
+            var culture = CultureInfo.InvariantCulture; 
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
 
